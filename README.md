@@ -1,2 +1,2 @@
-# iic2113-grupo1
-Proyecto Semestral Diseño Detallado de Software - Grupo 1
+# IIC2113 - Grupo 1
+Proyecto Semestral Diseño Detallado de Software 2019-2
