@@ -64,3 +64,68 @@
 /Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.dll
 /Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.pdb
 /Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csproj.CopyComplete
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/app.db
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.dll
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.pdb
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.Views.pdb
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csprojAssemblyReference.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csproj.CoreCompileInputs.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorAssemblyInfo.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorAssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.AssemblyInfoInputs.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.AssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.TagHelpers.input.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.TagHelpers.output.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorCoreGenerate.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorTargetAssemblyInfo.cache
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorTargetAssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.Views.pdb
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.dll
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.pdb
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_ViewStart.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Index.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Privacy.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Error.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_CookieConsentPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_Layout.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_LoginPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_ValidationScriptsPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/Diseño Detallado de Software/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/_ViewImports.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/app.db
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.deps.json
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.runtimeconfig.json
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.runtimeconfig.dev.json
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.dll
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.pdb
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.Views.dll
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/bin/Debug/netcoreapp2.2/ConferenceApp.Views.pdb
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csprojAssemblyReference.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csproj.CoreCompileInputs.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorAssemblyInfo.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorAssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.AssemblyInfoInputs.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.AssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.TagHelpers.input.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.TagHelpers.output.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorCoreGenerate.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Areas/Identity/Pages/_ViewStart.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Home/Index.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Home/Privacy.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Shared/Error.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_LoginPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/_ViewImports.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/_ViewStart.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorTargetAssemblyInfo.cache
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.RazorTargetAssemblyInfo.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.Views.pdb
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.dll
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.pdb
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/ConferenceApp.csproj.CopyComplete
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Conference/Create.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Conference/Delete.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Conference/Details.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Conference/Edit.g.cshtml.cs
+/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/Debug/netcoreapp2.2/Razor/Views/Conference/Index.g.cshtml.cs

@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
+    "projectUniqueName": "/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
     "projectName": "ConferenceApp",
-    "projectPath": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
-    "outputPath": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/obj/",
+    "projectPath": "/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
+    "outputPath": "/Users/bedefrunner/Desktop/2019-2/DDS/iic2113-grupo1/ConferenceApp/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
@@ -49,6 +49,10 @@
           "target": "Package",
           "version": "[2.2.0, )",
           "autoReferenced": true
+        },
+        "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+          "target": "Package",
+          "version": "[2.2.3, )"
         },
         "Npgsql.EntityFrameworkCore.PostgreSQL": {
           "target": "Package",
