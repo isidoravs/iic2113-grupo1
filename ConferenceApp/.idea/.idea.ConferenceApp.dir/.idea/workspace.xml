@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bc5f2b05-8798-46ab-bf73-affb348a4c15" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.vs/ConferenceApp/DesignTimeBuild/.dtbcache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ConferenceApp/v16/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ConferenceApp/v16/Server/sqlite3/db.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ConferenceApp/v16/Server/sqlite3/storage.ide" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp.sln" beforeDir="false" afterPath="$PROJECT_DIR$/ConferenceApp.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/ConferenceApp.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/ConferenceApp.csproj.user" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Controllers/HomeController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Models/ErrorViewModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Startup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Home/About.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Home/Contact.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Home/Index.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Home/Privacy.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Shared/Error.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Shared/_CookieConsentPartial.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Shared/_Layout.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/Shared/_ValidationScriptsPartial.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/_ViewImports.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/Views/_ViewStart.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.Views.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.Views.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.deps.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.runtimeconfig.dev.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/bin/Debug/netcoreapp2.1/ConferenceApp.runtimeconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/ConferenceApp.csproj.nuget.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/ConferenceApp.csproj.nuget.dgspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/ConferenceApp.csproj.nuget.g.props" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/ConferenceApp.csproj.nuget.g.targets" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.AssemblyInfoInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.RazorAssemblyInfo.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.RazorAssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.RazorCoreGenerate.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.RazorTargetAssemblyInfo.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.RazorTargetAssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.TagHelpers.input.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.TagHelpers.output.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.Views.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.Views.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.assets.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.csproj.CopyComplete" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.csproj.CoreCompileInputs.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.csproj.FileListAbsolute.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.csprojAssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.dll" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/ConferenceApp.pdb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/obj/project.assets.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/css/site.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/css/site.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/images/banner1.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/images/banner2.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/images/banner3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/js/site.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/js/site.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/.bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap-theme.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/fonts/glyphicons-halflings-regular.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/fonts/glyphicons-halflings-regular.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/fonts/glyphicons-halflings-regular.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/js/bootstrap.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/bootstrap/dist/js/npm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation-unobtrusive/.bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/.bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/dist/additional-methods.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/dist/additional-methods.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/dist/jquery.validate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery/.bower.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery/LICENSE.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery/dist/jquery.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery/dist/jquery.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ConferenceApp/wwwroot/lib/jquery/dist/jquery.min.map" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1RWHwx4Xh9QBjwLWZuvKswF8bsA" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="Rider.DefaultBreakpoints.AreToggled" value="true" />
+    <property name="Rider.ProjectViewActivator.IsNotFirstRun" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bc5f2b05-8798-46ab-bf73-affb348a4c15" name="Default Changelist" comment="" />
+      <created>1569776173882</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1569776173882</updated>
+      <workItem from="1569776176070" duration="86000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" suspend="NONE" type="DotNet Exception Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

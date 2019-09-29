@@ -1,0 +1,81 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj": {}
+  },
+  "projects": {
+    "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
+        "projectName": "ConferenceApp",
+        "projectPath": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/ConferenceApp.csproj",
+        "packagesPath": "/Users/franciscolarach/.nuget/packages/",
+        "outputPath": "/Users/franciscolarach/Desktop/DDS/iic2113-grupo1/ConferenceApp/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/franciscolarach/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[2.2.6, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[2.2.4, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL.Design": {
+              "target": "Package",
+              "version": "[2.0.0-preview1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
