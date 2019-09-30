@@ -52,6 +52,28 @@ namespace ConferenceApp.Data.Migrations
                     b.ToTable("ConferenceVersions");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.EventCentre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("Latitude");
+
+                    b.Property<string>("Location")
+                        .IsRequired();
+
+                    b.Property<float>("Longitude");
+
+                    b.Property<string>("MapImage");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventCentres");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
