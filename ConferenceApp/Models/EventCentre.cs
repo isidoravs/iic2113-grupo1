@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic
 
 namespace ConferenceApp.Models
 {
@@ -17,5 +18,7 @@ namespace ConferenceApp.Models
     public float Latitude { get; set; }
     [Required]
     public float Longitude { get; set; }
+
+    public ICollection<ConferenceVersion> ConferenceVersions { get; set; }
   }
 }
