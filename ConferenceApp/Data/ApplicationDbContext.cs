@@ -11,6 +11,7 @@ namespace ConferenceApp.Data
     {
         public DbSet<Conference> Conferences { get; set; }
         public DbSet<ConferenceVersion> ConferenceVersions { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
