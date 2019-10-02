@@ -11,6 +11,9 @@ namespace ConferenceApp.Data
     {
         public DbSet<Conference> Conferences { get; set; }
         public DbSet<ConferenceVersion> ConferenceVersions { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<FeedbackScope> FeedbackScopes { get; set; }
+        public DbSet<FeedbackCategory> FeedbackCategories { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
