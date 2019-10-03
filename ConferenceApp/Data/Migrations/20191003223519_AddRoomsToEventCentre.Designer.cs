@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003223519_AddRoomsToEventCentre")]
+    partial class AddRoomsToEventCentre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,69 +82,6 @@ namespace ConferenceApp.Data.Migrations
                     b.ToTable("EventCentre");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Feedbacks");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.FeedbackCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FeedbackCategories");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("FeedbackCategoryId");
-
-                    b.Property<int?>("FeedbackId");
-
-                    b.Property<int>("Grade");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FeedbackCategoryId");
-
-                    b.HasIndex("FeedbackId");
-
-                    b.ToTable("FeedbackScopes");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.Property<int?>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -178,49 +117,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasIndex("ConferenceId");
 
                     b.ToTable("Sponsors");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Age")
-                        .IsRequired();
-
-                    b.Property<string>("Biography");
-
-                    b.Property<string>("ContactInfo");
-
-                    b.Property<string>("Cv");
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<bool>("IsAdmin");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -393,24 +289,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("ConferenceVersions")
                         .HasForeignKey("EventCentreId");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.FeedbackCategory")
-                        .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackCategoryId");
-
-                    b.HasOne("ConferenceApp.Models.Feedback")
-                        .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackId");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>

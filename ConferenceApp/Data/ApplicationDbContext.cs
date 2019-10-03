@@ -13,9 +13,13 @@ namespace ConferenceApp.Data
         public DbSet<ConferenceVersion> ConferenceVersions { get; set; }
         public DbSet<EventCentre> EventCentres { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<FeedbackCategory> FeedbackCategories { get; set; }
+        public DbSet<FeedbackScope> FeedbackScopes { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<Tag> Tags { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
