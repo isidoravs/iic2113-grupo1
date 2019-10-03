@@ -16,3 +16,10 @@ Agregar en Home > Index el link al modelo`
 PARA ELIMINAR UNA MIGRACIÓN
 `dotnet ef database update <previous-migration-name>`
 `dotnet ef migrations remove`
+
+```
+var type = typeof(IMyInterface);
+var types = AppDomain.CurrentDomain.GetAssemblies()
+    .SelectMany(s => s.GetTypes())
+    .Where(p => type.IsAssignableFrom(p));
+```
