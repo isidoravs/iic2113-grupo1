@@ -20,5 +20,7 @@ namespace ConferenceApp.Models
         public float Longitude { get; set; }
         
         public ICollection<ConferenceVersion> ConferenceVersions { get; set; }
+        
+        public ICollection<Room> Rooms { get; set; }
     }
 }
