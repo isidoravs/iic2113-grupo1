@@ -1,7 +1,17 @@
 
 MODELOS
-* Siempre agregar primero al ApplicationDbContext.cs
+- Models > Add Class
+- En el modelo, agregar atributos y referencias
+- Agregar al ApplicationDbContext.cs
 
 dotnet ef migrations add <MigrationName>
 dotnet ef database update
 dotnet aspnet-codegenerator controller -name <ControllerName> -m <ModelName> -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -name EventCentreController -m EventCentre -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+
+INDEX
+Agregar en Home > Index el link al modelo
+
+PARA ELIMINAR UNA MIGRACIÓN
+`dotnet ef database update <previous-migration-name>`
+`dotnet ef migrations remove`
