@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003193109_AddSponsorsToConferences")]
+    partial class AddSponsorsToConferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,17 +41,13 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ConferenceId");
+                    b.Property<DateTime>("endDate");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<int>("number");
 
-                    b.Property<int>("Number");
-
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConferenceId");
 
                     b.ToTable("ConferenceVersions");
                 });
@@ -229,13 +227,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.ConferenceVersion", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Conference")
-                        .WithMany("Versions")
-                        .HasForeignKey("ConferenceId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>

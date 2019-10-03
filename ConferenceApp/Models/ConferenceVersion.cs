@@ -10,10 +10,10 @@ namespace ConferenceApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        public int number { get; set; }
+        public int Number { get; set; }
         [Required]
-        public DateTime startDate { get; set; }
+        public DateTime StartDate { get; set; }
         [Required]
-        public DateTime endDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }
