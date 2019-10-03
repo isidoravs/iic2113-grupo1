@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003193239_AddVersionsToConferences")]
+    partial class AddVersionsToConferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,8 +45,6 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<int?>("EventCentreId");
-
                     b.Property<int>("Number");
 
                     b.Property<DateTime>("StartDate");
@@ -53,31 +53,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasIndex("ConferenceId");
 
-                    b.HasIndex("EventCentreId");
-
                     b.ToTable("ConferenceVersions");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.EventCentre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<float>("Latitude");
-
-                    b.Property<string>("Location")
-                        .IsRequired();
-
-                    b.Property<float>("Longitude");
-
-                    b.Property<string>("MapImage");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventCentre");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
@@ -262,10 +238,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.Conference")
                         .WithMany("Versions")
                         .HasForeignKey("ConferenceId");
-
-                    b.HasOne("ConferenceApp.Models.EventCentre")
-                        .WithMany("ConferenceVersions")
-                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>

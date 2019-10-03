@@ -10,22 +10,22 @@ using ConferenceApp.Models;
 
 namespace ConferenceApp.Controllers
 {
-    public class ConferenceController : Controller
+    public class SponsorController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ConferenceController(ApplicationDbContext context)
+        public SponsorController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Conference
+        // GET: Sponsor
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Conferences.ToListAsync());
+            return View(await _context.Sponsors.ToListAsync());
         }
 
-        // GET: Conference/Details/5
+        // GET: Sponsor/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _context.Conferences
+            var sponsor = await _context.Sponsors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (conference == null)
+            if (sponsor == null)
             {
                 return NotFound();
             }
 
-            return View(conference);
+            return View(sponsor);
         }
 
-        // GET: Conference/Create
+        // GET: Sponsor/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Conference/Create
+        // POST: Sponsor/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Conference conference)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Sponsor sponsor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(conference);
+                _context.Add(sponsor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(conference);
+            return View(sponsor);
         }
 
-        // GET: Conference/Edit/5
+        // GET: Sponsor/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _context.Conferences.FindAsync(id);
-            if (conference == null)
+            var sponsor = await _context.Sponsors.FindAsync(id);
+            if (sponsor == null)
             {
                 return NotFound();
             }
-            return View(conference);
+            return View(sponsor);
         }
 
-        // POST: Conference/Edit/5
+        // POST: Sponsor/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Conference conference)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Sponsor sponsor)
         {
-            if (id != conference.Id)
+            if (id != sponsor.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
-                    _context.Update(conference);
+                    _context.Update(sponsor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConferenceExists(conference.Id))
+                    if (!SponsorExists(sponsor.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(conference);
+            return View(sponsor);
         }
 
-        // GET: Conference/Delete/5
+        // GET: Sponsor/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var conference = await _context.Conferences
+            var sponsor = await _context.Sponsors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (conference == null)
+            if (sponsor == null)
             {
                 return NotFound();
             }
 
-            return View(conference);
+            return View(sponsor);
         }
 
-        // POST: Conference/Delete/5
+        // POST: Sponsor/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var conference = await _context.Conferences.FindAsync(id);
-            _context.Conferences.Remove(conference);
+            var sponsor = await _context.Sponsors.FindAsync(id);
+            _context.Sponsors.Remove(sponsor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConferenceExists(int id)
+        private bool SponsorExists(int id)
         {
-            return _context.Conferences.Any(e => e.Id == id);
+            return _context.Sponsors.Any(e => e.Id == id);
         }
     }
 }

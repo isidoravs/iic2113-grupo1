@@ -1,5 +1,0 @@
-dotnet ef migrations add <MigrationName>
-
-dotnet ef database update
-
-dotnet aspnet-codegenerator controller -name <ControllerName> -m <ModelName> -dc ApplicationDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries

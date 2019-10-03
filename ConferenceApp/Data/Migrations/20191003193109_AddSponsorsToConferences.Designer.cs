@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003193109_AddSponsorsToConferences")]
+    partial class AddSponsorsToConferences
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,45 +41,15 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ConferenceId");
+                    b.Property<DateTime>("endDate");
 
-                    b.Property<DateTime>("EndDate");
+                    b.Property<int>("number");
 
-                    b.Property<int?>("EventCentreId");
-
-                    b.Property<int>("Number");
-
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ConferenceId");
-
-                    b.HasIndex("EventCentreId");
 
                     b.ToTable("ConferenceVersions");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.EventCentre", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<float>("Latitude");
-
-                    b.Property<string>("Location")
-                        .IsRequired();
-
-                    b.Property<float>("Longitude");
-
-                    b.Property<string>("MapImage");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventCentre");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
@@ -255,17 +227,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.ConferenceVersion", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Conference")
-                        .WithMany("Versions")
-                        .HasForeignKey("ConferenceId");
-
-                    b.HasOne("ConferenceApp.Models.EventCentre")
-                        .WithMany("ConferenceVersions")
-                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
