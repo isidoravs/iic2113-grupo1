@@ -19,7 +19,7 @@ namespace ConferenceApp.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<User> Users { get; set; }
-
+        public DbSet<Tag> Tags { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
