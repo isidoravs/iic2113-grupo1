@@ -9,15 +9,34 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="text-center">
-        <h1 class="display-4">My Calendar</h1>
-    </div>
+    <h1 class="display-4">My Calendar</h1>
+</div>
+<hr/>
+<div>
+    <a asp-controller="Conference" asp-action="Create">Create Conferences</a>
+    <br/>
     <hr/>
-    <div>
-        <a asp-controller="Conference" asp-action="Details" asp-route-id="3">Programming Conference</a><br/>
-        <a asp-controller="Event" asp-action="Details" asp-route-id="1">Buenas prácticas en programación</a><br/>
-        <h6>Create event en deuda</h6><br/>
-        <h6>If admin link to admin show</h6><br/>
-    </div>   
+    <h6>Buscar</h6>
+
+    <a asp-controller="Conference" asp-action="Index">Listado de Conferencias</a> |
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Una conferencia</a>
+    <hr/>
+
+    <br/>
+    <h6>Las que participaré y hacia buscar</h6>
+    <a asp-controller="ConferenceVersion" asp-action="Index">Listado de Versiones de Conferencias</a> |
+    <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Una Versión de Conferencia</a>
+    <hr/>
+
+    <br/>
+    <h6>Los que participaré y hacia buscar</h6>
+
+    <a asp-controller="Event" asp-action="Index">Listado de Mis Eventos</a> |
+    <a asp-controller="Event" asp-action="Details" asp-route-id="1">Un Evento en particular</a>
+    
+    <br/>
+    <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
+</div>  
 }
 else {
     <div class="text-center">
@@ -28,3 +47,32 @@ else {
         <a class="btn-ce" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </div>
 }
+<div class="text-center">
+    <h1 class="display-4">My Calendar</h1>
+</div>
+<hr/>
+<div>
+    <a asp-controller="Conference" asp-action="Create">Create Conferences</a>
+    <br/>
+    <hr/>
+    <h6>Buscar</h6>
+
+    <a asp-controller="Conference" asp-action="Index">Listado de Conferencias</a> |
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Una conferencia</a>
+    <hr/>
+
+    <br/>
+    <h6>Las que participaré y hacia buscar</h6>
+    <a asp-controller="ConferenceVersion" asp-action="Index">Listado de Versiones de Conferencias</a> |
+    <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Una Versión de Conferencia</a>
+    <hr/>
+
+    <br/>
+    <h6>Los que participaré y hacia buscar</h6>
+
+    <a asp-controller="Event" asp-action="Index">Listado de Mis Eventos</a> |
+    <a asp-controller="Event" asp-action="Details" asp-route-id="1">Un Evento en particular</a>
+    
+    <br/>
+    <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
+</div>
