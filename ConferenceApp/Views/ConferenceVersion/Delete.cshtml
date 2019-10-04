@@ -1,0 +1,43 @@
+@model ConferenceApp.Models.ConferenceVersion
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Eliminar Versión de Conferencia</h1>
+
+<h3>¿Seguro que quieres eliminar esta versión de conferencia?</h3>
+<div>
+    <h4>Versión de Conferencia</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Number)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Number)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <br/>
+        <a asp-action="Index">Volver a la Lista de Versiones de esta Conferencias</a>
+        <br/>
+        <a asp-action="Details" asp-route-id="1">Volver a esta versión de Conferencia</a>
+
+    </form>
+</div>

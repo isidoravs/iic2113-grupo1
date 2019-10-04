@@ -1,0 +1,41 @@
+@model ConferenceApp.Models.Conference
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Conferencia</h1>
+
+<div>
+    <h4>Conference</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Borrar</a> |
+    <a href='javascript:history.go(-1)'>Volver</a>
+</div>
+<hr />
+<a asp-controller="ConferenceVersion" asp-action="Create">Agregar una Versión de Conferencia</a> 
+<br/>
+<a asp-controller="ConferenceVersion" asp-action="Index">Distintas Versiones de Conferencias</a> 
+<hr />
+<div>
+    <h4>Estadisticas Acumuladas de la conferencia</h4><br/>
+    <h6>Estadistica 1</h6><br/>
+    <h6>Estadistica 2</h6>
+</div>
