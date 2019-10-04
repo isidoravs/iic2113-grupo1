@@ -4,11 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<h1>Eliminar Versión de Conferencia</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Seguro que quieres eliminar esta versión de conferencia?</h3>
 <div>
-    <h4>ConferenceVersion</h4>
+    <h4>Versión de Conferencia</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,7 +33,11 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
+        <br/>
+        <a asp-action="Index">Volver a la Lista de Versiones de esta Conferencias</a>
+        <br/>
+        <a asp-action="Details" asp-route-id="1">Volver a esta versión de Conferencia</a>
+
     </form>
 </div>
