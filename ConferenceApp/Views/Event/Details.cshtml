@@ -32,5 +32,20 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href='javascript:history.go(-1)'>Volver</a>
 </div>
+<div>
+    Si asiste:
+    <a asp-controller="Feedback" asp-action="Create">Evaluar</a> <br/>
+    Si no asiste:
+    <button onclick="myFunction()">Asistir</button> <br/>
+    <a asp-controller="Notification" asp-action="Create">Enviar notificacion</a> <br/>
+    
+</div>
+
+
+<script>
+function myFunction() {
+    alert("Estas registrado para asistir!");
+}
+</script>
