@@ -3,19 +3,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">My Calendar</h1>
 </div>
-
+<hr/>
 <div>
-    <a asp-controller="Conference" asp-action="Index">Conferences</a><br/>
-    <a asp-controller="ConferenceVersion" asp-action="Index">Version</a><br/>
-    <a asp-controller="Event" asp-action="Index">Events</a><br/>
-    <a asp-controller="EventCentre" asp-action="Index">Event centres</a><br/>
-    <a asp-controller="Feedback" asp-action="Index">Feedbacks</a><br/>
-    <a asp-controller="FeedbackScope" asp-action="Index">Feedback scopes</a><br/>
-    <a asp-controller="FeedbackCategory" asp-action="Index">Feedback categories</a><br/>
-    <a asp-controller="Sponsor" asp-action="Index">Sponsors</a><br/>
-    <a asp-controller="User" asp-action="Index">User Profile</a><br/>
-    <a asp-controller="Room" asp-action="Index">Rooms</a><br/>
-    <a asp-controller="Tag" asp-action="Index">Tags</a><br/>
+    <a asp-controller="Conference" asp-action="Create">Create Conferences</a><br/>
+    <a asp-controller="Conference" asp-action="Index">All my upcoming conferences</a><br/>
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="3">Programming Conference</a><br/>
+    <h6>Event index en deuda</h6><br/>
+    <h6>Event show en deuda</h6><br/>
+    <h6>Create event en deuda</h6><br/>
+    <h6>If admin link to admin show</h6><br/>
 </div>
