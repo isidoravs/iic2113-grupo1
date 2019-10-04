@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <Compile Remove="Notifications\**" />
+      <Compile Remove="Views\User\Calendar.cs" />
     </ItemGroup>
 
     <ItemGroup>

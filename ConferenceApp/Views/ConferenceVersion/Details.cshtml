@@ -8,6 +8,8 @@
 
 <div>
     <h4>ConferenceVersion</h4>
+    <a asp-controller="Notification" asp-action="Create">Enviar Notificación</a>
+
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -33,4 +35,13 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
+</div>
+
+<hr />
+<div>
+    <h4>Conference events</h4><br/>
+    <h6>Event 1, link</h6><br/>
+    <h6>Event 2, link</h6><br/>
+    <h6>Event 3, link</h6><br/>
+    <h6>Event 4, link</h6>
 </div>

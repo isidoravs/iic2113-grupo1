@@ -26,5 +26,15 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href='javascript:history.go(-1)'>Back</a>
+</div>
+<hr />
+<a asp-controller="ConferenceVersion" asp-action="Create">Crear una Versión de Conferencia</a> 
+<a asp-controller="ConferenceVersion" asp-action="Index">Distintas Versiones de Conferencias</a> 
+<a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Versión de Conferencia</a> 
+<hr />
+<div>
+    <h4>Conference statistics</h4><br/>
+    <h6>Statistics 1</h6><br/>
+    <h6>Statistics 2</h6>
 </div>
