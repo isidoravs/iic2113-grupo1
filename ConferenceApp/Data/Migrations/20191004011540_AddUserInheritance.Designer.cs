@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191004011540_AddUserInheritance")]
+    partial class AddUserInheritance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,28 +58,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasIndex("EventCentreId");
 
                     b.ToTable("ConferenceVersions");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Event", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<DateTime>("endDate");
-
-                    b.Property<DateTime>("startDate");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Events");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Event");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.EventCentre", b =>
@@ -404,55 +384,6 @@ namespace ConferenceApp.Data.Migrations
                         .IsRequired();
 
                     b.HasDiscriminator().HasValue("User");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Chat", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("Topic")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("Chat");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.FoodService", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("Category")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("FoodService");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.PracticalSession", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("ComplementaryMaterial")
-                        .IsRequired();
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnName("PracticalSession_Topic");
-
-                    b.HasDiscriminator().HasValue("PracticalSession");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Talk", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("ComplementaryMaterial")
-                        .IsRequired()
-                        .HasColumnName("Talk_ComplementaryMaterial");
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnName("Talk_Topic");
-
-                    b.HasDiscriminator().HasValue("Talk");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.ConferenceVersion", b =>
