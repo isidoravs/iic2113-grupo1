@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Admin Panel";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Conferencias</a></li>
+    <li><a data-toggle="tab" href="#menu1">Versiones de las conferencias</a></li>
+    <li><a data-toggle="tab" href="#menu2">Evento</a></li>
+    <li><a data-toggle="tab" href="#menu3">Centro de eventos</a></li>
+    <li><a data-toggle="tab" href="#menu4">Feedbacks</a></li>
+    <li><a data-toggle="tab" href="#menu5">Feedbacks por categoría</a></li>
+    <li><a data-toggle="tab" href="#menu6">Categorías de evaluación</a></li>
+    <li><a data-toggle="tab" href="#menu7">Notificaciones</a></li>
+    <li><a data-toggle="tab" href="#menu8">Salas</a></li>
+    <li><a data-toggle="tab" href="#menu9">Sponsors</a></li>
+    <li><a data-toggle="tab" href="#menu10">Usuarios</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3>Conferencias</h3>
+      <p><a asp-controller="Conference" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Versiones de las conferencias</h3>
+      <p><a asp-controller="ConferenceVersion" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Eventos</h3>
+      <p><a asp-controller="Event" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu3" class="tab-pane fade">
+      <h3>Centro de eventos</h3>
+      <p><a asp-controller="EventCentre" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu4" class="tab-pane fade">
+      <h3>Feedbacks</h3>
+      <p><a asp-controller="Feedback" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu5" class="tab-pane fade">
+      <h3>Feedbacks por categoría</h3>
+      <p><a asp-controller="FeedbackScope" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu6" class="tab-pane fade">
+      <h3>Categorías de evaluación</h3>
+      <p><a asp-controller="FeedbackCategory" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu7" class="tab-pane fade">
+      <h3>Notificaciones</h3>
+      <p><a asp-controller="Notification" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu8" class="tab-pane fade">
+      <h3>Salas</h3>
+      <p><a asp-controller="Room" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu9" class="tab-pane fade">
+      <h3>Sponsors</h3>
+      <p><a asp-controller="Sponsor" asp-action="Index">Editar</a></p>
+    </div>
+    <div id="menu10" class="tab-pane fade">
+      <h3>Usuarios</h3>
+      <p><a asp-controller="User" asp-action="Index">Editar</a></p>
+    </div>
+  </div>
+</div>
+
