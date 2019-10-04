@@ -4,24 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Index: Versiones de Una Conferencia</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p>    
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Volver a Conferencia</a>
+    <br/>
+    <hr/>
+    <a asp-action="Create">Crear Nueva Version de Conferencia</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Number)
+                Numero de conferencia
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                Inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Fin
             </th>
-            <th></th>
+            <th>
+                Para organizador (Edit y Delete)
+            </th>
         </tr>
     </thead>
     <tbody>
