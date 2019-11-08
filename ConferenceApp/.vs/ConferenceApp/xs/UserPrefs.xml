@@ -1,0 +1,44 @@
+﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ConferenceVersionController.cs">
+    <Files>
+      <File FileName="Controllers/ConferenceVersionController.cs" Line="100" Column="1" />
+      <File FileName="Models/ConferenceVersion.cs" Line="19" Column="9" />
+      <File FileName="Views/ConferenceVersion/Create.cshtml" Line="40" Column="32" />
+      <File FileName="Views/ConferenceVersion/Details.cshtml" Line="35" Column="49" />
+      <File FileName="docs/cheatsheet.md" Line="13" Column="6" />
+      <File FileName="Models/EventCentre.cs" Line="23" Column="1" />
+      <File FileName="Views/ConferenceVersion/Edit.cshtml" Line="31" Column="12" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ConferenceApp" expanded="True">
+            <Node name="ConferenceApp" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="ConferenceVersionController.cs" selected="True" />
+              </Node>
+              <Node name="Data" expanded="True">
+                <Node name="Migrations" expanded="True" />
+              </Node>
+              <Node name="docs" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="ConferenceVersion" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ConferenceApp PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
