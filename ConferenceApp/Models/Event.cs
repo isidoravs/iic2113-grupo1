@@ -20,6 +20,8 @@ namespace ConferenceApp.Models
         [Required]
         public DateTime endDate { get; set; }
 
+        public int ConferenceVersionId { get; set; }
+        
         public void notifyAttendees(string Message)
         {
         }
