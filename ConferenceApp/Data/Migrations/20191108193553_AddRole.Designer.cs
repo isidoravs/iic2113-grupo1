@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108193553_AddRole")]
+    partial class AddRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<int>("EventCentreId");
+                    b.Property<int?>("EventCentreId");
 
                     b.Property<int>("Number");
 
@@ -198,7 +200,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("EquipmentDescription");
 
-                    b.Property<int>("EventCentreId");
+                    b.Property<int?>("EventCentreId");
 
                     b.Property<int>("MaxCapacity");
 
@@ -490,8 +492,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("ConferenceVersions")
-                        .HasForeignKey("EventCentreId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Event", b =>
@@ -536,8 +537,7 @@ namespace ConferenceApp.Data.Migrations
                 {
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("Rooms")
-                        .HasForeignKey("EventCentreId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
