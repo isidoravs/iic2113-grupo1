@@ -1,0 +1,41 @@
+﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/ConferenceVersion/Edit.cshtml">
+    <Files>
+      <File FileName="Controllers/ConferenceVersionController.cs" Line="88" Column="42" />
+      <File FileName="Models/ConferenceVersion.cs" Line="19" Column="9" />
+      <File FileName="Views/ConferenceVersion/Create.cshtml" Line="39" Column="19" />
+      <File FileName="Views/ConferenceVersion/Details.cshtml" Line="35" Column="49" />
+      <File FileName="docs/cheatsheet.md" Line="13" Column="6" />
+      <File FileName="Models/EventCentre.cs" Line="23" Column="1" />
+      <File FileName="Views/ConferenceVersion/Edit.cshtml" Line="35" Column="19" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ConferenceApp" expanded="True">
+            <Node name="ConferenceApp" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True">
+                <Node name="Migrations" expanded="True" />
+              </Node>
+              <Node name="docs" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="ConferenceVersion" expanded="True">
+                  <Node name="Edit.cshtml" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ConferenceApp PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

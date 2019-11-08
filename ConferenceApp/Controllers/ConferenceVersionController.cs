@@ -50,6 +50,9 @@ namespace ConferenceApp.Controllers
                 ? await _context.Conferences.ToListAsync()
                 : await _context.Conferences.Where(x => x.Id == conferenceId).ToListAsync();
             ViewData["Conferences"] = new SelectList(conferences,"Id","Name");
+
+            var eventCentres = await _context.EventCentres.ToListAsync();
+            ViewData["eventCentres"] = new SelectList(eventCentres, "Id", "Name");
             return View();
         }
 
@@ -58,7 +61,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Number,StartDate,EndDate,ConferenceId")] ConferenceVersion conferenceVersion)
+        public async Task<IActionResult> Create([Bind("Id,Number,StartDate,EndDate,ConferenceId,EventCentreId")] ConferenceVersion conferenceVersion)
         {
             if (ModelState.IsValid)
             {
