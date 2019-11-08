@@ -30,7 +30,7 @@
     <a href='javascript:history.go(-1)'>Volver</a>
 </div>
 <hr />
-<a asp-controller="ConferenceVersion" asp-action="Create">Agregar una Versión de Conferencia</a> 
+<a asp-controller="ConferenceVersion" asp-action="Create" asp-route-conferenceId="@Model.Id">Agregar una Versión de Conferencia</a> 
 <br/>
 <a asp-controller="ConferenceVersion" asp-action="Index">Distintas Versiones de Conferencias</a> 
 <hr />
