@@ -13,7 +13,7 @@ Elige un tipo de evento
 <div class="btn-group btn-group-justified">
     <a asp-controller="Talk" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.ConferenceVersionId" class="btn btn-info">Charla</a>
     <a asp-controller="PracticalSession" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.ConferenceVersionId" class="btn btn-info">Sesión práctica</a>
-    <a asp-controller="Event" asp-action="Index" class="btn btn-info">Chat</a>
+    <a asp-controller="Chat" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.ConferenceVersionId" class="btn btn-info">Chat</a>
     <a asp-controller="Event" asp-action="Index" class="btn btn-info">Comida</a>
     <a asp-controller="Event" asp-action="Index" class="btn btn-info">Fiesta</a>
 </div>
