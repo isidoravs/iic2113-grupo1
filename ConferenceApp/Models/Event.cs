@@ -15,24 +15,24 @@ namespace ConferenceApp.Models
         public string Name { get; set; }
         
         [Required]
-        public DateTime startDate { get; set; }
+        public DateTime StartDate { get; set; }
         
         [Required]
-        public DateTime endDate { get; set; }
+        public DateTime EndDate { get; set; }
         
         public int ConferenceVersionId { get; set; }
         
         public ICollection<Role> Roles { get; set; }
         
-        public void notifyAttendees(string Message)
+        public void NotifyAttendees(string message)
         {
         }
         
-        public void addReview(User user, Feedback feedback)
+        public void AddReview(User user, Feedback feedback)
         {
         }
         
-        public IDictionary<string, float> getStatistics()
+        public IDictionary<string, float> GetStatistics()
         {
             var dictionary = new Dictionary<string, float>();
             return dictionary;
