@@ -40,6 +40,9 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
+            var eventCentresRooms = await _context.Rooms.Where(x => x.EventCentreId == eventCentre.Id).ToListAsync();
+            ViewBag.eventCentresRooms = eventCentresRooms;
+
             return View(eventCentre);
         }
 
