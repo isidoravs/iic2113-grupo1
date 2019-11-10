@@ -33,5 +33,6 @@ namespace ConferenceApp.Models
             var dictionary = new Dictionary<string, float>();
             return dictionary;
         }
+        public int RoomId { get; set; }
     }
 }

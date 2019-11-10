@@ -44,9 +44,35 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Event/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? conferenceVersionId)
         {
-            return View();
+            if (conferenceVersionId == null)
+            {
+                var rooms = await _context.Rooms.ToListAsync();
+                ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+                return View();
+            }
+            else
+            {
+                var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).FirstOrDefaultAsync();
+                var eventCentre = await _context.EventCentres.Where(x => x.Id == conferenceVersion.EventCentreId).FirstOrDefaultAsync();
+                var rooms = eventCentre.Rooms;
+                ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+                return View();
+            }
+            //var conferencesVersion = conferenceVersionId == null
+            //    ? await _context.Rooms.ToListAsync()
+            //    : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
+
+
+
+
+
+
+            //var conferencesVersions = conferenceVersionId == null
+            //    ? await _context.ConferenceVersions.ToListAsync()
+            //    : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
+            
         }
 
         // POST: Event/Create
@@ -54,7 +80,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,startDate,endDate")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Name,startDate,endDate,RoomId")] Event @event)
         {
             if (ModelState.IsValid)
             {
