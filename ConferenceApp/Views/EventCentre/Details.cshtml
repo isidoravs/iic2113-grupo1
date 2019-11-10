@@ -43,6 +43,52 @@
     </dl>
 </div>
 <div>
+    
+    <p><a asp-controller="Room" asp-action="Create" asp-route-eventCentreId="@Model.Id">Agregar Sala</a></p>
+
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
+    <hr/>
+
+    <h2>Salas en este Centro</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Capacidad
+                </th>
+                <th>
+                    Descripción Equipamiento
+                </th>
+                <th>
+                    Opciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in ViewBag.eventCentresRooms) {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.MaxCapacity
+                </td>
+                <td>
+                    @item.EquipmentDescription
+                </td>
+                <td>
+                    <a asp-controller="Room" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-controller="Room" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="Room" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+                
+
+            </tr>
+    }
+        </tbody>
+    </table>
 </div>

@@ -172,7 +172,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("EquipmentDescription");
 
-                    b.Property<int?>("EventCentreId");
+                    b.Property<int>("EventCentreId");
 
                     b.Property<int>("MaxCapacity");
 
@@ -490,7 +490,8 @@ namespace ConferenceApp.Data.Migrations
                 {
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("Rooms")
-                        .HasForeignKey("EventCentreId");
+                        .HasForeignKey("EventCentreId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
