@@ -44,8 +44,19 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Event/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? conferenceVersionId)
         {
+            var conferenceVersions = conferenceVersionId == null
+                ? await _context.ConferenceVersions.ToListAsync()
+                : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
+
+            List<object> versions = new List<object>();
+            foreach (var member in conferenceVersions)
+                versions.Add( new {
+                    Id = member.Id,
+                    Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
+                } );
+            this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             return View();
         }
 
@@ -54,7 +65,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +97,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
         {
             if (id != @event.Id)
             {
