@@ -59,7 +59,7 @@
     <br/>
     <hr/>
     <h6>En caso de ser organizador</h6>
-    <a asp-controller="Event" asp-action="Create">Crear un Evento en esta conferencia</a>
+    <a asp-controller="Event" asp-action="Create" asp-route-conferenceVersionId="@Model.Id">Crear un Evento en esta conferencia</a>
     <hr/>
     <br/>
     <h2>ESTADISTICAS</h2>

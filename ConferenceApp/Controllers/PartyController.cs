@@ -10,22 +10,22 @@ using ConferenceApp.Models;
 
 namespace ConferenceApp.Controllers
 {
-    public class EventController : Controller
+    public class PartyController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventController(ApplicationDbContext context)
+        public PartyController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Event
+        // GET: Party
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            return View(await _context.Parties.ToListAsync());
         }
 
-        // GET: Event/Details/5
+        // GET: Party/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,17 +33,17 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var party = await _context.Parties
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (party == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(party);
         }
 
-        // GET: Event/Create
+        // GET: Party/Create
         public async Task<IActionResult> Create(int? conferenceVersionId)
         {
             var conferenceVersions = conferenceVersionId == null
@@ -57,27 +57,26 @@ namespace ConferenceApp.Controllers
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
-            this.ViewData["ConferenceVersionId"] = conferenceVersionId;
             return View();
         }
 
-        // POST: Event/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Party/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+        public async Task<IActionResult> Create([Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId")] Party party)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(party);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(party);
         }
 
-        // GET: Event/Edit/5
+        // GET: Party/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,22 +84,22 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var party = await _context.Parties.FindAsync(id);
+            if (party == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            return View(party);
         }
 
-        // POST: Event/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: Party/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId")] Party party)
         {
-            if (id != @event.Id)
+            if (id != party.Id)
             {
                 return NotFound();
             }
@@ -109,12 +108,12 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(party);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.Id))
+                    if (!PartyExists(party.Id))
                     {
                         return NotFound();
                     }
@@ -125,10 +124,10 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(party);
         }
 
-        // GET: Event/Delete/5
+        // GET: Party/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,30 +135,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var party = await _context.Parties
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (party == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(party);
         }
 
-        // POST: Event/Delete/5
+        // POST: Party/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.FindAsync(id);
-            _context.Events.Remove(@event);
+            var party = await _context.Parties.FindAsync(id);
+            _context.Parties.Remove(party);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool PartyExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.Parties.Any(e => e.Id == id);
         }
     }
 }

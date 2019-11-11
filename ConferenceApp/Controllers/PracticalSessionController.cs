@@ -10,22 +10,22 @@ using ConferenceApp.Models;
 
 namespace ConferenceApp.Controllers
 {
-    public class EventController : Controller
+    public class PracticalSessionController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventController(ApplicationDbContext context)
+        public PracticalSessionController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Event
+        // GET: PracticalSession
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            return View(await _context.PracticalSessions.ToListAsync());
         }
 
-        // GET: Event/Details/5
+        // GET: PracticalSession/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,17 +33,17 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var practicalSession = await _context.PracticalSessions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (practicalSession == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(practicalSession);
         }
 
-        // GET: Event/Create
+        // GET: PracticalSession/Create
         public async Task<IActionResult> Create(int? conferenceVersionId)
         {
             var conferenceVersions = conferenceVersionId == null
@@ -57,27 +57,26 @@ namespace ConferenceApp.Controllers
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
-            this.ViewData["ConferenceVersionId"] = conferenceVersionId;
             return View();
         }
 
-        // POST: Event/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: PracticalSession/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId")] PracticalSession practicalSession)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(practicalSession);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(practicalSession);
         }
 
-        // GET: Event/Edit/5
+        // GET: PracticalSession/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,22 +84,22 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var practicalSession = await _context.PracticalSessions.FindAsync(id);
+            if (practicalSession == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            return View(practicalSession);
         }
 
-        // POST: Event/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: PracticalSession/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId")] PracticalSession practicalSession)
         {
-            if (id != @event.Id)
+            if (id != practicalSession.Id)
             {
                 return NotFound();
             }
@@ -109,12 +108,12 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(practicalSession);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.Id))
+                    if (!PracticalSessionExists(practicalSession.Id))
                     {
                         return NotFound();
                     }
@@ -125,10 +124,10 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(practicalSession);
         }
 
-        // GET: Event/Delete/5
+        // GET: PracticalSession/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,30 +135,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var practicalSession = await _context.PracticalSessions
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (practicalSession == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(practicalSession);
         }
 
-        // POST: Event/Delete/5
+        // POST: PracticalSession/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.FindAsync(id);
-            _context.Events.Remove(@event);
+            var practicalSession = await _context.PracticalSessions.FindAsync(id);
+            _context.PracticalSessions.Remove(practicalSession);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool PracticalSessionExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.PracticalSessions.Any(e => e.Id == id);
         }
     }
 }

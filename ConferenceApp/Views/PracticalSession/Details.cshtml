@@ -1,4 +1,4 @@
-@model ConferenceApp.Models.Event
+@model ConferenceApp.Models.PracticalSession
 
 @{
     ViewData["Title"] = "Details";
@@ -7,9 +7,21 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Event</h4>
+    <h4>PracticalSession</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Topic)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Topic)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ComplementaryMaterial)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ComplementaryMaterial)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -28,30 +40,9 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ConferenceVersionId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ConferenceVersionId)
-        </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a href='javascript:history.go(-1)'>Volver</a>
+    <a asp-action="Index">Back to List</a>
 </div>
-<div>
-    Si asiste:
-    <a asp-controller="Feedback" asp-action="Create">Evaluar</a> <br/>
-    Si no asiste:
-    <button onclick="myFunction()">Asistir</button> <br/>
-    <a asp-controller="Notification" asp-action="Create">Enviar notificacion</a> <br/>
-
-</div>
-
-
-<script>
-function myFunction() {
-    alert("Estas registrado para asistir!");
-}
-</script>
