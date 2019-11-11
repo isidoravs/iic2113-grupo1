@@ -44,8 +44,26 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: FoodService/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? conferenceVersionId)
         {
+            var conferenceVersions = conferenceVersionId == null
+                ? await _context.ConferenceVersions.ToListAsync()
+                : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
+
+            List<object> versions = new List<object>();
+            foreach (var member in conferenceVersions)
+                versions.Add( new {
+                    Id = member.Id,
+                    Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
+                } );
+            this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
+            
+            this.ViewData["CategoryOptions"] = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Almuerzo", Value = "lunch"},
+                new SelectListItem {Text = "Cena", Value = "dinner"},
+                new SelectListItem {Text = "Otro", Value = "other"}
+            };
             return View();
         }
 
@@ -78,6 +96,14 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            
+            this.ViewData["CategoryOptions"] = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Almuerzo", Value = "lunch"},
+                new SelectListItem {Text = "Cena", Value = "dinner"},
+                new SelectListItem {Text = "Otro", Value = "other"}
+            };
+            
             return View(foodService);
         }
 
