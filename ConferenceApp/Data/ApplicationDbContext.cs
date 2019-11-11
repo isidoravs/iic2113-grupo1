@@ -30,5 +30,6 @@ namespace ConferenceApp.Data
             : base(options)
         {
         }
+        public DbSet<ConferenceApp.Models.EventCentre> EventCentre { get; set; }
     }
 }
