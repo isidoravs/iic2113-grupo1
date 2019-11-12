@@ -1,14 +1,17 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/EventCentre.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/Room.cs">
     <Files>
-      <File FileName="Controllers/EventController.cs" Line="59" Column="1" />
-      <File FileName="Controllers/RoomController.cs" Line="1" Column="1" />
-      <File FileName="Views/Event/Create.cshtml" Line="33" Column="54" />
-      <File FileName="Models/Event.cs" Line="33" Column="53" />
-      <File FileName="Views/ConferenceVersion/Details.cshtml" Line="63" Column="10" />
-      <File FileName="Views/Event/Details.cshtml" Line="36" Column="14" />
-      <File FileName="Models/Room.cs" Line="1" Column="1" />
-      <File FileName="Models/EventCentre.cs" Line="1" Column="1" />
+      <File FileName="Controllers/EventController.cs" Line="180" Column="1" />
+      <File FileName="Controllers/RoomController.cs" />
+      <File FileName="Views/Event/Create.cshtml" />
+      <File FileName="Models/Event.cs" />
+      <File FileName="Views/ConferenceVersion/Details.cshtml" />
+      <File FileName="Views/Event/Details.cshtml" />
+      <File FileName="Models/Room.cs" Line="20" Column="2" />
+      <File FileName="Models/EventCentre.cs" />
+      <File FileName="docs/cheatsheet.md" />
+      <File FileName="Data/Migrations/20191110152001_AddRoomToEvent.cs" />
+      <File FileName="Data/Migrations/20191108192156_AddEventCentreIdToRooms.Designer.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -21,7 +24,7 @@
               </Node>
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True">
-                <Node name="EventCentre.cs" selected="True" />
+                <Node name="Room.cs" selected="True" />
               </Node>
               <Node name="Views" expanded="True">
                 <Node name="ConferenceVersion" expanded="True" />
@@ -30,9 +33,6 @@
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
