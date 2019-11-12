@@ -1,15 +1,21 @@
-@model ConferenceApp.Models.Event
+@model ConferenceApp.Models.Party
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>Eliminar comida</h1>
+<h1>Eliminar fiesta</h1>
 
 <div>
-    <h4>Event</h4>
+    <h4>Fiesta</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MusicStyle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MusicStyle)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -29,7 +35,7 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
     </dl>
-
+    
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |

@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191108191522_AddConferenceVersionIdToEvents")]
+    partial class AddConferenceVersionIdToEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +45,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<int>("EventCentreId");
+                    b.Property<int?>("EventCentreId");
 
                     b.Property<int>("Number");
 
@@ -68,14 +70,12 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<DateTime>("EndDate");
-
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int>("RoomId");
+                    b.Property<DateTime>("endDate");
 
-                    b.Property<DateTime>("StartDate");
+                    b.Property<DateTime>("startDate");
 
                     b.HasKey("Id");
 
@@ -171,28 +171,6 @@ namespace ConferenceApp.Data.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("EventId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<int>("UserId");
-
-                    b.Property<string>("UserId1");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId1");
-
-                    b.ToTable("Role");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -200,7 +178,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("EquipmentDescription");
 
-                    b.Property<int>("EventCentreId");
+                    b.Property<int?>("EventCentreId");
 
                     b.Property<int>("MaxCapacity");
 
@@ -430,16 +408,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasDiscriminator().HasValue("FoodService");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Party", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("MusicStyle")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("Party");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.PracticalSession", b =>
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
@@ -502,8 +470,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("ConferenceVersions")
-                        .HasForeignKey("EventCentreId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Event", b =>
@@ -532,24 +499,11 @@ namespace ConferenceApp.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Event")
-                        .WithMany("Roles")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ConferenceApp.Models.User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId1");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
                 {
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("Rooms")
-                        .HasForeignKey("EventCentreId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventCentreId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>

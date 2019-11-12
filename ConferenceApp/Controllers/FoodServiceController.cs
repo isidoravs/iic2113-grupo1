@@ -10,22 +10,22 @@ using ConferenceApp.Models;
 
 namespace ConferenceApp.Controllers
 {
-    public class EventController : Controller
+    public class FoodServiceController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public EventController(ApplicationDbContext context)
+        public FoodServiceController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Event
+        // GET: FoodService
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Events.ToListAsync());
+            return View(await _context.FoodServices.ToListAsync());
         }
 
-        // GET: Event/Details/5
+        // GET: FoodService/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,31 +33,22 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var foodService = await _context.FoodServices
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (foodService == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(foodService);
         }
 
-        // GET: Event/Create
+        // GET: FoodService/Create
         public async Task<IActionResult> Create(int? conferenceVersionId)
         {
             var conferenceVersions = conferenceVersionId == null
                 ? await _context.ConferenceVersions.ToListAsync()
                 : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
-
-            var eventCentre = conferenceVersionId != null
-                ? await _context.EventCentres.Where(x => x.Id == conferenceVersions[0].EventCentreId).FirstOrDefaultAsync()
-                : null;
-
-            var rooms = eventCentre == null
-                ? await _context.Rooms.ToListAsync()
-                : eventCentre.Rooms;
-
 
             List<object> versions = new List<object>();
             foreach (var member in conferenceVersions)
@@ -66,29 +57,33 @@ namespace ConferenceApp.Controllers
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
-            this.ViewData["ConferenceVersionId"] = conferenceVersionId;
-            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+            
+            this.ViewData["CategoryOptions"] = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Almuerzo", Value = "lunch"},
+                new SelectListItem {Text = "Cena", Value = "dinner"},
+                new SelectListItem {Text = "Otro", Value = "other"}
+            };
             return View();
         }
 
-        // POST: Event/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: FoodService/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Event @event)
+        public async Task<IActionResult> Create([Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId")] FoodService foodService)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
+                _context.Add(foodService);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(foodService);
         }
 
-        // GET: Event/Edit/5
+        // GET: FoodService/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,22 +91,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
-            if (@event == null)
+            var foodService = await _context.FoodServices.FindAsync(id);
+            if (foodService == null)
             {
                 return NotFound();
             }
-            return View(@event);
+            
+            this.ViewData["CategoryOptions"] = new List<SelectListItem>
+            {
+                new SelectListItem {Text = "Almuerzo", Value = "lunch"},
+                new SelectListItem {Text = "Cena", Value = "dinner"},
+                new SelectListItem {Text = "Otro", Value = "other"}
+            };
+            
+            return View(foodService);
         }
 
-        // POST: Event/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // POST: FoodService/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId")] FoodService foodService)
         {
-            if (id != @event.Id)
+            if (id != foodService.Id)
             {
                 return NotFound();
             }
@@ -120,12 +123,12 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
-                    _context.Update(@event);
+                    _context.Update(foodService);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.Id))
+                    if (!FoodServiceExists(foodService.Id))
                     {
                         return NotFound();
                     }
@@ -136,10 +139,10 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(foodService);
         }
 
-        // GET: Event/Delete/5
+        // GET: FoodService/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,30 +150,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
+            var foodService = await _context.FoodServices
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (@event == null)
+            if (foodService == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(foodService);
         }
 
-        // POST: Event/Delete/5
+        // POST: FoodService/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events.FindAsync(id);
-            _context.Events.Remove(@event);
+            var foodService = await _context.FoodServices.FindAsync(id);
+            _context.FoodServices.Remove(foodService);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
+        private bool FoodServiceExists(int id)
         {
-            return _context.Events.Any(e => e.Id == id);
+            return _context.FoodServices.Any(e => e.Id == id);
         }
     }
 }

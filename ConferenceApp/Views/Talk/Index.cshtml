@@ -1,4 +1,4 @@
-@model IEnumerable<ConferenceApp.Models.Event>
+@model IEnumerable<ConferenceApp.Models.Talk>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,6 +12,12 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Topic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ComplementaryMaterial)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -27,6 +33,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Topic)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComplementaryMaterial)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

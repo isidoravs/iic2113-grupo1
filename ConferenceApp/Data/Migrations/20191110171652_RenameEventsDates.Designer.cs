@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191110171652_RenameEventsDates")]
+    partial class RenameEventsDates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,8 +74,6 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<int>("RoomId");
 
                     b.Property<DateTime>("StartDate");
 
@@ -428,16 +428,6 @@ namespace ConferenceApp.Data.Migrations
                         .IsRequired();
 
                     b.HasDiscriminator().HasValue("FoodService");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Party", b =>
-                {
-                    b.HasBaseType("ConferenceApp.Models.Event");
-
-                    b.Property<string>("MusicStyle")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("Party");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.PracticalSession", b =>
