@@ -1,29 +1,16 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Data/Migrations/ApplicationDbContextModelSnapshot.cs">
-    <Files>
-      <File FileName="Controllers/EventController.cs" Line="81" Column="1" />
-      <File FileName="Controllers/RoomController.cs" />
-      <File FileName="Views/Event/Create.cshtml" />
-      <File FileName="Models/Event.cs" />
-      <File FileName="Views/ConferenceVersion/Details.cshtml" />
-      <File FileName="Views/Event/Details.cshtml" />
-      <File FileName="Models/Room.cs" Line="20" Column="2" />
-      <File FileName="Models/EventCentre.cs" Line="1" Column="1" />
-      <File FileName="docs/cheatsheet.md" />
-      <File FileName="Data/Migrations/20191108192156_AddEventCentreIdToRooms.Designer.cs" />
-      <File FileName="Controllers/ConferenceVersionController.cs" Line="1" Column="1" />
-      <File FileName="Models/ConferenceVersion.cs" Line="1" Column="1" />
-      <File FileName="Data/Migrations/ApplicationDbContextModelSnapshot.cs" Line="1" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="EventController.cs" selected="True" />
+              </Node>
               <Node name="Data" expanded="True">
                 <Node name="Migrations" expanded="True">
-                  <Node name="ApplicationDbContextModelSnapshot.cs" selected="True" />
+                  <Node name="20191108192156_AddEventCentreIdToRooms.cs" expanded="True" />
                 </Node>
               </Node>
               <Node name="docs" expanded="True" />
