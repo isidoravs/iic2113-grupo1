@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,7 +40,12 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
-
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == @event.Id)).ToListAsync();
+            
+            int assisting = isAssistant.Count;
+            ViewBag.assisting = assisting;
+            
             return View(@event);
         }
 
@@ -93,9 +99,32 @@ namespace ConferenceApp.Controllers
             return View(@event);
         }
 
-        // POST: Event/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        public async Task<IActionResult> RemoveAssistant(int eventId)
+        {
+
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            _context.Roles.RemoveRange(assistants);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+        public async Task<IActionResult> AddAssistant(int eventId)
+        {
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var role = new Role() {UserId = currentUserId, EventId = eventId};
+
+            _context.Add(role);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+        
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)

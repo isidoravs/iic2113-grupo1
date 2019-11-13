@@ -36,6 +36,46 @@
     
     <br/>
     <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
+        <h2>Eventos a Asistir</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Fecha Inicio
+                    </th>
+                    <th>
+                        Fecha Fin
+                    </th>
+                    <th>
+                        Opciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+        @foreach (var item in ViewBag.eventsToList) {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.StartDate
+                    </td>
+                    <td>
+                        @item.EndDate
+                    </td>
+                    
+                    <td>
+                        <a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                    </td>
+                    
+    
+                </tr>
+        }
+            </tbody>
+        </table>
 </div>  
 }
 else {

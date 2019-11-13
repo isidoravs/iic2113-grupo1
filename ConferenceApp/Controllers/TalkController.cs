@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -59,6 +60,20 @@ namespace ConferenceApp.Controllers
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             return View();
         }
+        
+        
+        public async Task<IActionResult> AddAssistant(int eventId)
+        {
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var role = new Role() {UserId = currentUserId, EventId = eventId};
+
+            _context.Add(role);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+
 
         // POST: Talk/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
