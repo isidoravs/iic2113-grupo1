@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConferenceApp.Data;
 using ConferenceApp.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ConferenceApp.Controllers
 {
@@ -45,7 +46,7 @@ namespace ConferenceApp.Controllers
             
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
-            
+
             return View(@event);
         }
 
@@ -114,12 +115,31 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> AddAssistant(int eventId)
         {
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var role = new Role() {UserId = currentUserId, EventId = eventId};
-
-            _context.Add(role);
-            await _context.SaveChangesAsync();
-            
+            var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
+            var isOccupied = 0;
+            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+            foreach (var aRole in assistingToEvents)
+            {
+                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
+                if (@event.StartDate <= @thisEvent.StartDate && @event.EndDate >= @thisEvent.StartDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.StartDate <= @thisEvent.EndDate && @event.EndDate >= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                var role = new Role() {UserId = currentUserId, EventId = eventId};
+                _context.Add(role);
+                await _context.SaveChangesAsync(); 
+            }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
