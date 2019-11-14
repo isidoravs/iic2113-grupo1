@@ -5,7 +5,15 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<style>
+    .tableFixHead          { overflow-y: auto; height: 200px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%; }
+    th, td { padding: 8px 16px; }
+    th     { background:#eee; }
+</style>
 @if (SignInManager.IsSignedIn(User))
 {
     <div class="text-center">
@@ -25,57 +33,62 @@
     <br/>
     <h6>Las que participaré y hacia buscar</h6>
     <a asp-controller="ConferenceVersion" asp-action="Index">Listado de Versiones de Conferencias</a> |
-    <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Una Versión de Conferencia</a>
+    <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Una Versión de Conferencia</a> |
+    <a asp-controller="Event" asp-action="Index">Ver Todos los Eventos</a>
     <hr/>
 
     <br/>
-    <h6>Los que participaré y hacia buscar</h6>
+    <center><h2>Eventos a Asistir</h2></center>
 
-    <a asp-controller="Event" asp-action="Index">Listado de Mis Eventos</a> |
-    <a asp-controller="Event" asp-action="Details" asp-route-id="1">Un Evento en particular</a>
-    
-    <br/>
-    <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
-        <h2>Eventos a Asistir</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>
-                        Fecha Inicio
-                    </th>
-                    <th>
-                        Fecha Fin
-                    </th>
-                    <th>
-                        Opciones
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-        @foreach (var item in ViewBag.eventsToList) {
-                <tr>
-                    <td>
-                        @item.Name
-                    </td>
-                    <td>
-                        @item.StartDate
-                    </td>
-                    <td>
-                        @item.EndDate
-                    </td>
-                    
-                    <td>
-                        <a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a>
-                    </td>
-                    
-    
-                </tr>
-        }
-            </tbody>
-        </table>
+    <div class="row">
+        <div class="col-md-3">
+            <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
+        </div>
+        <div class="col-md-9">
+            <div class="tableFixHead">
+                <table class="table table-fixed">
+                    <thead>
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Fecha Inicio
+                        </th>
+                        <th>
+                            Fecha Fin
+                        </th>
+                        <th>
+                            Opciones
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in ViewBag.eventsToList)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.StartDate
+                            </td>
+                            <td>
+                                @item.EndDate
+                            </td>
+
+                            <td>
+                                <a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a>
+                            </td>
+
+
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>  
 }
 else {
