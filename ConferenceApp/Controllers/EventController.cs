@@ -50,15 +50,6 @@ namespace ConferenceApp.Controllers
                 ? await _context.ConferenceVersions.ToListAsync()
                 : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
 
-            var eventCentre = conferenceVersionId != null
-                ? await _context.EventCentres.Where(x => x.Id == conferenceVersions[0].EventCentreId).FirstOrDefaultAsync()
-                : null;
-
-            var rooms = eventCentre == null
-                ? await _context.Rooms.ToListAsync()
-                : eventCentre.Rooms;
-
-
             List<object> versions = new List<object>();
             foreach (var member in conferenceVersions)
                 versions.Add( new {
@@ -67,7 +58,6 @@ namespace ConferenceApp.Controllers
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["ConferenceVersionId"] = conferenceVersionId;
-            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View();
         }
 

@@ -2,7 +2,7 @@
 
 namespace ConferenceApp.Data.Migrations
 {
-    public partial class AddRoomToEvent : Migration
+    public partial class AddRoomsToEvents : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

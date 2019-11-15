@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20191110152001_AddRoomToEvent")]
-    partial class AddRoomToEvent
+    [Migration("20191112170836_AddRoomsToEvents")]
+    partial class AddRoomsToEvents
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,19 +65,23 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("ConferenceVersionId");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
+
+                    b.Property<DateTime>("EndDate");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
                     b.Property<int>("RoomId");
 
-                    b.Property<DateTime>("endDate");
-
-                    b.Property<DateTime>("startDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConferenceVersionId");
 
                     b.ToTable("Events");
 
@@ -167,6 +171,28 @@ namespace ConferenceApp.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EventId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("UserId");
+
+                    b.Property<string>("UserId1");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
@@ -406,6 +432,16 @@ namespace ConferenceApp.Data.Migrations
                     b.HasDiscriminator().HasValue("FoodService");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.Party", b =>
+                {
+                    b.HasBaseType("ConferenceApp.Models.Event");
+
+                    b.Property<string>("MusicStyle")
+                        .IsRequired();
+
+                    b.HasDiscriminator().HasValue("Party");
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.PracticalSession", b =>
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
@@ -472,6 +508,14 @@ namespace ConferenceApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.Event", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.ConferenceVersion")
+                        .WithMany("Events")
+                        .HasForeignKey("ConferenceVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
                 {
                     b.HasOne("ConferenceApp.Models.FeedbackCategory")
@@ -488,6 +532,18 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.Event")
+                        .WithMany("Roles")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ConferenceApp.Models.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>

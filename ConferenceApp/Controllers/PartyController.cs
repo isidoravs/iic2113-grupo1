@@ -50,6 +50,8 @@ namespace ConferenceApp.Controllers
                 ? await _context.ConferenceVersions.ToListAsync()
                 : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
 
+            var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersions[0].EventCentreId).ToListAsync();
+
             List<object> versions = new List<object>();
             foreach (var member in conferenceVersions)
                 versions.Add( new {
@@ -57,6 +59,7 @@ namespace ConferenceApp.Controllers
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
+            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View();
         }
 
@@ -65,7 +68,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId")] Party party)
+        public async Task<IActionResult> Create([Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId")] Party party)
         {
             if (ModelState.IsValid)
             {
@@ -89,6 +92,9 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == party.ConferenceVersionId).FirstOrDefaultAsync();
+            var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersion.EventCentreId).ToListAsync();
+            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View(party);
         }
 
@@ -97,7 +103,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId")] Party party)
+        public async Task<IActionResult> Edit(int id, [Bind("MusicStyle,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId")] Party party)
         {
             if (id != party.Id)
             {

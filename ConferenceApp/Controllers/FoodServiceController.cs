@@ -50,6 +50,8 @@ namespace ConferenceApp.Controllers
                 ? await _context.ConferenceVersions.ToListAsync()
                 : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
 
+            var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersions[0].EventCentreId).ToListAsync();
+
             List<object> versions = new List<object>();
             foreach (var member in conferenceVersions)
                 versions.Add( new {
@@ -64,6 +66,7 @@ namespace ConferenceApp.Controllers
                 new SelectListItem {Text = "Cena", Value = "dinner"},
                 new SelectListItem {Text = "Otro", Value = "other"}
             };
+            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View();
         }
 
@@ -72,7 +75,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId")] FoodService foodService)
+        public async Task<IActionResult> Create([Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] FoodService foodService)
         {
             if (ModelState.IsValid)
             {
@@ -103,7 +106,10 @@ namespace ConferenceApp.Controllers
                 new SelectListItem {Text = "Cena", Value = "dinner"},
                 new SelectListItem {Text = "Otro", Value = "other"}
             };
-            
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == foodService.ConferenceVersionId).FirstOrDefaultAsync();
+            var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersion.EventCentreId).ToListAsync();
+            this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+
             return View(foodService);
         }
 
@@ -112,7 +118,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId")] FoodService foodService)
+        public async Task<IActionResult> Edit(int id, [Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] FoodService foodService)
         {
             if (id != foodService.Id)
             {

@@ -105,7 +105,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventCentres");
+                    b.ToTable("EventCentre");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
