@@ -1,36 +1,31 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ConferenceVersionController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/FoodService/Create.cshtml">
     <Files>
-      <File FileName="Controllers/ConferenceVersionController.cs" Line="100" Column="1" />
-      <File FileName="Models/ConferenceVersion.cs" Line="19" Column="9" />
-      <File FileName="Views/ConferenceVersion/Create.cshtml" Line="40" Column="32" />
-      <File FileName="Views/ConferenceVersion/Details.cshtml" Line="35" Column="49" />
-      <File FileName="docs/cheatsheet.md" Line="13" Column="6" />
-      <File FileName="Models/EventCentre.cs" Line="23" Column="1" />
-      <File FileName="Views/ConferenceVersion/Edit.cshtml" Line="31" Column="12" />
+      <File FileName="Views/PracticalSession/Create.cshtml" Line="47" Column="19" />
+      <File FileName="Views/PracticalSession/Edit.cshtml" Line="42" Column="13" />
+      <File FileName="Controllers/PracticalSessionController.cs" Line="97" Column="74" />
+      <File FileName="Views/FoodService/Create.cshtml" Line="39" Column="1" />
+      <File FileName="Views/FoodService/Edit.cshtml" Line="1" Column="1" />
+      <File FileName="Controllers/FoodServiceController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ConferenceVersionController.cs" selected="True" />
-              </Node>
-              <Node name="Data" expanded="True">
-                <Node name="Migrations" expanded="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="ConferenceVersion" expanded="True" />
+                <Node name="FoodService" expanded="True">
+                  <Node name="Create.cshtml" selected="True" />
+                </Node>
+                <Node name="PracticalSession" expanded="True" />
               </Node>
+              <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>
         </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>

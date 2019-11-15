@@ -66,7 +66,8 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId")] Event @event)
+
+        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Event @event)
         {
             if (ModelState.IsValid)
             {
