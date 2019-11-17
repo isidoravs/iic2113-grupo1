@@ -74,7 +74,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(chat);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Event");
             }
             return View(chat);
         }

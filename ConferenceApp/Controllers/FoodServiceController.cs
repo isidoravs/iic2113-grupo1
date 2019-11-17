@@ -81,7 +81,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(foodService);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Event");
             }
             return View(foodService);
         }

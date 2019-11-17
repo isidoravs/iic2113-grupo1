@@ -89,7 +89,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(talk);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Event");
             }
             return View(talk);
         }
