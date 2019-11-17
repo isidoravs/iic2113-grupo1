@@ -4,19 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index: Versiones de Una Conferencia</h1>
+<h1>Index: Versiones</h1>
 
 <p>    
-    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Volver a Conferencia</a>
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conferenceId">Volver a la conferencia</a>
     <br/>
     <hr/>
-    <a asp-action="Create">Crear Nueva Version de Conferencia</a>
+    <a asp-action="Create">Crear nueva versión</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Numero de conferencia
+                Número de versión
             </th>
             <th>
                 Inicio
@@ -25,7 +25,7 @@
                 Fin
             </th>
             <th>
-                Para organizador (Edit y Delete)
+                Organizador
             </th>
         </tr>
     </thead>

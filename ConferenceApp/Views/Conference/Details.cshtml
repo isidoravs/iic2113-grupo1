@@ -7,17 +7,17 @@
 <h1>Conferencia</h1>
 
 <div>
-    <h4>Conference</h4>
+    <h4>Info</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            Descripción
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Description)
@@ -30,12 +30,12 @@
     <a href='javascript:history.go(-1)'>Volver</a>
 </div>
 <hr />
-<a asp-controller="ConferenceVersion" asp-action="Create" asp-route-conferenceId="@Model.Id">Agregar una Versión de Conferencia</a> 
+<a asp-controller="ConferenceVersion" asp-action="Create" asp-route-conferenceId="@Model.Id">Agregar una nueva versión</a> 
 <br/>
-<a asp-controller="ConferenceVersion" asp-action="Index">Distintas Versiones de Conferencias</a> 
+<a asp-controller="ConferenceVersion" asp-action="Index" asp-route-conferenceId="@Model.Id">Ver más versiones de esta conferencia</a> 
 <hr />
 <div>
-    <h4>Estadisticas Acumuladas de la conferencia</h4><br/>
+    <h4>Estadísticas Acumuladas de la conferencia</h4><br/>
     <h6>Estadistica 1</h6><br/>
     <h6>Estadistica 2</h6>
 </div>
