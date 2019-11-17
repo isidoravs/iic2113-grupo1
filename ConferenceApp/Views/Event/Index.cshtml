@@ -4,22 +4,33 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Eventos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear nuevo</a>
 </p>
+
+<div>
+    <div class="btn-group btn-group-justified" style="width: 100%;">
+        <a asp-controller="Talk" asp-action="Index" class="btn btn-info">Charlas</a>
+        <a asp-controller="PracticalSession" asp-action="Index" class="btn btn-info">Sesiones prácticas</a>
+        <a asp-controller="Chat" asp-action="Index" class="btn btn-info">Chats</a>
+        <a asp-controller="FoodService" asp-action="Index" class="btn btn-info">Comidas</a>
+        <a asp-controller="Party" asp-action="Index" class="btn btn-info">Fiestas</a>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                Fecha de inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Fecha de fin
             </th>
             <th></th>
         </tr>
@@ -37,9 +48,9 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 }
