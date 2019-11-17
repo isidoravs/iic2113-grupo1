@@ -4,38 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Centro de evento</h1>
 
 <div>
-    <h4>EventCentre</h4>
+    <h4>Info</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
+            Ubicación
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Location)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MapImage)
+            Mapa
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MapImage)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Latitude)
+            Lat
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Latitude)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Longitude)
+            Lon
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Longitude)
@@ -44,13 +44,13 @@
 </div>
 <div>
     
-    <p><a asp-controller="Room" asp-action="Create" asp-route-eventCentreId="@Model.Id">Agregar Sala</a></p>
+    <p><a asp-controller="Room" asp-action="Create" asp-route-eventCentreId="@Model.Id">Agregar sala</a></p>
 
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Ver todos los centros</a>
     <hr/>
 
-    <h2>Salas en este Centro</h2>
+    <h2>Salas en este centro</h2>
     <table class="table">
         <thead>
             <tr>
@@ -58,10 +58,10 @@
                     Nombre
                 </th>
                 <th>
-                    Capacidad
+                    Capacidad máxima
                 </th>
                 <th>
-                    Descripción Equipamiento
+                    Equipamiento
                 </th>
                 <th>
                     Opciones
@@ -85,8 +85,6 @@
                     <a asp-controller="Room" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-controller="Room" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
-                
-
             </tr>
     }
         </tbody>

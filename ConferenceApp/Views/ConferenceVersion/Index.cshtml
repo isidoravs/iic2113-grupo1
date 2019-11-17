@@ -6,12 +6,18 @@
 
 <h1>Index: Versiones</h1>
 
-<p>    
-    <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conferenceId">Volver a la conferencia</a>
-    <br/>
-    <hr/>
-    <a asp-action="Create">Crear nueva versión</a>
-</p>
+<div>    
+    @if (ViewBag.conferenceId != null)
+    {
+        <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conferenceId">Volver a la conferencia</a><br/>
+        <a asp-action="Create" asp-route-conferenceId="@ViewBag.conferenceId">Crear una nueva versión</a>
+    }
+    else
+    {
+        <a asp-action="Create">Crear nueva versión de una conferencia</a>
+    }
+    <p></p>
+</div>
 <table class="table">
     <thead>
         <tr>
