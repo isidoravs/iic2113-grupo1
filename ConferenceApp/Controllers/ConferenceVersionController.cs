@@ -20,9 +20,11 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: ConferenceVersion
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? conferenceId)
         {
-            return View(await _context.ConferenceVersions.ToListAsync());
+            if (conferenceId == null) return View(await _context.ConferenceVersions.ToListAsync());
+            ViewBag.conferenceId = conferenceId;
+            return View(await _context.ConferenceVersions.Where(x => x.Id == conferenceId).ToListAsync());
         }
 
         // GET: ConferenceVersion/Details/5

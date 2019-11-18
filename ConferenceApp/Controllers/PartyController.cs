@@ -74,7 +74,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(party);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Event");
             }
             return View(party);
         }
