@@ -76,13 +76,23 @@ namespace ConferenceApp.Controllers
 
         public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Event @event)
         {
-            if (ModelState.IsValid)
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == @event.ConferenceVersionId).FirstOrDefaultAsync();
+            if (conferenceVersion.StartDate > @event.StartDate || conferenceVersion.EndDate < @event.EndDate)
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // hay problemas con la fecha
+                TempData["DateError"] = "Valor temporal";
             }
-            return View(@event);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(@event);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { id = @event.Id.ToString() });
+
+                }
+            }
+            return RedirectToAction("Index", "Event");
         }
 
         // GET: Event/Edit/5
@@ -130,8 +140,17 @@ namespace ConferenceApp.Controllers
                 {
                     isOccupied = 1;
                 }
+                else if (@event.StartDate >= @thisEvent.StartDate && @event.StartDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.EndDate >= @thisEvent.StartDate && @event.EndDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
                 if (isOccupied == 1)
                 {
+                    TempData["AssistError"] = "Valor Temporal";
                     break;
                 }
             }

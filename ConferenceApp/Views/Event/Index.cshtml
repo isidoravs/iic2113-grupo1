@@ -4,6 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
+@if (TempData["DateError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No se pudo agregar el evento debido a que las fechas no coinciden con las de la versión de conferencia seleccionada.
+    </div>
+}
+
+
 <h1>Eventos</h1>
 
 <p>
@@ -56,3 +65,5 @@
 }
     </tbody>
 </table>
+
+
