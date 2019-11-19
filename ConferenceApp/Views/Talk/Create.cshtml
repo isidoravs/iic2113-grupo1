@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.Talk
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nueva Charla";
 }
 
 <h1>Nueva charla</h1>
@@ -21,6 +21,11 @@
                 <label asp-for="Topic" class="control-label">Tema</label>
                 <input asp-for="Topic" class="form-control" />
                 <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Exhibitor" class="control-label">Expositor</label>
+                <input asp-for="Exhibitor" class="form-control" />
+                <span asp-validation-for="Exhibitor" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Inicio</label>

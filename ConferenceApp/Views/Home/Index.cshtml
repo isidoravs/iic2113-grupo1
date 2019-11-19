@@ -8,11 +8,11 @@
 <style>
     .tableFixHead          { overflow-y: auto; height: 200px; }
     .tableFixHead thead th { position: sticky; top: 0; }
-    
+
     /* Just common table stuff. Really. */
-    table  { border-collapse: collapse; width: 100%; }
+    table  { border-collapse: collapse; width: 100%;}
     th, td { padding: 8px 16px; }
-    th     { background:#eee; }
+    th     { background:#eee;}
 </style>
 @if (SignInManager.IsSignedIn(User))
 {
@@ -31,39 +31,42 @@
             <a asp-controller="Event" asp-action="Index" class="btn btn-link">Eventos</a> |
             <a asp-controller="Conference" asp-action="Index" class="btn btn-link">Conferencias</a>
         </div>
-        
+
         <div class="container">
             <h4>Mis próximos eventos</h4>
-            
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Inicio</th>
-                    <th scope="col">Fin</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in ViewBag.eventsToList)
-                {
+
+            <div class="tableFixHead">
+
+                <table class="table table-fixed table-hover">
+                    <thead>
                     <tr>
-                        <th scope="row">@item.Name</th>
-                        <td>@item.StartDate</td>
-                        <td>@item.EndDate</td>
-                        <td><a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a></td>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Inicio</th>
+                        <th scope="col">Fin</th>
+                        <th scope="col">Opciones</th>
                     </tr>
-                }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in ViewBag.eventsToList)
+                    {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td><a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
         </div>
-        </div>
+    </div>
 }
 else {
     <div class="text-center">
         <h1 class="display-4">Welcome to ConferenceApp!</h1>
     </div>
-    
+
     <div style="text-align: center; border: 1px solid; margin: auto; width: 100px">
         <a class="btn-ce" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </div>

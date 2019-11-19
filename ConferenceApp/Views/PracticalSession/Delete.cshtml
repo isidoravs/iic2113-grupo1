@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.PracticalSession
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Sesión Práctica";
 }
 
 <h1>Eliminar sesión práctica</h1>
@@ -41,7 +41,7 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Eliminar" class="btn btn-danger" /> |

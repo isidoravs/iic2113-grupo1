@@ -28,7 +28,7 @@ namespace ConferenceApp.Controllers
             foreach (var role in assistingToEvents)
             {
                 var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == role.EventId);
-                eventsToList.Add(@event );
+                eventsToList.Add(@event);
             }
 
             ViewBag.eventsToList = eventsToList;

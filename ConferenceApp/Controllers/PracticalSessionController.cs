@@ -42,7 +42,7 @@ namespace ConferenceApp.Controllers
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == practicalSession.Id)).ToListAsync();
-            
+
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
             
@@ -59,6 +59,26 @@ namespace ConferenceApp.Controllers
                 joinedTags = String.Join(", ", tagNames);
             }
             ViewBag.joinedTags = joinedTags;
+
+            var room = await _context.Rooms.FindAsync(@practicalSession.RoomId);
+            var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
+            var version = await _context.ConferenceVersions.FindAsync(@practicalSession.ConferenceVersionId);
+            var conference = await _context.Conferences.FindAsync(version.ConferenceId);
+
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @practicalSession.Id).ToListAsync();
+            var assistants = new List<object>();
+            // foreach (var member in assistantRoles)
+            // {
+            //     var a = await _context.Users.FindAsync(member.UserId);
+            //     assistants.Add(a.Email);
+            // }
+
+            ViewBag.roomName = room.Name;
+            ViewBag.centreName = centre.Name;
+            ViewBag.location = centre.Location;
+            ViewBag.version = version;
+            ViewBag.conference = conference;
+            ViewBag.assistants = assistants;
 
             return View(practicalSession);
         }
@@ -89,38 +109,87 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: PracticalSession/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] PracticalSession practicalSession)
+        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] PracticalSession practicalSession)
         {
-            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
-            {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
-                {
-                    var eventTags = new List<EventTag>();
-                    for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
-                    {
-                        if (practicalSession.AvailableTags[i].IsChecked)
-                        {
-                            var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == practicalSession.AvailableTags[i].TagId);
-                            var eventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
-                            _context.Add(eventTag);
-                            eventTags.Add(eventTag);
-                        }
-                    }
-                    practicalSession.EventTags = eventTags;
-                    _context.Add(practicalSession);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
+        //    var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
+        //    if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
+        //    {
+        //        // hay problemas con la fecha
+        //        TempData["DateError"] = "Valor temporal";
+        //    }
+        //    else
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            _context.Add(practicalSession);
+        //            await _context.SaveChangesAsync();
+        //            return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
 
+        //        }
+        //    }
+        //    return RedirectToAction("Index", "Event");
+        //}
+        var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
+        var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+        var room = await _context.Rooms.Where(x => x.Id == practicalSession.RoomId).FirstOrDefaultAsync();
+        var isOccupied = 0;
+
+        var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == practicalSession.ConferenceVersionId && x.RoomId == practicalSession.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
+            {
+                if (practicalSession.StartDate <= even.StartDate && practicalSession.EndDate >= even.StartDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate <= even.EndDate && practicalSession.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate >= even.StartDate && practicalSession.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate <= even.StartDate && practicalSession.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate<practicalSession.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var eventTags = new List<EventTag>();
+                        for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
+                        {
+                            if (practicalSession.AvailableTags[i].IsChecked)
+                            {
+                                var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == practicalSession.AvailableTags[i].TagId);
+                                var eventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
+                                _context.Add(eventTag);
+                                eventTags.Add(eventTag);
+                            }
+                        }
+                        practicalSession.EventTags = eventTags;
+                        _context.Add(practicalSession);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
+                    }
                 }
             }
             return RedirectToAction("Index", "Event");
@@ -155,7 +224,7 @@ namespace ConferenceApp.Controllers
             this.ViewData["AvailableTags"] = availableTags;
             return View(practicalSession);
         }
-        
+
         public async Task<IActionResult> RemoveAssistant(int eventId)
         {
 
@@ -163,7 +232,7 @@ namespace ConferenceApp.Controllers
             var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
@@ -202,18 +271,18 @@ namespace ConferenceApp.Controllers
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
                 _context.Add(role);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
 
         // POST: PracticalSession/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] PracticalSession practicalSession)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] PracticalSession practicalSession)
         {
             if (id != practicalSession.Id)
             {
@@ -263,7 +332,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
             }
             return View(practicalSession);
         }

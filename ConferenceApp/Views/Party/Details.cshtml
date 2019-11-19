@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.Party
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Fiesta";
 }
 @if (TempData["AssistError"] != null)
 {
@@ -11,49 +11,94 @@
     </div>
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Party</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MusicStyle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MusicStyle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-sm-3">Organiza: Juanita Pérez</div>
+    <div class="col-sm-6">Patrocina: Apple</div>
+    <div class="col-sm-3" style="text-align: right;">
+        <a asp-controller="Party" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+        <a asp-controller="Party" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Back to List</a>
+<hr/>
+<div class="row">
+    <br/>
+    <div class="col-sm-2">
+        <img alt="calendar" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png" style="width: 150px;">
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <h6>@Model.StartDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+        </div>
+        <div class="row">
+            <h6>hasta @Model.EndDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+        </div>
+        <div class="row">
+            <h1>@Html.DisplayFor(model => model.Name)</h1>
+        </div>
+        <div class="row">
+            <h5>Fiesta</h5>
+        </div>
+    </div>
+    <div class="col-sm-4">
         @if (ViewBag.assisting == 0 )
         {
-            <h6><a asp-action="AddAssistant" asp-route-eventId="@Model.Id">Asistir</a></h6>
+            <a asp-action="AddAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                <button type="button" class="btn btn-success" style="width: 100%;">Asistir</button>
+            </a>
         }
         else
         {
-            <h6><a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id">Dejar de asistir</a> |
-            <a asp-controller="Feedback" asp-action="Create">Evaluar</a></h6>
+            <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                <button type="button" class="btn btn-primary" style="width: 40%;">Dejar de asistir</button>
+            </a>
+            <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+                <button type="button" class="btn btn-primary" style="width: 40%;">Evaluar</button>
+            </a>
         }
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        <button type="button" class="btn btn-outline-secondary">Ciencia</button>
+        <button type="button" class="btn btn-outline-secondary">Tecnología</button>
+    </div>
+    <div class="col-sm-4">
+        @ViewBag.centreName - <a asp-controller="Room" asp-action="Details" asp-route-id="@Model.RoomId">@ViewBag.roomName</a> <br/>
+        <img alt="calendar" src="https://www.connectsafely.org/wp-content/uploads/Location-pin.png" style="width: 25px;">
+        @ViewBag.location
+    </div>
+</div>
+<hr/>
 
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Más información</h5>
+        <dl class="row">
+            <dt class = "col-sm-4">
+                Estilo de música
+            </dt>
+            <dd class = "col-sm-8">
+                @Html.DisplayFor(model => model.MusicStyle)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-4">
+        Conferencia <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conference.Id">@ViewBag.conference.Name</a>
+        (versión <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="@Model.ConferenceVersionId">@ViewBag.version.Number</a>)
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Asistentes</h5>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Estadísticas</h5>
+    </div>
+    <div class="col-sm-4"></div>
 </div>

@@ -39,10 +39,10 @@ namespace ConferenceApp.Controllers
             if (chat == null)
             {
                 return NotFound();
-            }            
+            }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == chat.Id)).ToListAsync();
-            
+
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
             
@@ -59,6 +59,26 @@ namespace ConferenceApp.Controllers
                 joinedTags = String.Join(", ", tagNames);
             }
             ViewBag.joinedTags = joinedTags;
+
+            var room = await _context.Rooms.FindAsync(@chat.RoomId);
+            var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
+            var version = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
+            var conference = await _context.Conferences.FindAsync(version.ConferenceId);
+
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @chat.Id).ToListAsync();
+            var assistants = new List<object>();
+            // foreach (var member in assistantRoles)
+            // {
+            //     var a = await _context.Users.FindAsync(member.UserId);
+            //     assistants.Add(a.Email);
+            // }
+
+            ViewBag.roomName = room.Name;
+            ViewBag.centreName = centre.Name;
+            ViewBag.location = centre.Location;
+            ViewBag.version = version;
+            ViewBag.conference = conference;
+            ViewBag.assistants = assistants;
 
             return View(chat);
         }
@@ -87,7 +107,7 @@ namespace ConferenceApp.Controllers
             this.ViewData["AvailableTags"] = new List<CheckBoxItem>(availableTags);
             return View();
         }
-        
+
         public async Task<IActionResult> RemoveAssistant(int eventId)
         {
 
@@ -95,7 +115,7 @@ namespace ConferenceApp.Controllers
             var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
@@ -134,30 +154,61 @@ namespace ConferenceApp.Controllers
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
                 _context.Add(role);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
 
         // POST: Chat/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] Chat chat)
+        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Panelists,Moderator,AvailableTags")] Chat chat)
         {
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == chat.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > chat.StartDate || conferenceVersion.EndDate < chat.EndDate)
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+            var room = await _context.Rooms.Where(x => x.Id == chat.RoomId).FirstOrDefaultAsync();
+            var isOccupied = 0;
+
+            var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == chat.ConferenceVersionId && x.RoomId == chat.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
             {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (chat.StartDate <= even.StartDate && chat.EndDate >= even.StartDate)
                 {
-                    var eventTags = new List<EventTag>();
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate <= even.EndDate && chat.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate >= even.StartDate && chat.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate <= even.StartDate && chat.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > chat.StartDate || conferenceVersion.EndDate < chat.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var eventTags = new List<EventTag>();
                     for (var i = 0; i < chat.AvailableTags.Count; i++)
                     {
                         if (chat.AvailableTags[i].IsChecked)
@@ -169,9 +220,10 @@ namespace ConferenceApp.Controllers
                         }
                     }
                     chat.EventTags = eventTags;
-                    _context.Add(chat);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
+                        _context.Add(chat);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
+                    }
                 }
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);
@@ -214,11 +266,11 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: Chat/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] Chat chat)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Panelists,Moderator,AvailableTags")] Chat chat)
         {
             if (id != chat.Id)
             {
@@ -269,7 +321,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
             }
             return View(chat);
         }

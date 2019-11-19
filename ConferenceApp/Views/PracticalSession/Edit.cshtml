@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.PracticalSession
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Sesión";
 }
 
 <h1>Editar</h1>
@@ -21,6 +21,11 @@
                 <label asp-for="Topic" class="control-label">Tema</label>
                 <input asp-for="Topic" class="form-control" />
                 <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Exhibitor" class="control-label">Expositor</label>
+                <input asp-for="Exhibitor" class="form-control" />
+                <span asp-validation-for="Exhibitor" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">

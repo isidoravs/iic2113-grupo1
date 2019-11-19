@@ -1,7 +1,7 @@
 @model IEnumerable<ConferenceApp.Models.Event>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Eventos";
 }
 
 @if (TempData["DateError"] != null)
@@ -11,6 +11,24 @@
         No se pudo agregar el evento debido a que las fechas no coinciden con las de la versión de conferencia seleccionada.
     </div>
 }
+
+@if (TempData["RoomError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No se pudo agregar el evento debido a que la sala esta ocupada en las fechas seleccionadas.
+    </div>
+}
+
+<style>
+    .tableFixHead          { overflow-y: auto; height: 400px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
 
 
 <h1>Eventos</h1>
@@ -28,24 +46,24 @@
         <a asp-controller="Party" asp-action="Index" class="btn btn-info">Fiestas</a>
     </div>
 </div>
-
-<table class="table">
+<div class="tableFixHead">
+<table class="table table-fixed">
     <thead>
-        <tr>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Fecha de inicio
-            </th>
-            <th>
-                Fecha de fin
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de fin
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -57,13 +75,14 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-controller="@item.GetType().Name" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-controller="@item.GetType().Name" asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-controller="@item.GetType().Name" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+</div>
 
 

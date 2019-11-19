@@ -9,5 +9,8 @@ namespace ConferenceApp.Models
         public string Topic { get; set; }
         
         public List<EventTag> EventTags { get; set; }
+        public string Panelists { get; set; }
+        
+        public string Moderator { get; set; }
     }
 }
