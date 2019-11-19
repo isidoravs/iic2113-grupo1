@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Versión de Conferencia";
 }
+<style>
+    .tableFixHead          { overflow-y: auto; height: 200px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
 
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
 <h1>Versión de conferencia</h1>
 
 <div>
@@ -62,6 +70,31 @@
 <div>
     <h4>Eventos</h4>
     @* TO-DO *@
+    <div class="tableFixHead">
+    
+        <table class="table table-fixed table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Inicio</th>
+                <th scope="col">Fin</th>
+                <th scope="col">Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in ViewBag.events)
+            {
+                <tr>
+                    <th scope="row">@item.Name</th>
+                    <td>@item.StartDate</td>
+                    <td>@item.EndDate</td>
+                    <td><a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <hr/>
     <a asp-controller="Event" asp-action="Index">Ver todos</a> |
     <a asp-controller="Event" asp-action="Create" asp-route-conferenceVersionId="@Model.Id">Agregar nuevo</a> (organizador)
     <hr/>
