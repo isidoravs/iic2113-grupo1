@@ -201,7 +201,6 @@ namespace ConferenceApp.Controllers
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             
             var tags = await _context.Tags.ToListAsync();
-            //var eventTags = await _context.EventTags.Where(x => (x.EventId == chat.Id)).ToListAsync();
             var availableTags = new List<CheckBoxItem>();
             foreach (var tag in tags)
             {
