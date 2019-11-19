@@ -24,7 +24,7 @@ namespace ConferenceApp.Controllers
         {
             if (conferenceId == null) return View(await _context.ConferenceVersions.ToListAsync());
             ViewBag.conferenceId = conferenceId;
-            return View(await _context.ConferenceVersions.Where(x => x.Id == conferenceId).ToListAsync());
+            return View(await _context.ConferenceVersions.Where(x => x.ConferenceId == conferenceId).ToListAsync());
         }
 
         // GET: ConferenceVersion/Details/5
@@ -65,6 +65,7 @@ namespace ConferenceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Number,StartDate,EndDate,ConferenceId,EventCentreId")] ConferenceVersion conferenceVersion)
         {
+
             if (ModelState.IsValid)
             {
                 _context.Add(conferenceVersion);
