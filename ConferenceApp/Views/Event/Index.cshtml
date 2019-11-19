@@ -12,6 +12,14 @@
     </div>
 }
 
+@if (TempData["RoomError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No se pudo agregar el evento debido a que la sala esta ocupada en las fechas seleccionadas.
+    </div>
+}
+
 
 <h1>Eventos</h1>
 

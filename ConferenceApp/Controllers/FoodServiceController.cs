@@ -135,18 +135,50 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> Create([Bind("Category,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] FoodService foodService)
         {
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == foodService.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > foodService.StartDate || conferenceVersion.EndDate < foodService.EndDate)
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+            var room = await _context.Rooms.Where(x => x.Id == foodService.RoomId).FirstOrDefaultAsync();
+            var isOccupied = 0;
+
+            var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == foodService.ConferenceVersionId && x.RoomId == foodService.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
             {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (foodService.StartDate <= even.StartDate && foodService.EndDate >= even.StartDate)
                 {
-                    _context.Add(foodService);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = foodService.Id.ToString() });
+                    isOccupied = 1;
+                }
+                else if (foodService.StartDate <= even.EndDate && foodService.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (foodService.StartDate >= even.StartDate && foodService.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (foodService.StartDate <= even.StartDate && foodService.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > foodService.StartDate || conferenceVersion.EndDate < foodService.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(foodService);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = foodService.Id.ToString() });
+                    }
                 }
             }
             return RedirectToAction("Index", "Event");

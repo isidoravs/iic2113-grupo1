@@ -1,9 +1,13 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChatController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/TalkController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="57" Column="48" />
-      <File FileName="Controllers/EventController.cs" Line="121" Column="112" />
-      <File FileName="Models/Event.cs" Line="23" Column="39" />
+      <File FileName="Controllers/ChatController.cs" Line="179" Column="10" />
+      <File FileName="Views/Event/Index.cshtml" Line="1" Column="1" />
+      <File FileName="Controllers/EventController.cs" Line="95" Column="55" />
+      <File FileName="Controllers/PracticalSessionController.cs" Line="97" Column="102" />
+      <File FileName="Controllers/PartyController.cs" Line="138" Column="36" />
+      <File FileName="Controllers/FoodServiceController.cs" Line="185" Column="10" />
+      <File FileName="Controllers/TalkController.cs" Line="129" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,7 +15,7 @@
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="ChatController.cs" selected="True" />
+                <Node name="TalkController.cs" selected="True" />
               </Node>
               <Node name="Data" expanded="True">
                 <Node name="Migrations" expanded="True">
@@ -20,7 +24,9 @@
               </Node>
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="Views" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Event" expanded="True" />
+              </Node>
               <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>

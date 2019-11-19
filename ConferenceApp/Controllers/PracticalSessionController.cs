@@ -76,20 +76,69 @@ namespace ConferenceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] PracticalSession practicalSession)
         {
-            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
-            {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
-                {
-                    _context.Add(practicalSession);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
+        //    var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
+        //    if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
+        //    {
+        //        // hay problemas con la fecha
+        //        TempData["DateError"] = "Valor temporal";
+        //    }
+        //    else
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            _context.Add(practicalSession);
+        //            await _context.SaveChangesAsync();
+        //            return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
 
+        //        }
+        //    }
+        //    return RedirectToAction("Index", "Event");
+        //}
+        var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
+        var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+        var room = await _context.Rooms.Where(x => x.Id == practicalSession.RoomId).FirstOrDefaultAsync();
+        var isOccupied = 0;
+
+        var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == practicalSession.ConferenceVersionId && x.RoomId == practicalSession.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
+            {
+                if (practicalSession.StartDate <= even.StartDate && practicalSession.EndDate >= even.StartDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate <= even.EndDate && practicalSession.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate >= even.StartDate && practicalSession.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (practicalSession.StartDate <= even.StartDate && practicalSession.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate<practicalSession.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(practicalSession);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
+                    }
                 }
             }
             return RedirectToAction("Index", "Event");
