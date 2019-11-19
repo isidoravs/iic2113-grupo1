@@ -55,7 +55,7 @@
                         <tr>
                             <td>
                                 <input type="checkbox" asp-for="AvailableTags[i].IsChecked" checked=@ViewBag.AvailableTags[i].IsChecked />
-                                <label asp-for="AvailableTags[i].IsChecked">@ViewBag.AvailableTags[i].Title</label>
+                                <label asp-for="AvailableTags[i].IsChecked" style="color:DodgerBlue;">#@ViewBag.AvailableTags[i].Title</label>
                             </td>
                             <td>
                                 <input type="hidden" asp-for="AvailableTags[i].TagId" value=@ViewBag.AvailableTags[i].TagId/>
