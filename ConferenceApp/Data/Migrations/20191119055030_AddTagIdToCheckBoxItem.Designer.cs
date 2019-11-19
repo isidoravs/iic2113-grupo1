@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119055030_AddTagIdToCheckBoxItem")]
+    partial class AddTagIdToCheckBoxItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +39,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("CheckBoxItems");
+                    b.ToTable("CheckBoxItem");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Conference", b =>
@@ -156,7 +158,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.HasIndex("TalkId");
 
-                    b.ToTable("EventTags");
+                    b.ToTable("EventTag");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
@@ -463,10 +465,6 @@ namespace ConferenceApp.Data.Migrations
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
 
-                    b.Property<string>("Moderator");
-
-                    b.Property<string>("Panelists");
-
                     b.Property<string>("Topic")
                         .IsRequired();
 
@@ -500,8 +498,6 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("ComplementaryMaterial")
                         .IsRequired();
 
-                    b.Property<string>("Exhibitor");
-
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnName("PracticalSession_Topic");
@@ -516,9 +512,6 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("ComplementaryMaterial")
                         .IsRequired()
                         .HasColumnName("Talk_ComplementaryMaterial");
-
-                    b.Property<string>("Exhibitor")
-                        .HasColumnName("Talk_Exhibitor");
 
                     b.Property<string>("Topic")
                         .IsRequired()

@@ -93,6 +93,12 @@
             <dd class = "col-sm-8">
                 @Html.DisplayFor(model => model.Moderator)
             </dd>
+            <dt class = "col-sm-4">
+                Tags
+            </dt>
+            <dd class = "col-sm-8">
+                @Html.Raw(ViewBag.joinedTags)
+            </dd>
         </dl>
     </div>
     <div class="col-sm-4">
