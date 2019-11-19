@@ -4,25 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index: Versiones</h1>
+<h1>Index: Versiones de Una Conferencia</h1>
 
-<div>
-    @if (ViewBag.conferenceId != null)
-    {
-        <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conferenceId">Volver a la conferencia</a><br/>
-        <a asp-action="Create" asp-route-conferenceId="@ViewBag.conferenceId">Crear una nueva versión</a>
-    }
-    else
-    {
-        <a asp-action="Create">Crear nueva versión de una conferencia</a>
-    }
-    <p></p>
-</div>
+<p>    
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Volver a Conferencia</a>
+    <br/>
+    <hr/>
+    <a asp-action="Create">Crear Nueva Version de Conferencia</a>
+</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Número de versión
+                Numero de conferencia
             </th>
             <th>
                 Inicio
@@ -31,7 +25,7 @@
                 Fin
             </th>
             <th>
-                Organizador
+                Para organizador (Edit y Delete)
             </th>
         </tr>
     </thead>
@@ -48,9 +42,9 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

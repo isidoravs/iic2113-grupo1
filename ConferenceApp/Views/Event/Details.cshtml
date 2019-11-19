@@ -3,64 +3,46 @@
 @{
     ViewData["Title"] = "Details";
 }
-@if (TempData["AssistError"] != null)
-{
-    <div class="alert alert-danger alert-dismissible">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        No puedes asistir a este evento, pues tienes topes de horario.
-    </div>
-}
 
-<h1>Evento</h1>
+<h1>Details</h1>
 
 <div>
-    @if (ViewBag.assisting == 0 )
-    {
-        <h6><a asp-action="AddAssistant" asp-route-eventId="@Model.Id">Asistir</a></h6>
-    }
-    else
-    {
-        <h6><a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id">Dejar de asistir</a> |
-        <a asp-controller="Feedback" asp-action="Create">Evaluar</a></h6>
-    }
-    <hr/>
+    <h4>Event</h4>
+    <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            Nombre
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class="col-sm-10">
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class="col-sm-2">
-            Inicio
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.startDate)
         </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class="col-sm-2">
-            Fin
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class="col-sm-2">
-            Pertence a
-        </dt>
-        <dd class="col-sm-10">
-            <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="@Model.ConferenceVersionId">versión de conferencia</a>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.startDate)
         </dd>
         <dt class = "col-sm-2">
-            Se realiza en
+            @Html.DisplayNameFor(model => model.endDate)
         </dt>
-        <dd class="col-sm-10">
-            <a asp-controller="Room" asp-action="Details" asp-route-id="@Model.RoomId">sala</a>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.endDate)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a href='javascript:history.go(-1)'>Volver</a>
 </div>
+<div>
+    Si asiste:
+    <a asp-controller="Feedback" asp-action="Create">Evaluar</a> <br/>
+    Si no asiste:
+    <button onclick="myFunction()">Asistir</button> <br/>
+    <a asp-controller="Notification" asp-action="Create">Enviar notificacion</a> <br/>
+    
+</div>
+
 
 <script>
 function myFunction() {

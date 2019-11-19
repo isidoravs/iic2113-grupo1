@@ -4,60 +4,55 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Versión de conferencia</h1>
+<h1>Show de una Versión de Conferencia</h1>
 
 <div>
-    <a asp-controller="Notification" asp-action="Create">Enviar notificación a usuarios</a>
+    <h>ConferenceVersion </h>
+    <br/>
+    <a asp-controller="Notification" asp-action="Create">Enviar Notificación a Usuarios</a>
 
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            Versión número
+            @Html.DisplayNameFor(model => model.Number)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Number)
         </dd>
         <dt class = "col-sm-2">
-            Inicio
+            @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class = "col-sm-2">
-            Fin
+            @Html.DisplayNameFor(model => model.EndDate)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
-        <dt class = "col-sm-2">
-            Pertenece a
-        </dt>
-        <dd class="col-sm-10">
-            <a asp-controller="Conference" asp-action="Details" asp-route-id="@Model.ConferenceId">Conferencia</a>
-        </dd>
-        <dt class="col-sm-2">
-            Se realiza en
-        </dt>
-        <dd class="col-sm-10">
-            <a asp-controller="EventCentre" asp-action="Details" asp-route-id="@Model.EventCentreId">Centro de evento</a>
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Ver todas las versiones de esta conferencia</a>
 </div>
 
 <hr />
 <div>
-    <h4>Eventos</h4>
-    @* TO-DO *@
-    <a asp-controller="Event" asp-action="Index">Ver todos</a> | 
-    <a asp-controller="Event" asp-action="Create" asp-route-conferenceVersionId="@Model.Id">Agregar nuevo</a> (organizador)
+    <h6>Listado de los eventos de la version de la conferencia</h6>
+    <a asp-controller="Event" asp-action="Index">Listado de Eventos</a> | <a asp-controller="Event" asp-action="Details" asp-route-id="2">Un Evento en Particular</a>
+    <br/>
+    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Volver a Conferencia</a>
+    <br/>
+    <hr/>
+    <h6>En caso de ser organizador</h6>
+    <a asp-controller="Event" asp-action="Create">Crear un Evento en esta conferencia</a>
     <hr/>
     <br/>
-    <h2>Estadísticas</h2>
+    <h2>ESTADISTICAS</h2>
     <h5>Estadistica 1</h5>
     <h5>Estadistica 2</h5>
     <h5>Estadistica 3</h5>
+    
 </div>

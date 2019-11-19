@@ -35,7 +35,5 @@ namespace ConferenceApp.Models
         
         public ICollection<Notification> Notifications { get; set; }
         
-        public ICollection<Role> Roles { get; set; }
-        
     }
 }

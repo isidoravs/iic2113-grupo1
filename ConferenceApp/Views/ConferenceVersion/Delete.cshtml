@@ -30,13 +30,14 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
     </dl>
-
+    
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
         <br/>
         <a asp-action="Index">Volver a la Lista de Versiones de esta Conferencias</a>
         <br/>
         <a asp-action="Details" asp-route-id="1">Volver a esta versión de Conferencia</a>
+
     </form>
 </div>

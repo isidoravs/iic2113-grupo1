@@ -2,37 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using ConferenceApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using ConferenceApp.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace ConferenceApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public HomeController(ApplicationDbContext context)
+        public IActionResult Index()
         {
-            _context = context;
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
-            var eventsToList = new List<Event>() {};
-            foreach (var role in assistingToEvents)
-            {
-                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == role.EventId);
-                eventsToList.Add(@event );
-            }
-
-            ViewBag.eventsToList = eventsToList;
-            
             return View();
         }
 

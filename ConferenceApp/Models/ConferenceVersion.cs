@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,11 +15,5 @@ namespace ConferenceApp.Models
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
-
-        public int ConferenceId { get; set; }
-
-        public int EventCentreId { get; set; }
-
-        public ICollection<Event> Events { get; set; }
     }
 }

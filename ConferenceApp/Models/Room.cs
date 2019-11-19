@@ -13,8 +13,5 @@ namespace ConferenceApp.Models
         [Required]
         public int MaxCapacity { get; set; }
         public string EquipmentDescription { get; set; }
-        
-        public int EventCentreId { get; set; }
-
     }
 }

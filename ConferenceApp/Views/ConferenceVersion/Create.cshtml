@@ -28,16 +28,6 @@
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConferenceId" class="control-label">Conferencia</label>
-                <select asp-for="ConferenceId" class ="form-control" asp-items="ViewBag.Conferences"></select>
-                <span asp-validation-for="ConferenceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EventCentreId" class="control-label">Centro de Eventos</label>
-                <select asp-for="EventCentreId" class ="form-control" asp-items="ViewBag.eventCentres"></select>
-                <span asp-validation-for="EventCentreId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
