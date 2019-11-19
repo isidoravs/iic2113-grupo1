@@ -50,6 +50,14 @@ namespace ConferenceApp.Controllers
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@party.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
+            
+            var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
+            var sponsors = new List<object>();
+            foreach (var member in sponsorships)
+            {
+                var s = await _context.Sponsors.FindAsync(member.SponsorId);
+                sponsors.Add(s.Name);
+            }
 
             var assistantRoles = await _context.Roles.Where(x => x.EventId == @party.Id).ToListAsync();
             var assistants = new List<object>();
@@ -65,6 +73,7 @@ namespace ConferenceApp.Controllers
             ViewBag.version = version;
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
+            ViewBag.sponsors = sponsors;
             
             return View(party);
         }
