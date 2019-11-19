@@ -45,6 +45,27 @@ namespace ConferenceApp.Controllers
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
+            
+            var room = await _context.Rooms.FindAsync(@party.RoomId);
+            var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
+            var version = await _context.ConferenceVersions.FindAsync(@party.ConferenceVersionId);
+            var conference = await _context.Conferences.FindAsync(version.ConferenceId);
+
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @party.Id).ToListAsync();
+            var assistants = new List<object>();
+            // foreach (var member in assistantRoles)
+            // {
+            //     var a = await _context.Users.FindAsync(member.UserId);
+            //     assistants.Add(a.Email);
+            // }
+
+            ViewBag.roomName = room.Name;
+            ViewBag.centreName = centre.Name;
+            ViewBag.location = centre.Location;
+            ViewBag.version = version;
+            ViewBag.conference = conference;
+            ViewBag.assistants = assistants.Count;
+            
             return View(party);
         }
 
