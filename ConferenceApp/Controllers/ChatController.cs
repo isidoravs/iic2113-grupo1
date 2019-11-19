@@ -46,16 +46,18 @@ namespace ConferenceApp.Controllers
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
             
-            var tags = new List<String>();
+            var tagNames = new List<String>();
             var joinedTags = "";
-            var eventTags = chat.EventTags;
+            var eventTags = await _context.EventTags.Where(x => (x.EventId == chat.Id)).ToListAsync();
             if (eventTags.Count > 0)
             {
-                foreach (var et in chat.EventTags)
+                var tags = await _context.Tags.Include(e => e.EventTags).ToListAsync();
+                foreach (var et in eventTags)
                 {
-                    tags.Add(et.Tag.Name);
+                    var tag = tags.Where(x => x.Id == et.TagId).First();
+                    tagNames.Add(tag.Name);
                 }
-                joinedTags = String.Join(", ", tags);
+                joinedTags = String.Join(", ", tagNames);
             }
             ViewBag.joinedTags = joinedTags;
 
@@ -81,7 +83,7 @@ namespace ConferenceApp.Controllers
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem()
             {
-                Id = tag.Id,
+                TagId = tag.Id,
                 Title = tag.Name, 
                 IsChecked = false
             }).ToList();
@@ -173,11 +175,6 @@ namespace ConferenceApp.Controllers
                         }
                     }
                     chat.EventTags = eventTags;
-                    Console.WriteLine("****************************************************");
-                    foreach (var et in chat.EventTags)
-                    {
-                        Console.WriteLine(et.Tag.Name);
-                    }
                     _context.Add(chat);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
@@ -208,6 +205,18 @@ namespace ConferenceApp.Controllers
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == chat.ConferenceVersionId).FirstOrDefaultAsync();
             var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersion.EventCentreId).ToListAsync();
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+            
+            var tags = await _context.Tags.ToListAsync();
+            var eventTags = await _context.EventTags.Where(x => (x.EventId == chat.Id)).ToListAsync();
+            var availableTags = new List<CheckBoxItem>();
+            foreach (var tag in tags)
+            {
+                var eventTag = eventTags.Where(x => x.TagId == tag.Id).FirstOrDefault();
+                var checkBox = new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = eventTag != null};
+                availableTags.Add(checkBox);
+            }
+            this.ViewData["AvailableTags"] = availableTags;
+            
             return View(chat);
         }
 
@@ -216,7 +225,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Chat chat)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] Chat chat)
         {
             if (id != chat.Id)
             {
@@ -227,6 +236,32 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
+                    var eventTags = new List<EventTag>();
+                    for (var i = 0; i < chat.AvailableTags.Count; i++)
+                    {
+                        var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == chat.AvailableTags[i].TagId && x.EventId == chat.Id);
+                        if (chat.AvailableTags[i].IsChecked)
+                        {
+                            // si ya exitía este eventTag, no hacer nada, sino crearlo
+                            if (existingEventTag == null)
+                            {
+                                var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == chat.AvailableTags[i].TagId);
+                                var newEventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
+                                _context.Add(newEventTag);
+                                eventTags.Add(newEventTag);
+                            }
+                        }
+                        else
+                        {
+                            // si ya exitía este eventTag, eliminarlo, sino no hacer nada
+                            if (existingEventTag != null)
+                            {
+                                _context.EventTags.Remove(existingEventTag);
+                            }
+                        }
+                    }
+                    chat.EventTags = eventTags;  // actualizamos los eventTags del chat
+                    
                     _context.Update(chat);
                     await _context.SaveChangesAsync();
                 }

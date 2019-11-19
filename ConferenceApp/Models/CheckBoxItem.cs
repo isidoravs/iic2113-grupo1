@@ -9,7 +9,6 @@ namespace ConferenceApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
-        [Required]
         public int TagId { get; set; }
         
         [Required]

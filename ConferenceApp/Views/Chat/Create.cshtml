@@ -51,7 +51,7 @@
                                 <label asp-for="AvailableTags[i].IsChecked">@ViewBag.AvailableTags[i].Title</label>
                             </td>
                             <td>
-                                <input type="hidden" asp-for="AvailableTags[i].TagId" value=@ViewBag.AvailableTags[i].Id/>
+                                <input type="hidden" asp-for="AvailableTags[i].TagId" value=@ViewBag.AvailableTags[i].TagId/>
                                 <input type="hidden" asp-for="AvailableTags[i].Title" value=@ViewBag.AvailableTags[i].Title />
                             </td>
                         </tr>

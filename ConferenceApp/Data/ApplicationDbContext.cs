@@ -27,6 +27,10 @@ namespace ConferenceApp.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Talk> Talks { get; set; }
+        
+        public DbSet<EventTag> EventTags { get; set; }
+        
+        public DbSet<CheckBoxItem> CheckBoxItems { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
