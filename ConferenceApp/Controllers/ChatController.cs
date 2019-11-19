@@ -54,9 +54,9 @@ namespace ConferenceApp.Controllers
                 foreach (var et in eventTags)
                 {
                     var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == et.TagId);
-                    tagNames.Add(tag.Name);
+                    tagNames.Add("#" + tag.Name);
                 }
-                joinedTags = String.Join(", ", tagNames);
+                joinedTags = String.Join(" ", tagNames);
             }
             ViewBag.joinedTags = joinedTags;
 
