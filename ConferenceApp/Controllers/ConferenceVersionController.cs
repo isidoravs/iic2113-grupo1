@@ -50,6 +50,10 @@ namespace ConferenceApp.Controllers
                 sponsors.Add(s.Name);
             }
             ViewBag.sponsors = sponsors;
+            
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == id).ToListAsync();
+
+            ViewBag.events = events;
 
             return View(conferenceVersion);
         }
