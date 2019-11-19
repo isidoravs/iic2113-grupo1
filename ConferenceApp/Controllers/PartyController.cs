@@ -64,7 +64,7 @@ namespace ConferenceApp.Controllers
             ViewBag.location = centre.Location;
             ViewBag.version = version;
             ViewBag.conference = conference;
-            ViewBag.assistants = assistants.Count;
+            ViewBag.assistants = assistants;
             
             return View(party);
         }
