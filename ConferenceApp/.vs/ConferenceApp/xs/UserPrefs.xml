@@ -1,27 +1,26 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/FoodService/Create.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChatController.cs">
     <Files>
-      <File FileName="Views/PracticalSession/Create.cshtml" Line="47" Column="19" />
-      <File FileName="Views/PracticalSession/Edit.cshtml" Line="42" Column="13" />
-      <File FileName="Controllers/PracticalSessionController.cs" Line="97" Column="74" />
-      <File FileName="Views/FoodService/Create.cshtml" Line="39" Column="1" />
-      <File FileName="Views/FoodService/Edit.cshtml" Line="1" Column="1" />
-      <File FileName="Controllers/FoodServiceController.cs" Line="1" Column="1" />
+      <File FileName="Controllers/ChatController.cs" Line="57" Column="48" />
+      <File FileName="Controllers/EventController.cs" Line="121" Column="112" />
+      <File FileName="Models/Event.cs" Line="23" Column="39" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="ChatController.cs" selected="True" />
+              </Node>
+              <Node name="Data" expanded="True">
+                <Node name="Migrations" expanded="True">
+                  <Node name="20191112170836_AddRoomsToEvents.cs" expanded="True" />
+                </Node>
+              </Node>
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="FoodService" expanded="True">
-                  <Node name="Create.cshtml" selected="True" />
-                </Node>
-                <Node name="PracticalSession" expanded="True" />
-              </Node>
+              <Node name="Views" expanded="True" />
               <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>

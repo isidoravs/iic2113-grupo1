@@ -70,6 +70,31 @@ namespace ConferenceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Chat chat)
         {
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == chat.ConferenceVersionId).FirstOrDefaultAsync();
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+            var room = await _context.Rooms.Where(x => x.Id == chat.RoomId).FirstOrDefaultAsync();
+            var roomStartDate = conferenceVersion.StartDate;
+            var roomEndDate = conferenceVersion.EndDate;
+            var isOccupied = 0;
+
+
+
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersionId).ToListAsync();
+            var isOccupied = 0;
+            foreach (var even in events)
+            {
+                var occupiedRoomsInEvent = await _context.Rooms.Where(x => x.EventCentreId == even.EventCentreId).ToListAsync();
+            }
+
+
+
+
+
+
+
+
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(chat);
