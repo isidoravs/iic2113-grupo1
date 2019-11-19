@@ -5,38 +5,62 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<style>
+    .tableFixHead          { overflow-y: auto; height: 200px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="text-center">
-    <h1 class="display-4">My Calendar</h1>
-</div>
-<hr/>
-<div>
-    <a asp-controller="Conference" asp-action="Create">Create Conferences</a>
-    <br/>
-    <hr/>
-    <h6>Buscar</h6>
-
-    <a asp-controller="Conference" asp-action="Index">Listado de Conferencias</a> |
-    <a asp-controller="Conference" asp-action="Details" asp-route-id="1">Una conferencia</a>
-    <hr/>
-
-    <br/>
-    <h6>Las que participaré y hacia buscar</h6>
-    <a asp-controller="ConferenceVersion" asp-action="Index">Listado de Versiones de Conferencias</a> |
-    <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="1">Una Versión de Conferencia</a>
-    <hr/>
-
-    <br/>
-    <h6>Los que participaré y hacia buscar</h6>
-
-    <a asp-controller="Event" asp-action="Index">Listado de Mis Eventos</a> |
-    <a asp-controller="Event" asp-action="Details" asp-route-id="1">Un Evento en particular</a>
-    
-    <br/>
-    <center><img src="https://sfopera.com/img/icons/calendar.svg" height="200"></center>
-</div>  
+    <div>
+        <div class="jumbotron">
+            <h1>Mi Calendario</h1>
+            <div class="input-group md-form form-sm form-2 pl-0">
+                <input class="form-control my-0 py-1" type="text" placeholder="Buscar eventos y conferencias" aria-label="Search">
+                <div class="input-group-append">
+                    <span class="input-group-text lime lighten-2" id="basic-text1">
+                        <img aria-hidden="true" src="https://static.thenounproject.com/png/102634-200.png" style="width: 15px;">
+                    </span>
+                </div>
+            </div>
+            <a class="btn btn-default">Ver todos:</a>
+            <a asp-controller="Event" asp-action="Index" class="btn btn-link">Eventos</a> |
+            <a asp-controller="Conference" asp-action="Index" class="btn btn-link">Conferencias</a>
+        </div>
+        
+        <div class="container">
+            <h4>Mis próximos eventos</h4>
+            
+            <div class="tableFixHead">
+                
+                <table class="table table-fixed table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Inicio</th>
+                        <th scope="col">Fin</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in ViewBag.eventsToList)
+                    {
+                        <tr>
+                            <th scope="row">@item.Name</th>
+                            <td>@item.StartDate</td>
+                            <td>@item.EndDate</td>
+                            <td><a asp-controller="Event" asp-action="Details" asp-route-id="@item.Id">Ver</a></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }
 else {
     <div class="text-center">
@@ -47,3 +71,11 @@ else {
         <a class="btn-ce" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </div>
 }
+
+<style>
+    .input-group.md-form.form-sm.form-2 input {
+    border: 1px solid #bdbdbd;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    }
+</style>

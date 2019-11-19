@@ -1,0 +1,58 @@
+@model ConferenceApp.Models.FoodService
+
+@{
+    ViewData["Title"] = "Details";
+}
+@if (TempData["AssistError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No puedes asistir a este evento, pues tienes topes de horario.
+    </div>
+}
+<h1>Details</h1>
+
+<div>
+    <h4>FoodService</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Category)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Back to List</a>
+        @if (ViewBag.assisting == 0 )
+        {
+            <h6><a asp-action="AddAssistant" asp-route-eventId="@Model.Id">Asistir</a></h6>
+        }
+        else
+        {
+            <h6><a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id">Dejar de asistir</a> |
+            <a asp-controller="Feedback" asp-action="Create">Evaluar</a></h6>
+        }
+
+</div>

@@ -4,44 +4,76 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+@if (TempData["DateError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No se pudo agregar el evento debido a que las fechas no coinciden con las de la versión de conferencia seleccionada.
+    </div>
+}
+
+<style>
+    .tableFixHead          { overflow-y: auto; height: 400px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
+
+<h1>Eventos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Crear nuevo</a>
 </p>
-<table class="table">
+
+<div>
+    <div class="btn-group btn-group-justified" style="width: 100%;">
+        <a asp-controller="Talk" asp-action="Index" class="btn btn-info">Charlas</a>
+        <a asp-controller="PracticalSession" asp-action="Index" class="btn btn-info">Sesiones prácticas</a>
+        <a asp-controller="Chat" asp-action="Index" class="btn btn-info">Chats</a>
+        <a asp-controller="FoodService" asp-action="Index" class="btn btn-info">Comidas</a>
+        <a asp-controller="Party" asp-action="Index" class="btn btn-info">Fiestas</a>
+    </div>
+</div>
+<div class="tableFixHead">
+<table class="table table-fixed">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.startDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.endDate)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de fin
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.startDate)
+                @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.endDate)
+                @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+</div>
+
+

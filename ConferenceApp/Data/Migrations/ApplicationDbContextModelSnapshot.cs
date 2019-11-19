@@ -39,11 +39,11 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ConferenceId");
+                    b.Property<int>("ConferenceId");
 
                     b.Property<DateTime>("EndDate");
 
-                    b.Property<int?>("EventCentreId");
+                    b.Property<int>("EventCentreId");
 
                     b.Property<int>("Number");
 
@@ -63,17 +63,23 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("ConferenceVersionId");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
+
+                    b.Property<DateTime>("EndDate");
 
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<DateTime>("endDate");
+                    b.Property<int>("RoomId");
 
-                    b.Property<DateTime>("startDate");
+                    b.Property<DateTime>("StartDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConferenceVersionId");
 
                     b.ToTable("Events");
 
@@ -165,6 +171,26 @@ namespace ConferenceApp.Data.Migrations
                     b.ToTable("Notifications");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EventId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -172,7 +198,7 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("EquipmentDescription");
 
-                    b.Property<int?>("EventCentreId");
+                    b.Property<int>("EventCentreId");
 
                     b.Property<int>("MaxCapacity");
 
@@ -382,30 +408,6 @@ namespace ConferenceApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Age")
-                        .IsRequired();
-
-                    b.Property<string>("Biography");
-
-                    b.Property<string>("ContactInfo");
-
-                    b.Property<string>("Cv");
-
-                    b.Property<bool>("IsAdmin");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.Chat", b =>
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
@@ -424,6 +426,16 @@ namespace ConferenceApp.Data.Migrations
                         .IsRequired();
 
                     b.HasDiscriminator().HasValue("FoodService");
+                });
+
+            modelBuilder.Entity("ConferenceApp.Models.Party", b =>
+                {
+                    b.HasBaseType("ConferenceApp.Models.Event");
+
+                    b.Property<string>("MusicStyle")
+                        .IsRequired();
+
+                    b.HasDiscriminator().HasValue("Party");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.PracticalSession", b =>
@@ -455,15 +467,49 @@ namespace ConferenceApp.Data.Migrations
                     b.HasDiscriminator().HasValue("Talk");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Age")
+                        .IsRequired();
+
+                    b.Property<string>("Biography");
+
+                    b.Property<string>("ContactInfo");
+
+                    b.Property<string>("Cv");
+
+                    b.Property<bool>("IsAdmin");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("Password")
+                        .IsRequired();
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.ConferenceVersion", b =>
                 {
                     b.HasOne("ConferenceApp.Models.Conference")
                         .WithMany("Versions")
-                        .HasForeignKey("ConferenceId");
+                        .HasForeignKey("ConferenceId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("ConferenceVersions")
-                        .HasForeignKey("EventCentreId");
+                        .HasForeignKey("EventCentreId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ConferenceApp.Models.Event", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.ConferenceVersion")
+                        .WithMany("Events")
+                        .HasForeignKey("ConferenceVersionId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
@@ -484,11 +530,24 @@ namespace ConferenceApp.Data.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.Role", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.Event")
+                        .WithMany("Roles")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ConferenceApp.Models.User")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>
                 {
                     b.HasOne("ConferenceApp.Models.EventCentre")
                         .WithMany("Rooms")
-                        .HasForeignKey("EventCentreId");
+                        .HasForeignKey("EventCentreId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Sponsor", b =>
