@@ -94,7 +94,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] PracticalSession practicalSession)
+        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor")] PracticalSession practicalSession)
         {
         //    var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
         //    if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
@@ -240,7 +240,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] PracticalSession practicalSession)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor")] PracticalSession practicalSession)
         {
             if (id != practicalSession.Id)
             {

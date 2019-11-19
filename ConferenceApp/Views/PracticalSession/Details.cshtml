@@ -15,8 +15,8 @@
     <div class="col-sm-3">Organiza: Juanita Pérez</div>
     <div class="col-sm-6">Patrocina: Apple</div>
     <div class="col-sm-3" style="text-align: right;">
-        <a asp-controller="Talk" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-        <a asp-controller="Talk" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+        <a asp-controller="PracticalSession" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+        <a asp-controller="PracticalSession" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
     </div>
 </div>
 <hr/>
@@ -85,7 +85,7 @@
                 Expositor
             </dt>
             <dd class = "col-sm-8">
-                Jeff Bezos
+                @Html.DisplayFor(model => model.Exhibitor)
             </dd>
             <dt class = "col-sm-4">
                 Material complementario
