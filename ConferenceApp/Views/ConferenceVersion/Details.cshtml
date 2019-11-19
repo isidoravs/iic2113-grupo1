@@ -41,10 +41,20 @@
         <dd class="col-sm-10">
             <a asp-controller="EventCentre" asp-action="Details" asp-route-id="@Model.EventCentreId">Centro de evento</a>
         </dd>
+        <dt class="col-sm-2">
+            Patrocina
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (var item in ViewBag.sponsors)
+            {
+                <span>@item | </span>
+            }
+        </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-controller="Sponsorship" asp-action="Create" asp-route-conferenceVersionId="@Model.Id">Agregar patrocinador</a> |
     <a asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
 </div>
 

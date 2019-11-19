@@ -6,7 +6,10 @@
 
 <h1>Nuevo patrocinador</h1>
 
-<h4>Evento: @ViewBag.sponsoredEvent.Name</h4>
+@if (@ViewBag.sponsoredEvent != null)
+{
+    <h4>Evento: @ViewBag.sponsoredEvent.Name</h4>
+}
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,7 +36,14 @@
 </div>
 
 <div>
-    <a asp-controller="Event" asp-action="Details" asp-route-id="@ViewBag.sponsoredEvent.Id">Volver al evento</a>
+    @if (@ViewBag.sponsoredEvent != null)
+    {
+        <a asp-controller="Event" asp-action="Details" asp-route-id="@ViewBag.sponsoredEvent.Id">Volver al evento</a>
+    }
+    else if (@ViewBag.conferenceVersionId != null)
+    {
+        <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="@ViewBag.conferenceVersionId">Volver a la conferencia</a>
+    }
 </div>
 
 @section Scripts {

@@ -69,6 +69,7 @@ namespace ConferenceApp.Controllers
 
             var sponsors = await _context.Sponsors.ToListAsync();
             ViewData["Sponsors"] = new SelectList(sponsors,"Id","Name");
+            ViewBag.conferenceVersionId = conferenceVersionId;
             
             return View();
         }
