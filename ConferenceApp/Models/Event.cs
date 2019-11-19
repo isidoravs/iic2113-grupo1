@@ -21,9 +21,11 @@ namespace ConferenceApp.Models
         public DateTime EndDate { get; set; }
         
         public int ConferenceVersionId { get; set; }
-        
+
         public ICollection<Role> Roles { get; set; }
         
+        public List<CheckBoxItem> AvailableTags { get; set; }
+
         public void NotifyAttendees(string message)
         {
         }

@@ -45,6 +45,19 @@ namespace ConferenceApp.Controllers
             
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
+            
+            var tags = new List<String>();
+            var joinedTags = "";
+            var eventTags = chat.EventTags;
+            if (eventTags.Count > 0)
+            {
+                foreach (var et in chat.EventTags)
+                {
+                    tags.Add(et.Tag.Name);
+                }
+                joinedTags = String.Join(", ", tags);
+            }
+            ViewBag.joinedTags = joinedTags;
 
             return View(chat);
         }
@@ -64,8 +77,18 @@ namespace ConferenceApp.Controllers
                     Id = member.Id,
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
+            
+            var tags = await _context.Tags.ToListAsync();
+            var availableTags = tags.Select(tag => new CheckBoxItem()
+            {
+                Id = tag.Id,
+                Title = tag.Name, 
+                IsChecked = false
+            }).ToList();
+            
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
+            this.ViewData["AvailableTags"] = new List<CheckBoxItem>(availableTags);
             return View();
         }
         
@@ -126,7 +149,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Chat chat)
+        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,AvailableTags")] Chat chat)
         {
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == chat.ConferenceVersionId).FirstOrDefaultAsync();
             if (conferenceVersion.StartDate > chat.StartDate || conferenceVersion.EndDate < chat.EndDate)
@@ -138,11 +161,34 @@ namespace ConferenceApp.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var eventTags = new List<EventTag>();
+                    for (var i = 0; i < chat.AvailableTags.Count; i++)
+                    {
+                        if (chat.AvailableTags[i].IsChecked)
+                        {
+                            var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == chat.AvailableTags[i].TagId);
+                            var eventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
+                            _context.Add(eventTag);
+                            eventTags.Add(eventTag);
+                        }
+                    }
+                    chat.EventTags = eventTags;
+                    Console.WriteLine("****************************************************");
+                    foreach (var et in chat.EventTags)
+                    {
+                        Console.WriteLine(et.Tag.Name);
+                    }
                     _context.Add(chat);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
                 }
             }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            foreach (var e in errors)
+            {
+                Console.WriteLine(e.ErrorMessage);
+            }
+
             return RedirectToAction("Index", "Event");
         }
 

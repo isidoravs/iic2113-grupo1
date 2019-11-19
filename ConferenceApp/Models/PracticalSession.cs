@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace ConferenceApp.Models
 {
@@ -9,5 +10,7 @@ namespace ConferenceApp.Models
         
         [Required]
         public string ComplementaryMaterial { get; set; }
+        
+        public List<EventTag> EventTags { get; set; }
     }
 }
