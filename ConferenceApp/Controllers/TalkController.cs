@@ -79,22 +79,53 @@ namespace ConferenceApp.Controllers
         {
 
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == talk.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > talk.StartDate || conferenceVersion.EndDate < talk.EndDate)
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+            var room = await _context.Rooms.Where(x => x.Id == talk.RoomId).FirstOrDefaultAsync();
+            var isOccupied = 0;
+
+            var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == talk.ConferenceVersionId && x.RoomId == talk.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
             {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (talk.StartDate <= even.StartDate && talk.EndDate >= even.StartDate)
                 {
-                    _context.Add(talk);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = talk.Id.ToString() });
+                    isOccupied = 1;
+                }
+                else if (talk.StartDate <= even.EndDate && talk.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (talk.StartDate >= even.StartDate && talk.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (talk.StartDate <= even.StartDate && talk.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > talk.StartDate || conferenceVersion.EndDate < talk.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(talk);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = talk.Id.ToString() });
+                    }
                 }
             }
             return RedirectToAction("Index", "Event");
-
         }
 
         // GET: Talk/Edit/5

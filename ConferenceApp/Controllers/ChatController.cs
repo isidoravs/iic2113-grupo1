@@ -129,18 +129,50 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] Chat chat)
         {
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == chat.ConferenceVersionId).FirstOrDefaultAsync();
-            if (conferenceVersion.StartDate > chat.StartDate || conferenceVersion.EndDate < chat.EndDate)
+            var events = await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersion.Id).ToListAsync();
+            var room = await _context.Rooms.Where(x => x.Id == chat.RoomId).FirstOrDefaultAsync();
+            var isOccupied = 0;
+
+            var sharedRoomEvents = await _context.Events.Where(x => x.ConferenceVersionId == chat.ConferenceVersionId && x.RoomId == chat.RoomId).ToListAsync();
+            foreach (var even in sharedRoomEvents)
             {
-                // hay problemas con la fecha
-                TempData["DateError"] = "Valor temporal";
-            }
-            else
-            {
-                if (ModelState.IsValid)
+                if (chat.StartDate <= even.StartDate && chat.EndDate >= even.StartDate)
                 {
-                    _context.Add(chat);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate <= even.EndDate && chat.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate >= even.StartDate && chat.EndDate <= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                else if (chat.StartDate <= even.StartDate && chat.EndDate >= even.EndDate)
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["RoomError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                if (conferenceVersion.StartDate > chat.StartDate || conferenceVersion.EndDate < chat.EndDate)
+                {
+                    // hay problemas con la fecha
+                    TempData["DateError"] = "Valor temporal";
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        _context.Add(chat);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
+                    }
                 }
             }
             return RedirectToAction("Index", "Event");
