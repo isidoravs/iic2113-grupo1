@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Details";
 }
+@if (TempData["AssistError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        No puedes asistir a este evento, pues tienes topes de horario.
+    </div>
+}
 
 <h1>Details</h1>
 
@@ -39,4 +46,14 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
     <a asp-action="Index">Back to List</a>
+        @if (ViewBag.assisting == 0 )
+        {
+            <h6><a asp-action="AddAssistant" asp-route-eventId="@Model.Id">Asistir</a></h6>
+        }
+        else
+        {
+            <h6><a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id">Dejar de asistir</a> |
+            <a asp-controller="Feedback" asp-action="Create">Evaluar</a></h6>
+        }
+
 </div>

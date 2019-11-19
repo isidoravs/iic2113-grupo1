@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConferenceApp.Data;
 using ConferenceApp.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ConferenceApp.Controllers
 {
@@ -40,6 +41,11 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == talk.Id)).ToListAsync();
+            
+            int assisting = isAssistant.Count;
+            ViewBag.assisting = assisting;
 
             return View(talk);
         }
@@ -64,20 +70,6 @@ namespace ConferenceApp.Controllers
             return View();
         }
         
-        
-        public async Task<IActionResult> AddAssistant(int eventId)
-        {
-            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var role = new Role() {UserId = currentUserId, EventId = eventId};
-
-            _context.Add(role);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
-
-        }
-
-
         // POST: Talk/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -85,13 +77,24 @@ namespace ConferenceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId")] Talk talk)
         {
-            if (ModelState.IsValid)
+
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == talk.ConferenceVersionId).FirstOrDefaultAsync();
+            if (conferenceVersion.StartDate > talk.StartDate || conferenceVersion.EndDate < talk.EndDate)
             {
-                _context.Add(talk);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Event");
+                // hay problemas con la fecha
+                TempData["DateError"] = "Valor temporal";
             }
-            return View(talk);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(talk);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { id = talk.Id.ToString() });
+                }
+            }
+            return RedirectToAction("Index", "Event");
+
         }
 
         // GET: Talk/Edit/5
@@ -112,6 +115,59 @@ namespace ConferenceApp.Controllers
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View(talk);
         }
+        
+        public async Task<IActionResult> RemoveAssistant(int eventId)
+        {
+
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            _context.Roles.RemoveRange(assistants);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+        public async Task<IActionResult> AddAssistant(int eventId)
+        {
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
+            var isOccupied = 0;
+            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+            foreach (var aRole in assistingToEvents)
+            {
+                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
+                if (@event.StartDate <= @thisEvent.StartDate && @event.EndDate >= @thisEvent.StartDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.StartDate <= @thisEvent.EndDate && @event.EndDate >= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.StartDate >= @thisEvent.StartDate && @event.StartDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.EndDate >= @thisEvent.StartDate && @event.EndDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["AssistError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                var role = new Role() {UserId = currentUserId, EventId = eventId};
+                _context.Add(role);
+                await _context.SaveChangesAsync(); 
+            }
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+
 
         // POST: Talk/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

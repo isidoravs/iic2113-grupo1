@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,6 +40,11 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == practicalSession.Id)).ToListAsync();
+            
+            int assisting = isAssistant.Count;
+            ViewBag.assisting = assisting;
 
             return View(practicalSession);
         }
@@ -70,13 +76,23 @@ namespace ConferenceApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId, RoomId")] PracticalSession practicalSession)
         {
-            if (ModelState.IsValid)
+            var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
+            if (conferenceVersion.StartDate > practicalSession.StartDate || conferenceVersion.EndDate < practicalSession.EndDate)
             {
-                _context.Add(practicalSession);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Event");
+                // hay problemas con la fecha
+                TempData["DateError"] = "Valor temporal";
             }
-            return View(practicalSession);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(practicalSession);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
+
+                }
+            }
+            return RedirectToAction("Index", "Event");
         }
 
         // GET: PracticalSession/Edit/5
@@ -96,6 +112,58 @@ namespace ConferenceApp.Controllers
             var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersion.EventCentreId).ToListAsync();
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View(practicalSession);
+        }
+        
+        public async Task<IActionResult> RemoveAssistant(int eventId)
+        {
+
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            _context.Roles.RemoveRange(assistants);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
+        }
+        public async Task<IActionResult> AddAssistant(int eventId)
+        {
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
+            var isOccupied = 0;
+            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+            foreach (var aRole in assistingToEvents)
+            {
+                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
+                if (@event.StartDate <= @thisEvent.StartDate && @event.EndDate >= @thisEvent.StartDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.StartDate <= @thisEvent.EndDate && @event.EndDate >= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.StartDate >= @thisEvent.StartDate && @event.StartDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                else if (@event.EndDate >= @thisEvent.StartDate && @event.EndDate <= @thisEvent.EndDate )
+                {
+                    isOccupied = 1;
+                }
+                if (isOccupied == 1)
+                {
+                    TempData["AssistError"] = "Valor Temporal";
+                    break;
+                }
+            }
+            if (isOccupied == 0)
+            {
+                var role = new Role() {UserId = currentUserId, EventId = eventId};
+                _context.Add(role);
+                await _context.SaveChangesAsync(); 
+            }
+            return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
+
         }
 
         // POST: PracticalSession/Edit/5
