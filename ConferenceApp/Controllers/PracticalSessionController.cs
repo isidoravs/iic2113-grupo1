@@ -45,7 +45,7 @@ namespace ConferenceApp.Controllers
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
-            
+
             var tagNames = new List<String>();
             var joinedTags = "";
             var eventTags = await _context.EventTags.Where(x => (x.EventId == practicalSession.Id)).ToListAsync();
@@ -54,7 +54,7 @@ namespace ConferenceApp.Controllers
                 foreach (var et in eventTags)
                 {
                     var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == et.TagId);
-                    tagNames.Add("#" + tag.Name);
+                    tagNames.Add("<button type='button' class='btn btn-outline-secondary'>"+tag.Name+"</button>");
                 }
                 joinedTags = String.Join(" ", tagNames);
             }
@@ -64,7 +64,7 @@ namespace ConferenceApp.Controllers
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@practicalSession.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-            
+
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -107,10 +107,10 @@ namespace ConferenceApp.Controllers
                     Id = member.Id,
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
-            
+
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
-            
+
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             this.ViewData["AvailableTags"] = new List<CheckBoxItem>(availableTags);
@@ -220,7 +220,7 @@ namespace ConferenceApp.Controllers
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == practicalSession.ConferenceVersionId).FirstOrDefaultAsync();
             var rooms = await _context.Rooms.Where(x => x.EventCentreId == conferenceVersion.EventCentreId).ToListAsync();
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
-            
+
             var tags = await _context.Tags.ToListAsync();
             //var eventTags = await _context.EventTags.Where(x => (x.EventId == chat.Id)).ToListAsync();
             var availableTags = new List<CheckBoxItem>();
