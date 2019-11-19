@@ -22,5 +22,7 @@ namespace ConferenceApp.Models
         public int EventCentreId { get; set; }
 
         public ICollection<Event> Events { get; set; }
+        
+        public ICollection<Sponsorship> Sponsorships { get; set; }
     }
 }

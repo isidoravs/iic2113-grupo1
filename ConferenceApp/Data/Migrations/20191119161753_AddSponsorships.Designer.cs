@@ -3,42 +3,23 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191119161753_AddSponsorships")]
+    partial class AddSponsorships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            modelBuilder.Entity("ConferenceApp.Models.CheckBoxItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("EventId");
-
-                    b.Property<bool>("IsChecked");
-
-                    b.Property<int>("TagId");
-
-                    b.Property<string>("Title")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("CheckBoxItems");
-                });
 
             modelBuilder.Entity("ConferenceApp.Models.Conference", b =>
                 {
@@ -127,36 +108,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EventCentre");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.EventTag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("ChatId");
-
-                    b.Property<int>("EventId");
-
-                    b.Property<int?>("PracticalSessionId");
-
-                    b.Property<int>("TagId");
-
-                    b.Property<int?>("TalkId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("PracticalSessionId");
-
-                    b.HasIndex("TagId");
-
-                    b.HasIndex("TalkId");
-
-                    b.ToTable("EventTags");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
@@ -571,13 +522,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasDiscriminator().HasValue("User");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.CheckBoxItem", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Event")
-                        .WithMany("AvailableTags")
-                        .HasForeignKey("EventId");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.ConferenceVersion", b =>
                 {
                     b.HasOne("ConferenceApp.Models.Conference")
@@ -597,31 +541,6 @@ namespace ConferenceApp.Data.Migrations
                         .WithMany("Events")
                         .HasForeignKey("ConferenceVersionId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.EventTag", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Chat")
-                        .WithMany("EventTags")
-                        .HasForeignKey("ChatId");
-
-                    b.HasOne("ConferenceApp.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ConferenceApp.Models.PracticalSession")
-                        .WithMany("EventTags")
-                        .HasForeignKey("PracticalSessionId");
-
-                    b.HasOne("ConferenceApp.Models.Tag", "Tag")
-                        .WithMany("EventTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ConferenceApp.Models.Talk")
-                        .WithMany("EventTags")
-                        .HasForeignKey("TalkId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>

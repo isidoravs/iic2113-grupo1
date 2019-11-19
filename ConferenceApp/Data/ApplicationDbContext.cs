@@ -24,6 +24,7 @@ namespace ConferenceApp.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
+        public DbSet<Sponsorship> Sponsorships { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Talk> Talks { get; set; }

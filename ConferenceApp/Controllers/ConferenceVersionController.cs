@@ -41,6 +41,15 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            
+            var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == id).ToListAsync();
+            var sponsors = new List<object>();
+            foreach (var member in sponsorships)
+            {
+                var s = await _context.Sponsors.FindAsync(member.SponsorId);
+                sponsors.Add(s.Name);
+            }
+            ViewBag.sponsors = sponsors;
 
             return View(conferenceVersion);
         }
