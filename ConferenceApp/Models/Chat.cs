@@ -6,5 +6,9 @@ namespace ConferenceApp.Models
     {
         [Required]
         public string Topic { get; set; }
+        
+        public string Panelists { get; set; }
+        
+        public string Moderator { get; set; }
     }
 }
