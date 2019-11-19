@@ -20,6 +20,16 @@
     </div>
 }
 
+<style>
+    .tableFixHead          { overflow-y: auto; height: 400px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+    
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
+
 
 <h1>Eventos</h1>
 
@@ -36,24 +46,24 @@
         <a asp-controller="Party" asp-action="Index" class="btn btn-info">Fiestas</a>
     </div>
 </div>
-
-<table class="table">
+<div class="tableFixHead">
+<table class="table table-fixed">
     <thead>
-        <tr>
-            <th>
-                Nombre
-            </th>
-            <th>
-                Fecha de inicio
-            </th>
-            <th>
-                Fecha de fin
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Fecha de inicio
+        </th>
+        <th>
+            Fecha de fin
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -70,8 +80,9 @@
                 <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>
+</div>
 
 
