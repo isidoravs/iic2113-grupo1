@@ -1,31 +1,31 @@
 @model IEnumerable<ConferenceApp.Models.PracticalSession>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Sesiones Prácticas";
 }
 
 <h1>Sesiones prácticas</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Agregar nueva</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Topic)
+                Nombre
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ComplementaryMaterial)
+                Tema
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Material Complementario
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.StartDate)
+                Inicio
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDate)
+                Fin
             </th>
             <th></th>
         </tr>
@@ -34,13 +34,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Topic)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ComplementaryMaterial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

@@ -42,10 +42,29 @@ namespace ConferenceApp.Controllers
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == foodService.Id)).ToListAsync();
-            
+
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
+            
+            var room = await _context.Rooms.FindAsync(@foodService.RoomId);
+            var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
+            var version = await _context.ConferenceVersions.FindAsync(@foodService.ConferenceVersionId);
+            var conference = await _context.Conferences.FindAsync(version.ConferenceId);
 
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @foodService.Id).ToListAsync();
+            var assistants = new List<object>();
+            // foreach (var member in assistantRoles)
+            // {
+            //     var a = await _context.Users.FindAsync(member.UserId);
+            //     assistants.Add(a.Email);
+            // }
+
+            ViewBag.roomName = room.Name;
+            ViewBag.centreName = centre.Name;
+            ViewBag.location = centre.Location;
+            ViewBag.version = version;
+            ViewBag.conference = conference;
+            ViewBag.assistants = assistants;
 
             return View(foodService);
         }
@@ -66,7 +85,7 @@ namespace ConferenceApp.Controllers
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
-            
+
             this.ViewData["CategoryOptions"] = new List<SelectListItem>
             {
                 new SelectListItem {Text = "Almuerzo", Value = "lunch"},
@@ -83,7 +102,7 @@ namespace ConferenceApp.Controllers
             var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
@@ -122,13 +141,13 @@ namespace ConferenceApp.Controllers
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
                 _context.Add(role);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
         // POST: FoodService/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -197,7 +216,7 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
-            
+
             this.ViewData["CategoryOptions"] = new List<SelectListItem>
             {
                 new SelectListItem {Text = "Almuerzo", Value = "lunch"},
@@ -212,7 +231,7 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: FoodService/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -241,7 +260,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = foodService.Id.ToString() });
             }
             return View(foodService);
         }

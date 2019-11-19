@@ -1,7 +1,7 @@
 @model IEnumerable<ConferenceApp.Models.Event>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Eventos";
 }
 
 @if (TempData["DateError"] != null)
@@ -23,7 +23,7 @@
 <style>
     .tableFixHead          { overflow-y: auto; height: 400px; }
     .tableFixHead thead th { position: sticky; top: 0; }
-    
+
     /* Just common table stuff. Really. */
     table  { border-collapse: collapse; width: 100%;}
     th, td { padding: 8px 16px; }
@@ -75,9 +75,9 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Ver</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                <a asp-controller="@item.GetType().Name" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-controller="@item.GetType().Name" asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                <a asp-controller="@item.GetType().Name" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
     }

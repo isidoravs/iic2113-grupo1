@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.ConferenceVersion
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Versión de Conferencia";
 }
 
 <h1>Versión de conferencia</h1>
@@ -52,7 +52,7 @@
 <div>
     <h4>Eventos</h4>
     @* TO-DO *@
-    <a asp-controller="Event" asp-action="Index">Ver todos</a> | 
+    <a asp-controller="Event" asp-action="Index">Ver todos</a> |
     <a asp-controller="Event" asp-action="Create" asp-route-conferenceVersionId="@Model.Id">Agregar nuevo</a> (organizador)
     <hr/>
     <br/>

@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.Conference
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Conferencia";
 }
 
 <h1>Conferencia</h1>
@@ -30,9 +30,9 @@
     <a href='javascript:history.go(-1)'>Volver</a>
 </div>
 <hr />
-<a asp-controller="ConferenceVersion" asp-action="Create" asp-route-conferenceId="@Model.Id">Agregar una nueva versión</a> 
+<a asp-controller="ConferenceVersion" asp-action="Create" asp-route-conferenceId="@Model.Id">Agregar una nueva versión</a>
 <br/>
-<a asp-controller="ConferenceVersion" asp-action="Index" asp-route-conferenceId="@Model.Id">Ver más versiones de esta conferencia</a> 
+<a asp-controller="ConferenceVersion" asp-action="Index" asp-route-conferenceId="@Model.Id">Ver más versiones de esta conferencia</a>
 <hr />
 <div>
     <h4>Estadísticas Acumuladas de la conferencia</h4><br/>

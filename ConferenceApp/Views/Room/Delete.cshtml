@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.Room
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Sala";
 }
 
 <h1>Delete</h1>
@@ -30,7 +30,7 @@
             @Html.DisplayFor(model => model.EquipmentDescription)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
