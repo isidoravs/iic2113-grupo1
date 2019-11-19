@@ -42,7 +42,7 @@ namespace ConferenceApp.Controllers
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == practicalSession.Id)).ToListAsync();
-            
+
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
 
@@ -70,7 +70,7 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: PracticalSession/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -113,7 +113,7 @@ namespace ConferenceApp.Controllers
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             return View(practicalSession);
         }
-        
+
         public async Task<IActionResult> RemoveAssistant(int eventId)
         {
 
@@ -121,7 +121,7 @@ namespace ConferenceApp.Controllers
             var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
@@ -160,14 +160,14 @@ namespace ConferenceApp.Controllers
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
                 _context.Add(role);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
 
         // POST: PracticalSession/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -196,7 +196,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = practicalSession.Id.ToString() });
             }
             return View(practicalSession);
         }

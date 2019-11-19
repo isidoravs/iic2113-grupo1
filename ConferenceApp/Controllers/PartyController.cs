@@ -42,7 +42,7 @@ namespace ConferenceApp.Controllers
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == party.Id)).ToListAsync();
-            
+
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
             return View(party);
@@ -74,7 +74,7 @@ namespace ConferenceApp.Controllers
             var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
-            
+
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
@@ -113,13 +113,13 @@ namespace ConferenceApp.Controllers
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
                 _context.Add(role);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
         // POST: Party/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -164,7 +164,7 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: Party/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -193,7 +193,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new { id = party.Id.ToString() });
             }
             return View(party);
         }
