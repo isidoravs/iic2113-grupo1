@@ -44,8 +44,32 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Sponsorship/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? conferenceVersionId, int? eventId)
         {
+            var conferenceVersions = conferenceVersionId == null
+                ? await _context.ConferenceVersions.ToListAsync()
+                : await _context.ConferenceVersions.Where(x => x.Id == conferenceVersionId).ToListAsync();
+
+            List<object> versions = new List<object>();
+            foreach (var member in conferenceVersions)
+                versions.Add( new {
+                    Id = member.Id,
+                    Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
+                } );
+            this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
+
+            if (eventId != null)
+            {
+                ViewBag.sponsoredEvent = await _context.Events.FindAsync(eventId);
+            }
+            /*var events = eventId == null
+                ? await _context.Events.ToListAsync()
+                : await _context.Events.Where(x => x.Id == eventId).ToListAsync();
+            ViewData["Events"] = new SelectList(events,"Id","Name");*/
+
+            var sponsors = await _context.Sponsors.ToListAsync();
+            ViewData["Sponsors"] = new SelectList(sponsors,"Id","Name");
+            
             return View();
         }
 
@@ -60,7 +84,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(sponsorship);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "ConferenceVersion", new { id = sponsorship.ConferenceVersionId.ToString() });;
             }
             return View(sponsorship);
         }
