@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ConferenceApp.Models;
+using ConferenceApp.Models.ViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,10 +29,13 @@ namespace ConferenceApp.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Talk> Talks { get; set; }
-        
         public DbSet<EventTag> EventTags { get; set; }
         
         public DbSet<CheckBoxItem> CheckBoxItems { get; set; }
+        
+        public DbSet<FileViewModel> FileViewModels { get; set; }
+        
+        public DbSet<File> Files { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
