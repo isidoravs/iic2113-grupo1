@@ -102,17 +102,20 @@
             
             @if (Model.FileId == null)
                     {
+                        <dt class = "col-sm-4">
+                            @Html.Raw(Model.FileId);
+                        </dt>
+                        <dt class = "col-sm-4">
+                            Material complementario
+                        </dt>
                         <a asp-controller="File" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
                             <button type="button" class="btn btn-success" style="width: 100%;">Subir material complementario</button>
-                        </a>
+                        </a>    
                     }
                     else
                     {
                         <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
-                            <button type="button" class="btn btn-primary" style="width: 40%;">Dejar de asistir</button>
-                        </a>
-                        <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
-                            <button type="button" class="btn btn-primary" style="width: 40%;">Evaluar</button>
+                            <button type="button" class="btn btn-primary" style="width: 100%;">Descargar material complementario</button>
                         </a>
                     }
             
