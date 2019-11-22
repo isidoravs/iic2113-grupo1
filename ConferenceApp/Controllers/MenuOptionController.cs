@@ -44,8 +44,12 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: MenuOption/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? foodServiceId)
         {
+            var foodServices = foodServiceId == null
+                ? await _context.FoodServices.ToListAsync()
+                : await _context.FoodServices.Where(x => x.Id == foodServiceId).ToListAsync();
+            ViewData["FoodServices"] = new SelectList(foodServices,"Id","Name");
             return View();
         }
 
@@ -54,13 +58,13 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FoodServiceId")] MenuOption menuOption)
+        public async Task<IActionResult> Create([Bind("Id,Name,FoodServiceId")] MenuOption menuOption)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(menuOption);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "FoodService", new { id = menuOption.FoodServiceId.ToString() });
             }
             return View(menuOption);
         }
@@ -86,7 +90,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FoodServiceId")] MenuOption menuOption)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,FoodServiceId")] MenuOption menuOption)
         {
             if (id != menuOption.Id)
             {
@@ -142,7 +146,7 @@ namespace ConferenceApp.Controllers
             var menuOption = await _context.MenuOptions.FindAsync(id);
             _context.MenuOptions.Remove(menuOption);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "FoodService", new { id = menuOption.FoodServiceId.ToString() });
         }
 
         private bool MenuOptionExists(int id)
