@@ -156,31 +156,44 @@ namespace ConferenceApp.Controllers
         {
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
+            
+            var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
+            var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
+            
             var isOccupied = 0;
-            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
-            foreach (var aRole in assistingToEvents)
+            
+            if (room.MaxCapacity <= capacityUsed.Count)
             {
-                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
-                if (@event.StartDate <= @thisEvent.StartDate && @event.EndDate >= @thisEvent.StartDate )
+                TempData["AssistError"] = "Se ha alcanzado la capacidad máxima para este evento";
+                isOccupied = 1;
+            }
+            else
+            {
+                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+                foreach (var aRole in assistingToEvents)
                 {
-                    isOccupied = 1;
-                }
-                else if (@event.StartDate <= @thisEvent.EndDate && @event.EndDate >= @thisEvent.EndDate )
-                {
-                    isOccupied = 1;
-                }
-                else if (@event.StartDate >= @thisEvent.StartDate && @event.StartDate <= @thisEvent.EndDate )
-                {
-                    isOccupied = 1;
-                }
-                else if (@event.EndDate >= @thisEvent.StartDate && @event.EndDate <= @thisEvent.EndDate )
-                {
-                    isOccupied = 1;
-                }
-                if (isOccupied == 1)
-                {
-                    TempData["AssistError"] = "Valor Temporal";
-                    break;
+                    var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
+                    if (@event.StartDate <= @thisEvent.StartDate && @event.EndDate >= @thisEvent.StartDate )
+                    {
+                        isOccupied = 1;
+                    }
+                    else if (@event.StartDate <= @thisEvent.EndDate && @event.EndDate >= @thisEvent.EndDate )
+                    {
+                        isOccupied = 1;
+                    }
+                    else if (@event.StartDate >= @thisEvent.StartDate && @event.StartDate <= @thisEvent.EndDate )
+                    {
+                        isOccupied = 1;
+                    }
+                    else if (@event.EndDate >= @thisEvent.StartDate && @event.EndDate <= @thisEvent.EndDate )
+                    {
+                        isOccupied = 1;
+                    }
+                    if (isOccupied == 1)
+                    {
+                        TempData["AssistError"] = "Tienes tope de horario con este evento";
+                        break;
+                    }
                 }
             }
             if (isOccupied == 0)
