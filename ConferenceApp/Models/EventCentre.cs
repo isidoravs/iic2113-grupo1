@@ -14,9 +14,7 @@ namespace ConferenceApp.Models
         [Required]
         public string Location { get; set; }
         public string MapImage { get; set; }
-        [Required]
         public float Latitude { get; set; }
-        [Required]
         public float Longitude { get; set; }
         
         public ICollection<ConferenceVersion> ConferenceVersions { get; set; }
