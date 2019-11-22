@@ -1,4 +1,4 @@
-@model ConferenceApp.Models.File
+@model ConferenceApp.Models.ViewModels.FileViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,23 +10,19 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Path" class="control-label"></label>
-                <input asp-for="Path" class="form-control" />
-                <span asp-validation-for="Path" class="text-danger"></span>
+                <label asp-for="MyFile" class="control-label"></label>
+                <input asp-for="MyFile" class="form-control" />
+                <span asp-validation-for="MyFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <input asp-for="EventId" class="form-control" />
-                <span asp-validation-for="EventId" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="EventId" value=@Model.EventId/>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

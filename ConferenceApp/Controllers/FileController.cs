@@ -1,22 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConferenceApp.Data;
-using ConferenceApp.Models;
+using ConferenceApp.Models.ViewModels;
+using Microsoft.AspNetCore.Hosting;
+using File = ConferenceApp.Models.File;
 
 namespace ConferenceApp.Controllers
 {
     public class FileController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public FileController(ApplicationDbContext context)
+        public FileController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            hostingEnvironment = environment;
         }
 
         // GET: File
@@ -44,9 +49,11 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: File/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int eventId)
         {
-            return View();
+            var view = new FileViewModel();
+            view.EventId = eventId;
+            return View(view);
         }
 
         // POST: File/Create
@@ -54,15 +61,40 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Path,Description,EventId")] File file)
+        public async Task<IActionResult> Create(FileViewModel fileViewModel)
         {
             if (ModelState.IsValid)
             {
+                var file = new File();
+                if (fileViewModel.MyFile != null)
+                {
+                    var uniqueFileName = GetUniqueFileName(fileViewModel.MyFile.FileName);
+                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
+                    var filePath = Path.Combine(uploads,uniqueFileName);
+                    fileViewModel.MyFile.CopyTo(new FileStream(filePath, FileMode.Create)); 
+
+                    //to do : Save uniqueFileName  to your db table   
+                    file.UniqueFileName = uniqueFileName;
+                    file.Path = filePath;
+                    file.Description = fileViewModel.Description;
+                    file.EventId = fileViewModel.EventId;
+                }
                 _context.Add(file);
+                // agregamos la referencia del file al evento al que pertenece
+                var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(m => m.Id == file.EventId);
+                practicalSession.FileId = file.Id;
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "PracticalSession", new { id = file.EventId.ToString() });;
             }
-            return View(file);
+            return View(fileViewModel);
+        }
+        private string GetUniqueFileName(string fileName)
+        {
+            fileName = Path.GetFileName(fileName);
+            return  Path.GetFileNameWithoutExtension(fileName)
+                    + "_" 
+                    + Guid.NewGuid().ToString().Substring(0, 4) 
+                    + Path.GetExtension(fileName);
         }
 
         // GET: File/Edit/5

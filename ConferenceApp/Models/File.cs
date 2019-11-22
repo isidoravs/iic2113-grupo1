@@ -12,6 +12,9 @@ namespace ConferenceApp.Models
         [Required]
         public string Path { get; set; }
         
+        [Required]
+        public string UniqueFileName { get; set; }
+        
         public string Description { set; get; }
         
         [Required]

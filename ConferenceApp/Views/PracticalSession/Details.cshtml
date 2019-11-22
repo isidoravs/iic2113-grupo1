@@ -99,6 +99,23 @@
             <dd class = "col-sm-8">
                 @Html.DisplayFor(model => model.ComplementaryMaterial)
             </dd>
+            
+            @if (Model.FileId == null)
+                    {
+                        <a asp-controller="File" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                            <button type="button" class="btn btn-success" style="width: 100%;">Subir material complementario</button>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                            <button type="button" class="btn btn-primary" style="width: 40%;">Dejar de asistir</button>
+                        </a>
+                        <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+                            <button type="button" class="btn btn-primary" style="width: 40%;">Evaluar</button>
+                        </a>
+                    }
+            
         </dl>
     </div>
     <div class="col-sm-4">

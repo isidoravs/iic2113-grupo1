@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;    
@@ -15,7 +16,7 @@ namespace ConferenceApp.Models.ViewModels
         [NotMapped]
         public IFormFile MyFile { set; get; }
         
-        public string FileDescription { set;get; }
+        public string Description { set;get; }
         
         [Required]
         public  int EventId { set; get; }
