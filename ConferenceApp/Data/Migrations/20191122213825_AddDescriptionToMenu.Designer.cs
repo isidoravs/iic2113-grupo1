@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191122213825_AddDescriptionToMenu")]
+    partial class AddDescriptionToMenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,8 +92,6 @@ namespace ConferenceApp.Data.Migrations
                         .IsRequired();
 
                     b.Property<DateTime>("EndDate");
-
-                    b.Property<int>("FileId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -205,26 +205,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasIndex("FeedbackId");
 
                     b.ToTable("FeedbackScopes");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.File", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("EventId");
-
-                    b.Property<string>("Path")
-                        .IsRequired();
-
-                    b.Property<string>("UniqueFileName")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
@@ -349,20 +329,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.ViewModels.FileViewModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("EventId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FileViewModels");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -570,6 +536,9 @@ namespace ConferenceApp.Data.Migrations
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
 
+                    b.Property<string>("ComplementaryMaterial")
+                        .IsRequired();
+
                     b.Property<string>("Exhibitor");
 
                     b.Property<string>("Topic")
@@ -582,6 +551,10 @@ namespace ConferenceApp.Data.Migrations
             modelBuilder.Entity("ConferenceApp.Models.Talk", b =>
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
+
+                    b.Property<string>("ComplementaryMaterial")
+                        .IsRequired()
+                        .HasColumnName("Talk_ComplementaryMaterial");
 
                     b.Property<string>("Exhibitor")
                         .HasColumnName("Talk_Exhibitor");

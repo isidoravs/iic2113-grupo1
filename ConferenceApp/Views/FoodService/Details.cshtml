@@ -7,7 +7,7 @@
 {
     <div class="alert alert-danger alert-dismissible">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        No puedes asistir a este evento, pues tienes topes de horario.
+        @TempData["AssistError"]
     </div>
 }
 
@@ -83,8 +83,28 @@
             <dt class = "col-sm-4">
                 Categoría
             </dt>
-            <dd class = "col-sm-8">
-                @Html.DisplayFor(model => model.Category)
+            <dd class="col-sm-8">
+                @if (@Model.Category == "lunch")
+                {
+                    <span>Almuerzo</span>
+                }
+                else
+                {
+                    <span>Cena</span>
+                }
+            </dd>
+            <dt class = "col-sm-4">
+                Menú
+            </dt>
+            <dd class="col-sm-8">
+                Opciones:
+                <ul>
+                    @foreach (var item in @ViewBag.menus)
+                    {
+                        <li>@item.Name (<a asp-controller="MenuOption" asp-action="Delete" asp-route-id="@item.Id">eliminar</a>)</li>
+                    }
+                </ul>
+                <a asp-controller="MenuOption" asp-action="Create" asp-route-foodServiceId="@Model.Id">Agregar nueva opción</a>
             </dd>
         </dl>
     </div>

@@ -1,0 +1,30 @@
+@model IEnumerable<ConferenceApp.Models.MenuOption>
+
+@{
+    ViewData["Title"] = "Platos";
+}
+
+<h1>Opciones de menú</h1>
+
+<p>
+    <a asp-action="Create">Nueva opción</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Plato</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+        <td>
+            <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

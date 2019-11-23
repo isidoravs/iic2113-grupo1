@@ -1,0 +1,25 @@
+@model ConferenceApp.Models.MenuOption
+
+@{
+    ViewData["Title"] = "Eliminar plato";
+}
+
+<h1>Eliminar opción de menú</h1>
+
+<div>
+    <h4>Info</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Plato
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+    </form>
+</div>

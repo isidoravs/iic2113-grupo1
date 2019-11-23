@@ -20,6 +20,7 @@ namespace ConferenceApp.Data
         public DbSet<FeedbackScope> FeedbackScopes { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<FoodService> FoodServices { get; set; }
+        public DbSet<MenuOption> MenuOptions { get; set; }
         public DbSet<Party> Parties { get; set; }
         public DbSet<PracticalSession> PracticalSessions { get; set; }
         public DbSet<Room> Rooms { get; set; }
