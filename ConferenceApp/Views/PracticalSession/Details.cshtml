@@ -34,33 +34,47 @@
     </div>
     <div class="col-sm-6">
         <div class="row">
-            <h6>@Model.StartDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+            <h6><b>Desde: </b>@Model.StartDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
         </div>
         <div class="row">
-            <h6>hasta @Model.EndDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+            <h6><b>Hasta: </b>@Model.EndDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
         </div>
         <div class="row">
             <h1>@Html.DisplayFor(model => model.Name)</h1>
         </div>
         <div class="row">
-            <h5>Sesión práctica</h5>
+            <h5>Sesión Práctica</h5>
         </div>
     </div>
     <div class="col-sm-4">
-        @if (ViewBag.assisting == 0 )
+        @if (DateTime.Now > Model.EndDate)
         {
-            <a asp-action="AddAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
-                <button type="button" class="btn btn-success" style="width: 100%;">Asistir</button>
-            </a>
+            if (ViewBag.assisting == 0)
+            {
+                <i>Este evento ya finalizó.</i>
+            }
+            else
+            {
+                <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
+                <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
+                </a>
+            }
         }
         else
         {
-            <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
-                <button type="button" class="btn btn-primary" style="width: 40%;">Dejar de asistir</button>
-            </a>
-            <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
-                <button type="button" class="btn btn-primary" style="width: 40%;">Evaluar</button>
-            </a>
+            @if (ViewBag.assisting == 0)
+            {
+                <a asp-action="AddAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-success" style="width: 100%;">Asistir</button>
+                </a>
+            }
+            else
+            {
+                <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Dejar de asistir</button>
+                </a>
+            }
         }
     </div>
 </div>
@@ -93,12 +107,23 @@
             <dd class = "col-sm-8">
                 @Html.DisplayFor(model => model.Exhibitor)
             </dd>
-
+            <dt class = "col-sm-4">    
+                Material Complementario
+            </dt>
+            <dd class = "col-sm-8">    
+                @ViewBag.fileDescription
+            </dd>
+            <dt class = "col-sm-4">    
+                
+            </dt>
             @if (Model.FileId > 0)
             {
                 <a asp-controller="File" asp-action="Download" asp-route-fileId="@Model.FileId" style="text-decoration: none; color: white;">
-                    <button type="button" class="btn btn-success" style="width: 100%;">Descargar material complementario</button>
-                </a>    
+                    <button type="button" class="btn btn-success" style="width: 100%;">Descargar</button>
+                </a>
+                <a asp-controller="File" asp-action="Delete" asp-route-id="@Model.FileId" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-outline-danger" style="width: 100%;">Eliminar</button>
+                </a>
             }
             else
             {
