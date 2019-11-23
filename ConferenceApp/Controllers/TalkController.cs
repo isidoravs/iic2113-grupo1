@@ -123,7 +123,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] Talk talk)
+        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] Talk talk)
         {
 
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == talk.ConferenceVersionId).FirstOrDefaultAsync();
@@ -276,7 +276,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,ComplementaryMaterial,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] Talk talk)
+        public async Task<IActionResult> Edit(int id, [Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] Talk talk)
         {
             if (id != talk.Id)
             {
