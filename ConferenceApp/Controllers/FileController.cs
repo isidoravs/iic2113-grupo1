@@ -71,7 +71,7 @@ namespace ConferenceApp.Controllers
                     var uniqueFileName = GetUniqueFileName(fileViewModel.MyFile.FileName);
                     var uploads = Path.Combine(hostingEnvironment.WebRootPath, "uploads");
                     var filePath = Path.Combine(uploads,uniqueFileName);
-                    fileViewModel.MyFile.CopyTo(new FileStream(filePath, FileMode.Create)); 
+                    await fileViewModel.MyFile.CopyToAsync(new FileStream(filePath, FileMode.Create)); 
 
                     //to do : Save uniqueFileName  to your db table   
                     file.UniqueFileName = uniqueFileName;
@@ -80,9 +80,12 @@ namespace ConferenceApp.Controllers
                     file.EventId = fileViewModel.EventId;
                 }
                 _context.Add(file);
+                await _context.SaveChangesAsync();
                 // agregamos la referencia del file al evento al que pertenece
                 var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(m => m.Id == file.EventId);
                 practicalSession.FileId = file.Id;
+                Console.WriteLine("***********************************");
+                Console.WriteLine(practicalSession.FileId);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", "PracticalSession", new { id = file.EventId.ToString() });;
             }
@@ -96,6 +99,48 @@ namespace ConferenceApp.Controllers
                     + Guid.NewGuid().ToString().Substring(0, 4) 
                     + Path.GetExtension(fileName);
         }
+        
+        public async Task<IActionResult> Download(int fileId)
+        {
+            var file = await _context.Files.FirstOrDefaultAsync(m => m.Id == fileId);
+            if (file.UniqueFileName == null)  
+                return Content("filename not present");  
+  
+            var path = Path.Combine(hostingEnvironment.WebRootPath, "uploads", file.UniqueFileName);  
+  
+            var memory = new MemoryStream();  
+            using (var stream = new FileStream(path, FileMode.Open))  
+            {  
+                await stream.CopyToAsync(memory);  
+            }  
+            memory.Position = 0;  
+            return File(memory, GetContentType(path), Path.GetFileName(path));  
+        }
+        
+        private string GetContentType(string path)  
+        {  
+            var types = GetMimeTypes();  
+            var ext = Path.GetExtension(path).ToLowerInvariant();  
+            return types[ext];  
+        } 
+        
+        private Dictionary<string, string> GetMimeTypes()  
+        {  
+            return new Dictionary<string, string>  
+            {  
+                {".txt", "text/plain"},  
+                {".pdf", "application/pdf"},  
+                {".doc", "application/vnd.ms-word"},  
+                {".docx", "application/vnd.ms-word"},  
+                {".xls", "application/vnd.ms-excel"},  
+                {".xlsx", "application/vnd.openxmlformats  officedocument.spreadsheetml.sheet"},  
+                    {".png", "image/png"},  
+                {".jpg", "image/jpeg"},  
+                {".jpeg", "image/jpeg"},  
+                {".gif", "image/gif"},  
+                {".csv", "text/csv"}  
+            };  
+            } 
 
         // GET: File/Edit/5
         public async Task<IActionResult> Edit(int? id)
