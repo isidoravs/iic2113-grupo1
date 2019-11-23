@@ -93,11 +93,23 @@
             <dd class = "col-sm-8">
                 @Html.DisplayFor(model => model.Exhibitor)
             </dd>
+            <dt class = "col-sm-4">    
+                Material Complementario
+            </dt>
              @if (Model.FileId > 0)
-            {
-                <a asp-controller="File" asp-action="Download" asp-route-fileId="@Model.FileId" style="text-decoration: none; color: white;">
-                    <button type="button" class="btn btn-success" style="width: 100%;">Descargar material complementario</button>
-                </a>    
+             {
+                 if (Model.EndDate < DateTime.Now)
+                {
+                    <a asp-controller="File" asp-action="Download" asp-route-fileId="@Model.FileId" style="text-decoration: none; color: white;">
+                        <button type="button" class="btn btn-success" style="width: 100%;">Descargar material complementario</button>
+                    </a>   
+                }
+                else
+                {
+                    <dd class="col-sm-8">
+                        <i>Estará disponible cuando termine la charla</i>
+                    </dd>
+                }
             }
             else
             {

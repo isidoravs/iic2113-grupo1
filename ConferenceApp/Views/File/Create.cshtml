@@ -4,21 +4,19 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>File</h4>
+<h4>Subir material complementario</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MyFile" class="control-label"></label>
+                <label asp-for="MyFile" class="control-label">Archivo</label>
                 <input asp-for="MyFile" class="form-control" />
                 <span asp-validation-for="MyFile" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label">Descripción</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>

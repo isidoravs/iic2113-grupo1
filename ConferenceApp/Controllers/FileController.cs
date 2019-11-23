@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConferenceApp.Data;
+using ConferenceApp.Models;
 using ConferenceApp.Models.ViewModels;
 using Microsoft.AspNetCore.Hosting;
 using File = ConferenceApp.Models.File;
@@ -82,12 +83,17 @@ namespace ConferenceApp.Controllers
                 _context.Add(file);
                 await _context.SaveChangesAsync();
                 // agregamos la referencia del file al evento al que pertenece
-                var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(m => m.Id == file.EventId);
-                practicalSession.FileId = file.Id;
-                Console.WriteLine("***********************************");
-                Console.WriteLine(practicalSession.FileId);
+                var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == file.EventId);
+                @event.FileId = file.Id;
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "PracticalSession", new { id = file.EventId.ToString() });;
+                if (@event is PracticalSession)
+                {
+                    return RedirectToAction("Details", "PracticalSession", new { id = file.EventId.ToString() });
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Talk", new { id = file.EventId.ToString() });
+                }
             }
             return View(fileViewModel);
         }

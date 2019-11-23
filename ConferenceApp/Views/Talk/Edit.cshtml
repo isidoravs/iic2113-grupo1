@@ -43,6 +43,7 @@
                 <select asp-for="RoomId" class ="form-control" asp-items="ViewBag.Rooms"></select>
             </div>
             <input type="hidden" asp-for="ConferenceVersionId" />
+            <input type="hidden" asp-for="FileId" value="@Model.FileId"/>
             <div class="form-group">
              <label class="control-label">Tags</label>
                 <table>
