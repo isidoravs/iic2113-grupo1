@@ -26,3 +26,9 @@ var types = AppDomain.CurrentDomain.GetAssemblies()
     .SelectMany(s => s.GetTypes())
     .Where(p => type.IsAssignableFrom(p));
 ```
+
+CONECTARSE A DB LOCAL
+```
+psql -U conferenceapp -h 127.0.0.1 -d ConferenceApp
+password: 12345678
+```

@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191120224430_CreateFileModelAndFileViewModel")]
+    partial class CreateFileModelAndFileViewModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,8 +92,6 @@ namespace ConferenceApp.Data.Migrations
                         .IsRequired();
 
                     b.Property<DateTime>("EndDate");
-
-                    b.Property<int>("FileId");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -219,29 +219,9 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("Path")
                         .IsRequired();
 
-                    b.Property<string>("UniqueFileName")
-                        .IsRequired();
-
                     b.HasKey("Id");
 
                     b.ToTable("Files");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("FoodServiceId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodServiceId");
-
-                    b.ToTable("MenuOptions");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
@@ -356,9 +336,9 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
-
                     b.Property<int>("EventId");
+
+                    b.Property<string>("FileDescription");
 
                     b.HasKey("Id");
 
@@ -570,6 +550,9 @@ namespace ConferenceApp.Data.Migrations
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
 
+                    b.Property<string>("ComplementaryMaterial")
+                        .IsRequired();
+
                     b.Property<string>("Exhibitor");
 
                     b.Property<string>("Topic")
@@ -582,6 +565,10 @@ namespace ConferenceApp.Data.Migrations
             modelBuilder.Entity("ConferenceApp.Models.Talk", b =>
                 {
                     b.HasBaseType("ConferenceApp.Models.Event");
+
+                    b.Property<string>("ComplementaryMaterial")
+                        .IsRequired()
+                        .HasColumnName("Talk_ComplementaryMaterial");
 
                     b.Property<string>("Exhibitor")
                         .HasColumnName("Talk_Exhibitor");
@@ -679,14 +666,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.Feedback")
                         .WithMany("FeedbackScopes")
                         .HasForeignKey("FeedbackId");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.FoodService")
-                        .WithMany("MenuOptions")
-                        .HasForeignKey("FoodServiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Notification", b =>

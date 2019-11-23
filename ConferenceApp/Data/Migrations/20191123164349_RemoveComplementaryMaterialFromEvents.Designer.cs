@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191123164349_RemoveComplementaryMaterialFromEvents")]
+    partial class RemoveComplementaryMaterialFromEvents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,23 +227,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Files");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("FoodServiceId");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FoodServiceId");
-
-                    b.ToTable("MenuOptions");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
@@ -679,14 +664,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.Feedback")
                         .WithMany("FeedbackScopes")
                         .HasForeignKey("FeedbackId");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.FoodService")
-                        .WithMany("MenuOptions")
-                        .HasForeignKey("FoodServiceId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Notification", b =>

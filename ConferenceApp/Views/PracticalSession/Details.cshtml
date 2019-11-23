@@ -93,12 +93,20 @@
             <dd class = "col-sm-8">
                 @Html.DisplayFor(model => model.Exhibitor)
             </dd>
-            <dt class = "col-sm-4">
-                Material complementario
-            </dt>
-            <dd class = "col-sm-8">
-                @Html.DisplayFor(model => model.ComplementaryMaterial)
-            </dd>
+
+            @if (Model.FileId > 0)
+            {
+                <a asp-controller="File" asp-action="Download" asp-route-fileId="@Model.FileId" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-success" style="width: 100%;">Descargar material complementario</button>
+                </a>    
+            }
+            else
+            {
+                <a asp-controller="File" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Subir material complementario</button>
+                </a>
+            }
+            
         </dl>
     </div>
     <div class="col-sm-4">

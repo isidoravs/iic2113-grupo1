@@ -38,12 +38,8 @@
                 <input asp-for="EndDate" class="form-control" />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
-           <input type="hidden" asp-for="ConferenceVersionId" />
-            <div class="form-group">
-                <label asp-for="ComplementaryMaterial" class="control-label">Material Complementario</label>
-                <input asp-for="ComplementaryMaterial" class="form-control" />
-                <span asp-validation-for="ComplementaryMaterial" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="ConferenceVersionId" />
+            <input type="hidden" asp-for="FileId" value="@Model.FileId" />
             <div class="form-group">
                 <label asp-for="RoomId" class="control-label">Sala</label>
                 <select asp-for="RoomId" class ="form-control" asp-items="ViewBag.Rooms"></select>
