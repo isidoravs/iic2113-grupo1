@@ -223,9 +223,20 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var file = await _context.Files.FindAsync(id);
+            var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == file.EventId);
             _context.Files.Remove(file);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            
+            @event.FileId = -1;
+            await _context.SaveChangesAsync();
+            if (@event is PracticalSession)
+            {
+                return RedirectToAction("Details", "PracticalSession", new { id = @event.Id.ToString() });
+            }
+            else
+            {
+                return RedirectToAction("Details", "Talk", new { id = @event.Id.ToString() });
+            }
         }
 
         private bool FileExists(int id)

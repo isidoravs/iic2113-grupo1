@@ -35,7 +35,7 @@ namespace ConferenceApp.Data
         public DbSet<CheckBoxItem> CheckBoxItems { get; set; }
         
         public DbSet<FileViewModel> FileViewModels { get; set; }
-        
+
         public DbSet<File> Files { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

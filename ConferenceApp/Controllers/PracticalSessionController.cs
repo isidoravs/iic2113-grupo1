@@ -81,6 +81,16 @@ namespace ConferenceApp.Controllers
             //     assistants.Add(a.Email);
             // }
 
+            var fileDescription = "";
+            if (practicalSession.FileId > 0)
+            {
+                var file = await _context.Files.FirstOrDefaultAsync(x => x.Id == practicalSession.FileId);
+                if (file != null)
+                {
+                    fileDescription = file.Description;
+                }
+            }
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -88,6 +98,7 @@ namespace ConferenceApp.Controllers
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
+            ViewBag.fileDescription = fileDescription;
 
             return View(practicalSession);
         }
