@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ConferenceApp.Models
@@ -6,5 +7,7 @@ namespace ConferenceApp.Models
     {
         [Required]
         public string Category { get; set; }
+        
+        public ICollection<MenuOption> MenuOptions { get; set; }
     }
 }

@@ -1,48 +1,74 @@
 @model ConferenceApp.Models.EventCentre
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Centro de Eventos";
 }
 
-<h1>Details</h1>
+<h1>Centro de evento</h1>
 
 <div>
-    <h4>EventCentre</h4>
+    <h4>Info</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Nombre
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
+            Ubicación
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Location)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MapImage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MapImage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Latitude)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Latitude)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Longitude)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Longitude)
-        </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <p><a asp-controller="Room" asp-action="Create" asp-route-eventCentreId="@Model.Id">Agregar sala</a></p>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+    <a asp-action="Index">Ver todos los centros</a>
+    <hr/>
+
+    <h2>Salas en este centro</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Capacidad máxima
+                </th>
+                <th>
+                    Equipamiento
+                </th>
+                <th>
+                    Opciones
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in ViewBag.eventCentresRooms) {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.MaxCapacity
+                </td>
+                <td>
+                    @item.EquipmentDescription
+                </td>
+                <td>
+                    <a asp-controller="Room" asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-controller="Room" asp-action="Details" asp-route-id="@item.Id">Ver</a> |
+                    <a asp-controller="Room" asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
 </div>

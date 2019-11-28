@@ -1,0 +1,82 @@
+@model ConferenceApp.Models.Chat
+
+@{
+    ViewData["Title"] = "Editar Chat";
+}
+
+<h1>Editar</h1>
+
+<h4>Chat</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Título</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Topic" class="control-label">Tema</label>
+                <input asp-for="Topic" class="form-control" />
+                <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Panelists" class="control-label">Panelistas</label>
+                <input asp-for="Panelists" class="form-control" />
+                <span asp-validation-for="Panelists" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Moderator" class="control-label">Moderador</label>
+                <input asp-for="Moderator" class="form-control" />
+                <span asp-validation-for="Moderator" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Inicio</label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">Fin</label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomId" class="control-label">Sala</label>
+                <select asp-for="RoomId" class ="form-control" asp-items="ViewBag.Rooms"></select>
+            </div>
+            <div class="form-group">
+             <label class="control-label">Tags</label>
+                <table>
+                    @for (var i = 0; i < ViewBag.AvailableTags.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" asp-for="AvailableTags[i].IsChecked" checked=@ViewBag.AvailableTags[i].IsChecked />
+                                <label asp-for="AvailableTags[i].IsChecked" style="color:DodgerBlue;">#@ViewBag.AvailableTags[i].Title</label>
+                            </td>
+                            <td>
+                                <input type="hidden" asp-for="AvailableTags[i].TagId" value=@ViewBag.AvailableTags[i].TagId/>
+                                <input type="hidden" asp-for="AvailableTags[i].Title" value=@ViewBag.AvailableTags[i].Title />
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <input type="hidden" asp-for="ConferenceVersionId" />
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Event" asp-action="Index">Ver todos los eventos</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

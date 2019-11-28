@@ -1,0 +1,51 @@
+@model ConferenceApp.Models.Sponsorship
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Nuevo patrocinador</h1>
+
+@if (@ViewBag.sponsoredEvent != null)
+{
+    <h4>Evento: @ViewBag.sponsoredEvent.Name</h4>
+}
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ConferenceVersionId" class="control-label">Conferencia</label>
+                <select asp-for="ConferenceVersionId" class ="form-control" asp-items="ViewBag.ConferenceVersions"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SponsorId" class="control-label">Patrocinadores</label>
+                <select asp-for="SponsorId" class ="form-control" asp-items="ViewBag.Sponsors"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Notas</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Agregar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @if (@ViewBag.sponsoredEvent != null)
+    {
+        <a asp-controller="Event" asp-action="Details" asp-route-id="@ViewBag.sponsoredEvent.Id">Volver al evento</a>
+    }
+    else if (@ViewBag.conferenceVersionId != null)
+    {
+        <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="@ViewBag.conferenceVersionId">Volver a la conferencia</a>
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

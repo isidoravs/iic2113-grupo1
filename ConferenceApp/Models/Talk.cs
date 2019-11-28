@@ -9,8 +9,8 @@ namespace ConferenceApp.Models
     {
         [Required]
         public string Topic { get; set; }
-        
-        [Required]
-        public string ComplementaryMaterial { get; set; }
+
+        public List<EventTag> EventTags { get; set; }
+        public string Exhibitor { get; set; }
     }
 }

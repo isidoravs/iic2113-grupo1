@@ -44,8 +44,12 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Room/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? eventCentreId)
         {
+            var eventCentres = eventCentreId == null
+                ? await _context.EventCentres.ToListAsync()
+                : await _context.EventCentres.Where(x => x.Id == eventCentreId).ToListAsync();
+            ViewData["EventCentres"] = new SelectList(eventCentres,"Id","Name");
             return View();
         }
 
@@ -54,7 +58,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,MaxCapacity,EquipmentDescription")] Room room)
+        public async Task<IActionResult> Create([Bind("Id,Name,MaxCapacity,EquipmentDescription,EventCentreId")] Room room)
         {
             if (ModelState.IsValid)
             {

@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.EventCentre
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Centro";
 }
 
 <h1>Edit</h1>
@@ -23,21 +23,9 @@
                 <input asp-for="Location" class="form-control" />
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MapImage" class="control-label"></label>
-                <input asp-for="MapImage" class="form-control" />
-                <span asp-validation-for="MapImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Latitude" class="control-label"></label>
-                <input asp-for="Latitude" class="form-control" />
-                <span asp-validation-for="Latitude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Longitude" class="control-label"></label>
-                <input asp-for="Longitude" class="form-control" />
-                <span asp-validation-for="Longitude" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="MapImage" />
+            <input type="hidden" asp-for="Latitude" />
+            <input type="hidden" asp-for="Longitude" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

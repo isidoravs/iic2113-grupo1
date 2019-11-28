@@ -1,0 +1,156 @@
+@model ConferenceApp.Models.PracticalSession
+
+@{
+    ViewData["Title"] = "Sesión Práctica";
+}
+@if (TempData["AssistError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        @TempData["AssistError"]
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-3">Organiza: Juanita Pérez</div>
+    <div class="col-sm-5">
+        Patrocina:
+        @foreach (var item in ViewBag.sponsors)
+        {
+            <span>@item | </span>
+        }
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+        <a asp-controller="PracticalSession" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
+        <a asp-controller="Sponsorship" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.version.Id" asp-route-eventId="@Model.Id">Agregar patrocinador</a> |
+        <a asp-controller="PracticalSession" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <br/>
+    <div class="col-sm-2">
+        <img alt="calendar" src="https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png" style="width: 150px;">
+    </div>
+    <div class="col-sm-6">
+        <div class="row">
+            <h6><b>Desde: </b>@Model.StartDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+        </div>
+        <div class="row">
+            <h6><b>Hasta: </b>@Model.EndDate.ToString("dddd d 'de' MMMM yyyy, h:mm tt", new System.Globalization.CultureInfo("es-ES"))</h6>
+        </div>
+        <div class="row">
+            <h1>@Html.DisplayFor(model => model.Name)</h1>
+        </div>
+        <div class="row">
+            <h5>Sesión Práctica</h5>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        @if (DateTime.Now > Model.EndDate)
+        {
+            if (ViewBag.assisting == 0)
+            {
+                <i>Este evento ya finalizó.</i>
+            }
+            else
+            {
+                <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
+                <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
+                </a>
+            }
+        }
+        else
+        {
+            @if (ViewBag.assisting == 0)
+            {
+                <a asp-action="AddAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-success" style="width: 100%;">Asistir</button>
+                </a>
+            }
+            else
+            {
+                <a asp-action="RemoveAssistant" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Dejar de asistir</button>
+                </a>
+            }
+        }
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        @Html.Raw(ViewBag.joinedTags)
+    </div>
+    <div class="col-sm-4">
+        @ViewBag.centreName - <a asp-controller="Room" asp-action="Details" asp-route-id="@Model.RoomId">@ViewBag.roomName</a> <br/>
+        <img alt="calendar" src="https://www.connectsafely.org/wp-content/uploads/Location-pin.png" style="width: 25px;">
+        @ViewBag.location
+    </div>
+</div>
+<hr/>
+
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Más información</h5>
+        <dl class="row">
+            <dt class = "col-sm-4">
+                Tema
+            </dt>
+            <dd class = "col-sm-8">
+                @Html.DisplayFor(model => model.Topic)
+            </dd>
+            <dt class = "col-sm-4">
+                Expositor
+            </dt>
+            <dd class = "col-sm-8">
+                @Html.DisplayFor(model => model.Exhibitor)
+            </dd>
+            <dt class = "col-sm-4">    
+                Material Complementario
+            </dt>
+            <dd class = "col-sm-8">    
+                @ViewBag.fileDescription
+            </dd>
+            <dt class = "col-sm-4">    
+                
+            </dt>
+            @if (Model.FileId > 0)
+            {
+                <a asp-controller="File" asp-action="Download" asp-route-fileId="@Model.FileId" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-success" style="width: 100%;">Descargar</button>
+                </a>
+                <a asp-controller="File" asp-action="Delete" asp-route-id="@Model.FileId" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-outline-danger" style="width: 100%;">Eliminar</button>
+                </a>
+            }
+            else
+            {
+                <a asp-controller="File" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Subir material complementario</button>
+                </a>
+            }
+            
+        </dl>
+    </div>
+    <div class="col-sm-4">
+        Conferencia <a asp-controller="Conference" asp-action="Details" asp-route-id="@ViewBag.conference.Id">@ViewBag.conference.Name</a>
+        (versión <a asp-controller="ConferenceVersion" asp-action="Details" asp-route-id="@Model.ConferenceVersionId">@ViewBag.version.Number</a>)
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Asistentes</h5>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-sm-8">
+        <h5>Estadísticas</h5>
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+

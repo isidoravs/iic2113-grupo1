@@ -1,7 +1,7 @@
 @model ConferenceApp.Models.Tag
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar tag";
 }
 
 <h1>Delete</h1>
@@ -18,7 +18,7 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
