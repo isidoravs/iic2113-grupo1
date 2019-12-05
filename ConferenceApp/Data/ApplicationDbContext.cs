@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ConferenceApp.Models;
 using ConferenceApp.Models.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ namespace ConferenceApp.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Sponsor> Sponsors { get; set; }
         public DbSet<Sponsorship> Sponsorships { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<IdentityUser> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Talk> Talks { get; set; }
         public DbSet<EventTag> EventTags { get; set; }
@@ -35,6 +36,8 @@ namespace ConferenceApp.Data
         public DbSet<CheckBoxItem> CheckBoxItems { get; set; }
         
         public DbSet<FileViewModel> FileViewModels { get; set; }
+        
+        public DbSet<Admin> Admins { get; set; }
 
         public DbSet<File> Files { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

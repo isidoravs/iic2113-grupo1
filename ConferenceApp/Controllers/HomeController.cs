@@ -31,6 +31,15 @@ namespace ConferenceApp.Controllers
                 eventsToList.Add(@event);
             }
 
+            var usuarios = await _context.Users.ToListAsync();
+
+            foreach (var user in usuarios)
+            {
+                Console.WriteLine("Va user:");
+                Console.WriteLine(user.Id);
+                Console.WriteLine(user.UserName);
+            }
+
             ViewBag.eventsToList = eventsToList;
             
             return View();
