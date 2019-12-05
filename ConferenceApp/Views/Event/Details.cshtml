@@ -79,7 +79,7 @@
            else
            {
                <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
-               <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+               <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
                    <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
                </a>
            }

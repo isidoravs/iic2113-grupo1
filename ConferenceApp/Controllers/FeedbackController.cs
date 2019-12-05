@@ -44,8 +44,16 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Feedback/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? eventId)
         {
+            var events = eventId == null
+                ? await _context.Events.ToListAsync()
+                : await _context.Events.Where(x => x.Id == eventId).ToListAsync();
+            ViewData["Events"] = new SelectList(events,"Id","Name");
+            
+            var theEvent = eventId == null ? null : await _context.Events.FindAsync(eventId);
+            ViewData["Event"] = theEvent;
+            
             return View();
         }
 
