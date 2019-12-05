@@ -12,6 +12,8 @@ namespace ConferenceApp.Models
         [Required]
         public string Message { get; set; }
         
+        public int EventId { get; set; }
+        
         public ICollection<FeedbackScope> FeedbackScopes { get; set; }
     }
 }
