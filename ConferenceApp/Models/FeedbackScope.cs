@@ -10,5 +10,8 @@ namespace ConferenceApp.Models
         public int Id { get; set; }
         [Required]
         public int Grade { get; set; }
+        
+        public int FeedbackId { get; set; }
+        public int FeedbackCategoryId { get; set; }
     }
 }
