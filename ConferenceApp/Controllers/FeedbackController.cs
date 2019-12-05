@@ -54,7 +54,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Message")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("Id,Message,EventId")] Feedback feedback)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Message")] Feedback feedback)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,EventId")] Feedback feedback)
         {
             if (id != feedback.Id)
             {
