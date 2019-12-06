@@ -39,6 +39,17 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["Event"] = await _context.Events.FindAsync(feedback.EventId);
+            var scopes = await _context.FeedbackScopes.Where(x => x.FeedbackId == feedback.Id).ToListAsync();
+            ViewData["Scopes"] = scopes;
+            var categories = new List<string>();
+            foreach (var s in scopes)
+            {
+                var category = await _context.FeedbackCategories.FindAsync(s.FeedbackCategoryId);
+                categories.Add(category.Name);
+            }
+            ViewData["Categories"] = categories;
+            ViewBag.Message = "Evaluación creada exitosamente!";
 
             return View(feedback);
         }
@@ -68,7 +79,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(feedback);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "FeedbackScope", new {feedbackId = feedback.Id});
             }
             return View(feedback);
         }

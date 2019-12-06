@@ -1,24 +1,49 @@
 @model ConferenceApp.Models.Feedback
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de evaluación";
 }
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        @ViewBag.Message
+    </div>
+}
+<h1>Tu evaluación</h1>
 
-<h1>Details</h1>
+<h4>Resumen para "@ViewBag.Event.Name"</h4>
+<div>
+    <a asp-action="Details" asp-controller="Event" asp-route-id="@ViewBag.Event.Id">Volver al evento</a>
+</div>
+<hr />
 
 <div>
-    <h4>Feedback</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Message)
+            Evento
         </dt>
         <dd class = "col-sm-10">
+            @ViewBag.Event.Name
+        </dd>
+        <dt class="col-sm-2">
+            Comentarios generales
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Message)
         </dd>
     </dl>
+    <h5>Notas</h5>
+    <dl class="row">
+        @for (var i = 0; i < ViewBag.Scopes.Count; i++)
+        {
+            <dt class="col-sm-2">
+                @ViewBag.Categories[i]
+            </dt>
+            <dd class="col-sm-10">
+                @ViewBag.Scopes[i].Grade
+            </dd>
+        }
+    </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+

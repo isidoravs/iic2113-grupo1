@@ -9,6 +9,7 @@ namespace ConferenceApp.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
+        [Range(1,5)]
         public int Grade { get; set; }
         
         public int FeedbackId { get; set; }
