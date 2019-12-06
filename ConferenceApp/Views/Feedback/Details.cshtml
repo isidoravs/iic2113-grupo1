@@ -41,7 +41,7 @@
                 @ViewBag.Categories[i]
             </dt>
             <dd class="col-sm-10">
-                @ViewBag.Scopes[i].Grade
+                @ViewBag.Scopes[i].Grade (<a asp-controller="FeedbackScope" asp-action="Edit" asp-route-id="@ViewBag.Scopes[i].Id" asp-route-feedbackId="@Model.Id" asp-route-categoryId="@ViewBag.Scopes[i].FeedbackCategoryId">editar</a>)
             </dd>
         }
     </dl>

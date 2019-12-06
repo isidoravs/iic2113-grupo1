@@ -38,15 +38,16 @@
         <div class="col-md-4">
             ¿Quieres además evaluar otra categoría?
             <div class="form-group">
-                <input type="submit" name="nextCategory" value="Si, enviar y evaluar otra categoría" class="btn btn-primary" style="Width: 100%;"/>
+                <input type="submit" name="nextCategory" value="Si, enviar nota y evaluar otra categoría" class="btn btn-primary" style="Width: 100%;"/>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <input type="submit" name="send" value="No, enviar evaluación" class="btn btn-primary" style="Width: 100%;"/>
+                <input type="submit" name="send" value="No, enviar evaluación actual" class="btn btn-primary" style="Width: 100%;"/>
             </div>
+            <a asp-action="Details" asp-controller="Feedback" asp-route-id="@ViewBag.FeedbackId">Ver mi evaluación</a>
         </div>
     </div>
 </form>

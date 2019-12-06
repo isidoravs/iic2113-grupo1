@@ -81,7 +81,7 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: FeedbackScope/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int? feedbackId, int? categoryId)
         {
             if (id == null)
             {
@@ -93,6 +93,12 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.FeedbackId = feedbackId;
+            ViewBag.Category = await _context.FeedbackCategories.FindAsync(categoryId);;
+            var feedback = await _context.Feedbacks.FindAsync(feedbackId);
+            ViewBag.Event = await _context.Events.FindAsync(feedback.EventId);
+            
             return View(feedbackScope);
         }
 
@@ -126,7 +132,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Feedback", new {id = feedbackScope.FeedbackId});
             }
             return View(feedbackScope);
         }
