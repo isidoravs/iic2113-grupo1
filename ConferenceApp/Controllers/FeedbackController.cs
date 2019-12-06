@@ -49,7 +49,7 @@ namespace ConferenceApp.Controllers
                 categories.Add(category.Name);
             }
             ViewData["Categories"] = categories;
-            ViewBag.Message = "Evaluación creada exitosamente!";
+            ViewBag.Message = "Evaluación creada o actualizada exitosamente!";
 
             return View(feedback);
         }
@@ -97,6 +97,7 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["Event"] = await _context.Events.FindAsync(feedback.EventId);
             return View(feedback);
         }
 
@@ -130,7 +131,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Feedback", new {id = id});
             }
             return View(feedback);
         }

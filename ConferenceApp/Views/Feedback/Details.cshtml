@@ -30,7 +30,7 @@
             Comentarios generales
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Message)
+            @Html.DisplayFor(model => model.Message) (<a asp-action="Edit" asp-route-id="@Model.Id">editar</a>)
         </dd>
     </dl>
     <h5>Notas</h5>
