@@ -1,32 +1,56 @@
 @model ConferenceApp.Models.FeedbackScope
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nueva Evaluación";
 }
 
-<h1>Create</h1>
+<h1>Nueva Evaluación</h1>
 
-<h4>FeedbackScope</h4>
+@if (@ViewBag.Event != null)
+{
+    <h4>Evaluar "@ViewBag.Event.Name"</h4>
+    <div>
+        <a asp-action="Details" asp-controller="Event" asp-route-id="@ViewBag.Event.Id">Volver al evento</a>
+    </div>
+}
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h5>¿Qué nota le pones?</h5>
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="Grade" class="control-label"></label>
+                <label asp-for="FeedbackCategoryId" class="control-label">Categoría</label>
+                <select asp-for="FeedbackCategoryId" class ="form-control" asp-items="@ViewBag.Categories"></select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label">Nota</label>
                 <input asp-for="Grade" class="form-control" />
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <input type="hidden" asp-for="FeedbackId" value=@ViewBag.FeedbackId/>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="row">
+        <div class="col-md-4">
+            ¿Quieres además evaluar otra categoría?
+            <div class="form-group">
+                <input type="submit" name="nextCategory" value="Si, enviar nota y evaluar otra categoría" class="btn btn-primary" style="Width: 100%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="submit" name="send" value="No, enviar evaluación actual" class="btn btn-primary" style="Width: 100%;"/>
+            </div>
+            <a asp-action="Details" asp-controller="Feedback" asp-route-id="@ViewBag.FeedbackId">Ver mi evaluación</a>
+        </div>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

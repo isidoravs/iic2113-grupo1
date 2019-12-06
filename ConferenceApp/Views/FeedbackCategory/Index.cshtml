@@ -1,19 +1,19 @@
 @model IEnumerable<ConferenceApp.Models.FeedbackCategory>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorías de Evaluación";
 }
 
-<h1>Index</h1>
+<h1>Categorías de evaluación</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Agregar nueva categoría</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Nombre
             </th>
             <th></th>
         </tr>

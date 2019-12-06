@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191205204319_AddFeedbackRelations")]
+    partial class AddFeedbackRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,14 +168,10 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("EventId");
-
                     b.Property<string>("Message")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -672,14 +670,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasOne("ConferenceApp.Models.Talk")
                         .WithMany("EventTags")
                         .HasForeignKey("TalkId");
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Event")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
