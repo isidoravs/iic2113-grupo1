@@ -12,7 +12,7 @@ namespace ConferenceApp.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-
+        
         public ICollection<Sponsor> Sponsors { get; set; }
         
         public ICollection<ConferenceVersion> Versions { get; set; }
