@@ -68,7 +68,9 @@ namespace ConferenceApp.Controllers
             // }
             
             var menus = await _context.MenuOptions.Where(x => x.FoodServiceId == @foodService.Id).ToListAsync();
-            
+
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == foodService.Id).CountAsync();
+
             ViewBag.menus = menus;
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -77,6 +79,7 @@ namespace ConferenceApp.Controllers
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
+            ViewBag.EventAssistance = EventAssistance;
 
             return View(foodService);
         }

@@ -67,6 +67,8 @@ namespace ConferenceApp.Controllers
             //     assistants.Add(a.Email);
             // }
 
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == party.Id).CountAsync();
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -74,7 +76,8 @@ namespace ConferenceApp.Controllers
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
-            
+            ViewBag.EventAssistance = EventAssistance;
+
             return View(party);
         }
 
