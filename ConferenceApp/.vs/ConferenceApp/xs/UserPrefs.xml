@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/TalkController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/TagController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="179" Column="10" />
-      <File FileName="Views/Event/Index.cshtml" Line="1" Column="1" />
-      <File FileName="Controllers/EventController.cs" Line="95" Column="55" />
-      <File FileName="Controllers/PracticalSessionController.cs" Line="97" Column="102" />
-      <File FileName="Controllers/PartyController.cs" Line="138" Column="36" />
-      <File FileName="Controllers/FoodServiceController.cs" Line="185" Column="10" />
-      <File FileName="Controllers/TalkController.cs" Line="129" Column="10" />
+      <File FileName="Controllers/ChatController.cs" Line="85" Column="103" />
+      <File FileName="Controllers/TagController.cs" Line="55" Column="1" />
+      <File FileName="Views/Tag/Details.cshtml" Line="1" Column="21" />
+      <File FileName="Views/Chat/Details.cshtml" Line="137" Column="7" />
+      <File FileName="Models/EventTag.cs" Line="1" Column="1" />
+      <File FileName="Models/Tag.cs" Line="1" Column="1" />
+      <File FileName="Models/Talk.cs" Line="1" Column="1" />
+      <File FileName="Models/Role.cs" Line="13" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,17 +16,13 @@
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="TalkController.cs" selected="True" />
-              </Node>
-              <Node name="Data" expanded="True">
-                <Node name="Migrations" expanded="True">
-                  <Node name="20191112170836_AddRoomsToEvents.cs" expanded="True" />
-                </Node>
+                <Node name="TagController.cs" selected="True" />
               </Node>
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="Event" expanded="True" />
+                <Node name="Chat" expanded="True" />
+                <Node name="Tag" expanded="True" />
               </Node>
               <Node name="appsettings.json" expanded="True" />
             </Node>

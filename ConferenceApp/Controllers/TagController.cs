@@ -40,6 +40,27 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
+            var Chats = await _context.Chats.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
+            var Talks = await _context.Talks.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
+            var PracticalSessions = await _context.PracticalSessions.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
+
+            var ChatAttendants = await _context.Roles.Where(x => Chats.Any(c => c.Id == x.EventId)).ToListAsync();
+            var TalkAttendants = await _context.Roles.Where(x => Talks.Any(t => t.Id == x.EventId)).ToListAsync();
+            var PracticalSessionAttendants = await _context.Roles.Where(x => PracticalSessions.Any(ps => ps.Id == x.EventId)).ToListAsync();
+
+
+            var TotalAttendants = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
+
+            //var TalkAttendants = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
+
+            //var TagAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
+
+            ViewBag.TotalAttendants = TotalAttendants;
+            ViewBag.TotalAttendantsNum = TotalAttendants.Count();
+            ViewBag.Chats = Chats.Count();
+            ViewBag.Talks = Talks.Count();
+            ViewBag.PracticalSessions = PracticalSessions.Count();
+
             return View(tag);
         }
 

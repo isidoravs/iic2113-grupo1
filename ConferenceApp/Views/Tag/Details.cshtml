@@ -17,6 +17,14 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
+    <dl class="row">
+            <dt class = "col-sm-4">
+                Asistentes
+            </dt>
+            <dd class = "col-sm-8">
+                @ViewBag.TotalAttendantsNum
+            </dd>
+        </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |

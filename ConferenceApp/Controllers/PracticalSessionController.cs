@@ -91,6 +91,8 @@ namespace ConferenceApp.Controllers
                 }
             }
 
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id).CountAsync();
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -99,6 +101,7 @@ namespace ConferenceApp.Controllers
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
             ViewBag.fileDescription = fileDescription;
+            ViewBag.EventAssistance = EventAssistance;
 
             return View(practicalSession);
         }
