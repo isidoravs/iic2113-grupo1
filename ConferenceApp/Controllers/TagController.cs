@@ -48,18 +48,10 @@ namespace ConferenceApp.Controllers
             var TalkAttendants = await _context.Roles.Where(x => Talks.Any(t => t.Id == x.EventId)).ToListAsync();
             var PracticalSessionAttendants = await _context.Roles.Where(x => PracticalSessions.Any(ps => ps.Id == x.EventId)).ToListAsync();
 
+            var TotalAttendantsRoles = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
+            var TotalAttendantsUsersNum = await _context.Users.Where(u => TotalAttendantsRoles.Any(r => r.UserId == u.Id)).CountAsync();
 
-            var TotalAttendants = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
-
-            //var TalkAttendants = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
-
-            //var TagAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
-
-            ViewBag.TotalAttendants = TotalAttendants;
-            ViewBag.TotalAttendantsNum = TotalAttendants.Count();
-            ViewBag.Chats = Chats.Count();
-            ViewBag.Talks = Talks.Count();
-            ViewBag.PracticalSessions = PracticalSessions.Count();
+            ViewBag.TotalAttendantsUsersNum = TotalAttendantsUsersNum;
 
             return View(tag);
         }
