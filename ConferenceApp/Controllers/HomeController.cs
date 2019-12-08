@@ -30,7 +30,7 @@ namespace ConferenceApp.Controllers
                 var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == role.EventId);
                 eventsToList.Add(@event);
             }
-
+            
             ViewBag.eventsToList = eventsToList;
             
             return View();
