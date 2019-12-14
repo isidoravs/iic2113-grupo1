@@ -79,16 +79,19 @@ namespace ConferenceApp.Controllers
 
             foreach (var Category in FeedbackCategories)
             {
-                FeedbackCategoryName.Add(Category.Name);
-                var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+                if (Category.Name != "Exhibitor")
+                {
+                    FeedbackCategoryName.Add(Category.Name);
+                    var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
 
-                if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
-                {
-                    FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
-                }
-                else
-                {
-                    FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                    if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                    {
+                        FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                    }
+                    else
+                    {
+                        FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                    }
                 }
             }
 
