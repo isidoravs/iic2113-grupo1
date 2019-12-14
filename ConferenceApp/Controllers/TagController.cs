@@ -44,9 +44,9 @@ namespace ConferenceApp.Controllers
             var Talks = await _context.Talks.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
             var PracticalSessions = await _context.PracticalSessions.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
 
-            var ChatAttendants = await _context.Roles.Where(x => Chats.Any(c => c.Id == x.EventId)).ToListAsync();
-            var TalkAttendants = await _context.Roles.Where(x => Talks.Any(t => t.Id == x.EventId)).ToListAsync();
-            var PracticalSessionAttendants = await _context.Roles.Where(x => PracticalSessions.Any(ps => ps.Id == x.EventId)).ToListAsync();
+            var ChatAttendants = await _context.Roles.Where(x => Chats.Any(c => c.Id == x.EventId && x.Name == "attendant")).ToListAsync();
+            var TalkAttendants = await _context.Roles.Where(x => Talks.Any(t => t.Id == x.EventId && x.Name == "attendant")).ToListAsync();
+            var PracticalSessionAttendants = await _context.Roles.Where(x => PracticalSessions.Any(ps => ps.Id == x.EventId && x.Name == "attendant")).ToListAsync();
 
             var TotalAttendantsRoles = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
             var TotalAttendantsUsersNum = await _context.Users.Where(u => TotalAttendantsRoles.Any(r => r.UserId == u.Id)).CountAsync();
