@@ -45,12 +45,12 @@ namespace ConferenceApp.Controllers
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
-            
+
             var room = await _context.Rooms.FindAsync(@party.RoomId);
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@party.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-            
+
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -67,7 +67,30 @@ namespace ConferenceApp.Controllers
             //     assistants.Add(a.Email);
             // }
 
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == party.Id).CountAsync();
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == party.Id && x.Name == "attendant").CountAsync();
+
+            var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
+            var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == party.Id).ToListAsync();
+
+            var FeedbackAveragePerCategory = new List<object>();
+            var FeedbackCategoryName = new List<object>();
+
+            foreach (var Category in FeedbackCategories)
+            {
+                FeedbackCategoryName.Add(Category.Name);
+                var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+
+                if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                {
+                    FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                }
+                else
+                {
+                    FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                }
+            }
+
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -77,6 +100,9 @@ namespace ConferenceApp.Controllers
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
             ViewBag.EventAssistance = EventAssistance;
+            ViewBag.FeedbackCategoryName = FeedbackCategoryName;
+            ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
+
 
             return View(party);
         }
@@ -116,7 +142,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -154,7 +180,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};

@@ -81,9 +81,9 @@ namespace ConferenceApp.Controllers
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
+
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
             var moderator = await _context.Users.FindAsync(@chat.Moderator);
-            
-            ViewBag.Moderator = moderator;
 
             var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
             
@@ -96,6 +96,32 @@ namespace ConferenceApp.Controllers
             }
             
             ViewBag.panelists = panelists;
+
+
+            var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
+            var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == chat.Id).ToListAsync();
+
+            var FeedbackAveragePerCategory = new List<object>();
+            var FeedbackCategoryName = new List<object>();
+
+            foreach (var Category in FeedbackCategories)
+            {
+                FeedbackCategoryName.Add(Category.Name);
+                var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+
+                if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                {
+                    FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                }
+                else
+                {
+                    FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                }
+            }
+
+            ViewBag.Moderator = moderator;
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -104,6 +130,8 @@ namespace ConferenceApp.Controllers
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
             ViewBag.EventAssistance = EventAssistance;
+            ViewBag.FeedbackCategoryName = FeedbackCategoryName;
+            ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
 
             return View(chat);
         }
@@ -126,14 +154,14 @@ namespace ConferenceApp.Controllers
 
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
-            
+
             var users = await _context.Users.ToListAsync();
             var userList = new List<object>();
             foreach (var user in users)
             {
                 userList.Add(user);
             }
-            
+
             ViewBag.Moderators = new SelectList(userList , "Id", "Email");
 
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
@@ -158,7 +186,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -196,7 +224,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
@@ -313,7 +341,7 @@ namespace ConferenceApp.Controllers
             {
                 userList.Add(user);
             }
-            
+
             ViewBag.Moderators = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
 

@@ -55,10 +55,17 @@
             }
             else
             {
-                <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
-                <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
-                    <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
-                </a>
+                if (ViewBag.feedback == null)
+                {
+                    <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo.</i>
+                    <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                        <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
+                    </a>
+                }
+                else
+                {
+                    <i>Este evento ya finalizó y mandaste tu <a asp-controller="Feedback" asp-action="Details" asp-route-id="@ViewBag.feedback.Id">evaluación</a>.</i>
+                }
             }
         }
         else
@@ -126,6 +133,17 @@
 <div class="row">
     <div class="col-sm-8">
         <h5>Estadísticas</h5>
+        @for (var i = 0; i < ViewBag.FeedbackCategoryName.Count; i++)
+        {
+            <dl class="row">
+                <dt class = "col-sm-4">
+                    @ViewBag.FeedbackCategoryName[i]
+                </dt>
+                <dd class = "col-sm-8">
+                    @ViewBag.FeedbackAveragePerCategory[i]
+                </dd>
+            </dl>
+        }
     </div>
     <div class="col-sm-4"></div>
 </div>

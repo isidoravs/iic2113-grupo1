@@ -51,7 +51,30 @@ namespace ConferenceApp.Controllers
             var TotalAttendantsRoles = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
             var TotalAttendantsUsersNum = await _context.Users.Where(u => TotalAttendantsRoles.Any(r => r.UserId == u.Id)).CountAsync();
 
+            var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
+            var Feedbacks = await _context.Feedbacks.Where(f => Chats.Any(c => c.Id == f.EventId) || Talks.Any(t => t.Id == f.EventId) || PracticalSessions.Any(ps => ps.Id == f.EventId)).ToListAsync();
+
+            var FeedbackAveragePerCategory = new List<object>();
+            var FeedbackCategoryName = new List<object>();
+
+            foreach (var Category in FeedbackCategories)
+            {
+                FeedbackCategoryName.Add(Category.Name);
+                var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+
+                if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                {
+                    FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                }
+                else
+                {
+                    FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                }
+            }
+
             ViewBag.TotalAttendantsUsersNum = TotalAttendantsUsersNum;
+            ViewBag.FeedbackCategoryName = FeedbackCategoryName;
+            ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
 
             return View(tag);
         }
