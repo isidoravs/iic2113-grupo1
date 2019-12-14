@@ -64,7 +64,7 @@ namespace ConferenceApp.Controllers
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-
+            
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -85,6 +85,17 @@ namespace ConferenceApp.Controllers
             var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
             var moderator = await _context.Users.FindAsync(@chat.Moderator);
 
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
+            
+            var panelistList = await _context.Roles.Where(x => (x.EventId == chat.Id && x.Name == "panelist")).ToListAsync();
+            var panelists = new List<string>();
+            foreach (var member in panelistList)
+            {
+                var u = await _context.Users.FindAsync(member.UserId);
+                panelists.Add(u.Email);
+            }
+            
+            ViewBag.panelists = panelists;
 
 
             var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
