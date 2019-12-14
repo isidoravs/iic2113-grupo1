@@ -68,6 +68,8 @@ namespace ConferenceApp.Controllers
             //     assistants.Add(a.Email);
             // }
 
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
