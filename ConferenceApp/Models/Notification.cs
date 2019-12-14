@@ -12,5 +12,11 @@ namespace ConferenceApp.Models
 
         [Required] 
         public string Message { get; set; }
+        
+        [Required]
+        public string SenderId { get; set; }
+        
+        [Required]
+        public string ReceiverId { get; set; }
     }
 }

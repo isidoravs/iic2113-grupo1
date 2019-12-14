@@ -24,6 +24,19 @@ namespace ConferenceApp.Controllers
         {
             return View(await _context.Notifications.ToListAsync());
         }
+        
+        // GET: Notification/User
+
+        public async Task<IActionResult> UserNotifications(string userId)
+        {
+            Console.WriteLine("***************************");
+            var userNotifications = await _context.Notifications.Where(
+                notification => notification.ReceiverId == userId).ToListAsync();
+            
+            ViewBag.UserNotifications = userNotifications;
+            
+            return View();
+        }
 
         // GET: Notification/Details/5
         public async Task<IActionResult> Details(int? id)
