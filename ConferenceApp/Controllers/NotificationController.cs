@@ -29,12 +29,28 @@ namespace ConferenceApp.Controllers
 
         public async Task<IActionResult> UserNotifications(string userId)
         {
-            Console.WriteLine("***************************");
             var userNotifications = await _context.Notifications.Where(
                 notification => notification.ReceiverId == userId).ToListAsync();
+
+            /*var events = new List<Event>();
+            var conferences = new List<Conference>();
+            foreach (var notification in userNotifications)
+            {
+                if (notification.EventId != -1)
+                {
+                    var @event = await _context.Events.FirstOrDefaultAsync(e => e.Id == notification.EventId);
+                    events.Add(@event);
+                }
+                else
+                {
+                    var conference =
+                        await _context.Conferences.FirstOrDefaultAsync(c => c.Id == notification.ConferenceId);
+                    conferences.Add(conference);
+                }
+            }*/
             
             ViewBag.UserNotifications = userNotifications;
-            
+
             return View();
         }
 

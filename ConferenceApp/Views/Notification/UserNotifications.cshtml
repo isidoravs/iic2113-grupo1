@@ -1,3 +1,44 @@
+@using SQLitePCL
 @model IEnumerable<ConferenceApp.Models.Notification>
 
 <h1>My Notifications</h1>
+
+<div class="container">
+    <h4>Notificaciones</h4>
+
+    <div class="tableFixHead">
+
+        <table class="table table-fixed table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Para asistentes de </th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Mensaje</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var notification in ViewBag.UserNotifications)
+            {
+                if (notification.IsEventNotification)
+                {
+                    <tr>
+                        <th scope="row"><a asp-controller="Event" asp-action="Details" asp-route-id="@notification.Event.Id">@notification.Event.Name</a></th>
+                        <td>@notification.Date</td>
+                        <td>@notification.Subject</td>
+                        <td><a asp-controller="Notification" asp-action="Details" asp-route-id="@notification.Id">Ver</a></td>
+                    </tr> 
+                }
+                else
+                {
+                    <tr>
+                        <th scope="row"><a asp-controller="Conference" asp-action="Details" asp-route-id="@notification.Conference.Id">@notification.Conference.Name</a></th>
+                        <td>@notification.Date</td>
+                        <td>@notification.Subject</td>
+                        <td><a asp-controller="Notification" asp-action="Details" asp-route-id="@notification.Id">Ver</a></td>
+                    </tr> 
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
