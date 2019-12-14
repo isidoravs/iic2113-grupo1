@@ -104,8 +104,15 @@
             <dt class = "col-sm-4">
                 Panelistas
             </dt>
-            <dd class = "col-sm-8">
-                @Html.DisplayFor(model => model.Panelists)
+            
+            <dd class = "col-sm-4">
+                @foreach( var panelist in ViewBag.panelists)
+                {
+                    <p>@panelist</p>
+                }
+            </dd>
+            <dd class="col-sm-4">
+                <a asp-controller="Role" asp-action="Create" asp-route-eventId="@Model.Id">Agregar</a>
             </dd>
             <dt class = "col-sm-4">
                 Modera
