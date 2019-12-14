@@ -92,6 +92,7 @@ namespace ConferenceApp.Controllers
                     Id = member.Id,
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
+            
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["ConferenceVersionId"] = conferenceVersionId;
             return View();

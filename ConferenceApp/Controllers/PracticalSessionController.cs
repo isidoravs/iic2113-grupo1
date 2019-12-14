@@ -90,6 +90,10 @@ namespace ConferenceApp.Controllers
                     fileDescription = file.Description;
                 }
             }
+            
+            var exhibitor = await _context.Users.FindAsync(@practicalSession.Exhibitor);
+            
+            ViewBag.Exhibitor = exhibitor;
 
             var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id).CountAsync();
 
@@ -124,6 +128,13 @@ namespace ConferenceApp.Controllers
 
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            ViewBag.Exhibitors = new SelectList(userList , "Id", "Email");
 
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
@@ -244,6 +255,13 @@ namespace ConferenceApp.Controllers
                 var checkBox = new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = eventTag != null};
                 availableTags.Add(checkBox);
             }
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            ViewBag.Exhibitors = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
             return View(practicalSession);
         }
