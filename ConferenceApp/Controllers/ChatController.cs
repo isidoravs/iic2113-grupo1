@@ -105,15 +105,6 @@ namespace ConferenceApp.Controllers
                 }
             }
 
-
-
-            //var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == chat.Id).ToListAsync();
-            //var FeedbackScopes = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => f.Id == fs.FeedbackId)).ToListAsync();
-            //var FeedbackCategories = await _context.FeedbackCategories.Where(fc => FeedbackScopes.Any(fs => fs.FeedbackCategoryId == fc.Id)).ToListAsync();
-
-
-
-
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -122,7 +113,6 @@ namespace ConferenceApp.Controllers
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
             ViewBag.EventAssistance = EventAssistance;
-
             ViewBag.FeedbackCategoryName = FeedbackCategoryName;
             ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
 

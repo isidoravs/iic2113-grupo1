@@ -72,13 +72,6 @@ namespace ConferenceApp.Controllers
                 }
             }
 
-
-
-
-
-
-
-
             ViewBag.TotalAttendantsUsersNum = TotalAttendantsUsersNum;
             ViewBag.FeedbackCategoryName = FeedbackCategoryName;
             ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
