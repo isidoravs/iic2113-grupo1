@@ -49,7 +49,12 @@ namespace ConferenceApp.Controllers
             ViewBag.FeedbackId = feedbackId;
             var feedback = await _context.Feedbacks.FindAsync(feedbackId);
             ViewBag.Event = await _context.Events.FindAsync(feedback.EventId);
-            var categories = await _context.FeedbackCategories.ToListAsync();
+
+            var actualScopes = await _context.FeedbackScopes.Where(x => x.FeedbackId == feedbackId).ToListAsync();
+            var actualCategories = actualScopes.Select(s => s.FeedbackCategoryId).ToList();
+            
+            var categories = await _context.FeedbackCategories.Where(x => !actualCategories.Contains(x.Id)).ToListAsync();
+            ViewBag.CategoriesCount = categories.Count();
             ViewData["Categories"] = new SelectList(categories,"Id","Name");
             
             return View();
