@@ -95,7 +95,28 @@ namespace ConferenceApp.Controllers
             
             ViewBag.Exhibitor = exhibitor;
 
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id).CountAsync();
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id && x.Name == "attendant").CountAsync();
+
+            var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
+            var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == practicalSession.Id).ToListAsync();
+
+            var FeedbackAveragePerCategory = new List<object>();
+            var FeedbackCategoryName = new List<object>();
+
+            foreach (var Category in FeedbackCategories)
+            {
+                FeedbackCategoryName.Add(Category.Name);
+                var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+
+                if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                {
+                    FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                }
+                else
+                {
+                    FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                }
+            }
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -106,6 +127,8 @@ namespace ConferenceApp.Controllers
             ViewBag.sponsors = sponsors;
             ViewBag.fileDescription = fileDescription;
             ViewBag.EventAssistance = EventAssistance;
+            ViewBag.FeedbackCategoryName = FeedbackCategoryName;
+            ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
 
             return View(practicalSession);
         }
