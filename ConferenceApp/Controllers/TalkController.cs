@@ -91,6 +91,10 @@ namespace ConferenceApp.Controllers
                     fileDescription = file.Description;
                 }
             }
+            
+            var exhibitor = await _context.Users.FindAsync(@talk.Exhibitor);
+            
+            ViewBag.Exhibitor = exhibitor;
 
             var EventAssistance = await _context.Roles.Where(x => x.EventId == talk.Id && x.Name == "attendant").CountAsync();
 
@@ -148,7 +152,14 @@ namespace ConferenceApp.Controllers
 
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
-
+            
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            ViewBag.Exhibitors = new SelectList(userList , "Id", "Email");
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             this.ViewData["AvailableTags"] = new List<CheckBoxItem>(availableTags);
@@ -160,7 +171,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,Exhibitor,AvailableTags")] Talk talk)
+        public async Task<IActionResult> Create([Bind("Topic,Id,Name,StartDate,EndDate,ConferenceVersionId,RoomId,ExhibitorId,AvailableTags")] Talk talk)
         {
 
             var conferenceVersion = await _context.ConferenceVersions.Where(x => x.Id == talk.ConferenceVersionId).FirstOrDefaultAsync();
@@ -250,6 +261,13 @@ namespace ConferenceApp.Controllers
                 var checkBox = new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = eventTag != null};
                 availableTags.Add(checkBox);
             }
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            ViewBag.Exhibitors = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
 
             return View(talk);
@@ -319,7 +337,6 @@ namespace ConferenceApp.Controllers
             return RedirectToAction(nameof(Details), new { id = eventId.ToString() });
 
         }
-
 
         // POST: Talk/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for

@@ -1,7 +1,8 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChatController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/EventController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="115" Column="55" />
+      <File FileName="Controllers/ChatController.cs" Line="111" Column="43" />
+      <File FileName="Controllers/EventController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -9,7 +10,7 @@
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="ChatController.cs" selected="True" />
+                <Node name="EventController.cs" selected="True" />
               </Node>
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">

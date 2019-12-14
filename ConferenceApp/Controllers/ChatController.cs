@@ -83,6 +83,9 @@ namespace ConferenceApp.Controllers
             // }
                         
             var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
+            var moderator = await _context.Users.FindAsync(@chat.Moderator);
+            
+            
 
             var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
             var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == chat.Id).ToListAsync();
@@ -105,6 +108,7 @@ namespace ConferenceApp.Controllers
                 }
             }
 
+            ViewBag.Moderator = moderator;
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -137,6 +141,15 @@ namespace ConferenceApp.Controllers
 
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
+            
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            
+            ViewBag.Moderators = new SelectList(userList , "Id", "Email");
 
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
@@ -309,6 +322,14 @@ namespace ConferenceApp.Controllers
                 var checkBox = new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = eventTag != null};
                 availableTags.Add(checkBox);
             }
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            
+            ViewBag.Moderators = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
 
             return View(chat);
