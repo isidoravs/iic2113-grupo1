@@ -64,7 +64,7 @@ namespace ConferenceApp.Controllers
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-
+            
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -81,11 +81,22 @@ namespace ConferenceApp.Controllers
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
-                        
+
             var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
             var moderator = await _context.Users.FindAsync(@chat.Moderator);
+
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
             
+            var panelistList = await _context.Roles.Where(x => (x.EventId == chat.Id && x.Name == "panelist")).ToListAsync();
+            var panelists = new List<string>();
+            foreach (var member in panelistList)
+            {
+                var u = await _context.Users.FindAsync(member.UserId);
+                panelists.Add(u.Email);
+            }
             
+            ViewBag.panelists = panelists;
+
 
             var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
             var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == chat.Id).ToListAsync();
@@ -112,6 +123,8 @@ namespace ConferenceApp.Controllers
             }
 
             ViewBag.Moderator = moderator;
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -144,14 +157,14 @@ namespace ConferenceApp.Controllers
 
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
-            
+
             var users = await _context.Users.ToListAsync();
             var userList = new List<object>();
             foreach (var user in users)
             {
                 userList.Add(user);
             }
-            
+
             ViewBag.Moderators = new SelectList(userList , "Id", "Email");
 
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
@@ -176,7 +189,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -214,7 +227,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
@@ -331,7 +344,7 @@ namespace ConferenceApp.Controllers
             {
                 userList.Add(user);
             }
-            
+
             ViewBag.Moderators = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
 

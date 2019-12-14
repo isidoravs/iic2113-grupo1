@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -61,19 +62,20 @@ namespace ConferenceApp.Controllers
                 ? await _context.Events.ToListAsync()
                 : await _context.Events.Where(x => x.Id == eventId).ToListAsync();
             ViewData["Events"] = new SelectList(events,"Id","Name");
-            
+
             var theEvent = eventId == null ? null : await _context.Events.FindAsync(eventId);
             ViewData["Event"] = theEvent;
-            
+            ViewBag.Author = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             return View();
         }
 
         // POST: Feedback/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Message,EventId")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("Id,Message,EventId,UserId")] Feedback feedback)
         {
             if (ModelState.IsValid)
             {
@@ -97,16 +99,17 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Author = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             ViewData["Event"] = await _context.Events.FindAsync(feedback.EventId);
             return View(feedback);
         }
 
         // POST: Feedback/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,EventId")] Feedback feedback)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,EventId,UserId")] Feedback feedback)
         {
             if (id != feedback.Id)
             {

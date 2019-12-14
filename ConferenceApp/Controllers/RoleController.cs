@@ -44,8 +44,17 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Role/Create
-        public IActionResult Create()
+        async public Task<IActionResult> Create(int? eventId)
         {
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+            
+            ViewBag.Panelists = new SelectList(userList , "Id", "Email");
+            ViewBag.EventId = eventId;
             return View();
         }
 
@@ -60,7 +69,7 @@ namespace ConferenceApp.Controllers
             {
                 _context.Add(role);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details),"Event", new { id = role.EventId.ToString() });
             }
             return View(role);
         }
