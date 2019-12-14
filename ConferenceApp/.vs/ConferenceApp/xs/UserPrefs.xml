@@ -1,33 +1,25 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/User.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChatController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="390" Column="1" />
-      <File FileName="Controllers/TagController.cs" Line="57" Column="1" />
-      <File FileName="Views/Tag/Details.cshtml" Line="33" Column="1" />
-      <File FileName="Views/Chat/Details.cshtml" Line="145" Column="1" />
-      <File FileName="Models/EventTag.cs" Line="1" Column="1" />
-      <File FileName="Models/Tag.cs" Line="1" Column="1" />
-      <File FileName="Models/Talk.cs" Line="1" Column="1" />
-      <File FileName="Models/Role.cs" Line="14" Column="1" />
-      <File FileName="Models/User.cs" Line="9" Column="25" />
-      <File FileName="Views/Home/Index.cshtml" Line="2" Column="23" />
+      <File FileName="Controllers/ChatController.cs" Line="85" Column="94" />
+      <File FileName="Views/Chat/Details.cshtml" Line="147" Column="37" />
+      <File FileName="Models/Feedback.cs" Line="19" Column="2" />
+      <File FileName="Models/FeedbackScope.cs" Line="16" Column="38" />
+      <File FileName="Models/FeedbackCategory.cs" Line="1" Column="1" />
+      <File FileName="Controllers/TagController.cs" Line="48" Column="115" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="docs" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="User.cs" selected="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="ChatController.cs" selected="True" />
               </Node>
+              <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Chat" expanded="True" />
-                <Node name="Home" expanded="True" />
-                <Node name="Tag" expanded="True" />
               </Node>
-              <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>
         </State>

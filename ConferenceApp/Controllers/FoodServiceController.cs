@@ -69,7 +69,7 @@ namespace ConferenceApp.Controllers
             
             var menus = await _context.MenuOptions.Where(x => x.FoodServiceId == @foodService.Id).ToListAsync();
 
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == foodService.Id).CountAsync();
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == foodService.Id && x.Name == "attendant").CountAsync();
 
             ViewBag.menus = menus;
             ViewBag.roomName = room.Name;

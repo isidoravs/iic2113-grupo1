@@ -91,7 +91,7 @@ namespace ConferenceApp.Controllers
                 }
             }
 
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id).CountAsync();
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == practicalSession.Id && x.Name == "attendant").CountAsync();
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;

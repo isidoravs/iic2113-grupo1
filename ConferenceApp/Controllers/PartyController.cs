@@ -67,7 +67,7 @@ namespace ConferenceApp.Controllers
             //     assistants.Add(a.Email);
             // }
 
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == party.Id).CountAsync();
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == party.Id && x.Name == "attendant").CountAsync();
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
