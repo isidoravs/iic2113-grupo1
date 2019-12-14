@@ -1,24 +1,29 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ChatController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Talk/Details.cshtml">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="85" Column="94" />
-      <File FileName="Views/Chat/Details.cshtml" Line="147" Column="37" />
-      <File FileName="Models/Feedback.cs" Line="19" Column="2" />
-      <File FileName="Models/FeedbackScope.cs" Line="16" Column="38" />
-      <File FileName="Models/FeedbackCategory.cs" Line="1" Column="1" />
+      <File FileName="Controllers/ChatController.cs" Line="126" Column="13" />
+      <File FileName="Views/Chat/Details.cshtml" Line="142" Column="64" />
       <File FileName="Controllers/TagController.cs" Line="48" Column="115" />
+      <File FileName="Views/FoodService/Details.cshtml" Line="1" Column="1" />
+      <File FileName="Views/Party/Details.cshtml" Line="1" Column="1" />
+      <File FileName="Views/PracticalSession/Details.cshtml" Line="1" Column="1" />
+      <File FileName="Views/Talk/Details.cshtml" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ChatController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Chat" expanded="True" />
+                <Node name="FoodService" expanded="True" />
+                <Node name="Party" expanded="True" />
+                <Node name="PracticalSession" expanded="True" />
+                <Node name="Talk" expanded="True">
+                  <Node name="Details.cshtml" selected="True" />
+                </Node>
               </Node>
             </Node>
           </Node>
