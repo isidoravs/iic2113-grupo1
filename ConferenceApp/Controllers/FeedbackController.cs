@@ -39,13 +39,32 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["Event"] = await _context.Events.FindAsync(feedback.EventId);
+            var scopes = await _context.FeedbackScopes.Where(x => x.FeedbackId == feedback.Id).ToListAsync();
+            ViewData["Scopes"] = scopes;
+            var categories = new List<string>();
+            foreach (var s in scopes)
+            {
+                var category = await _context.FeedbackCategories.FindAsync(s.FeedbackCategoryId);
+                categories.Add(category.Name);
+            }
+            ViewData["Categories"] = categories;
+            ViewBag.Message = "Evaluación creada o actualizada exitosamente!";
 
             return View(feedback);
         }
 
         // GET: Feedback/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? eventId)
         {
+            var events = eventId == null
+                ? await _context.Events.ToListAsync()
+                : await _context.Events.Where(x => x.Id == eventId).ToListAsync();
+            ViewData["Events"] = new SelectList(events,"Id","Name");
+            
+            var theEvent = eventId == null ? null : await _context.Events.FindAsync(eventId);
+            ViewData["Event"] = theEvent;
+            
             return View();
         }
 
@@ -54,13 +73,13 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Message")] Feedback feedback)
+        public async Task<IActionResult> Create([Bind("Id,Message,EventId")] Feedback feedback)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(feedback);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "FeedbackScope", new {feedbackId = feedback.Id});
             }
             return View(feedback);
         }
@@ -78,6 +97,7 @@ namespace ConferenceApp.Controllers
             {
                 return NotFound();
             }
+            ViewData["Event"] = await _context.Events.FindAsync(feedback.EventId);
             return View(feedback);
         }
 
@@ -86,7 +106,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Message")] Feedback feedback)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Message,EventId")] Feedback feedback)
         {
             if (id != feedback.Id)
             {
@@ -111,7 +131,7 @@ namespace ConferenceApp.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Feedback", new {id = id});
             }
             return View(feedback);
         }

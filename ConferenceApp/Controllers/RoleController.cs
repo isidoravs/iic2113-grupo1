@@ -10,22 +10,22 @@ using ConferenceApp.Models;
 
 namespace ConferenceApp.Controllers
 {
-    public class TagController : Controller
+    public class RoleController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TagController(ApplicationDbContext context)
+        public RoleController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Tag
+        // GET: Role
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Tags.ToListAsync());
+            return View(await _context.Roles.ToListAsync());
         }
 
-        // GET: Tag/Details/5
+        // GET: Role/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,52 +33,39 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tags
+            var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tag == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            var Chats = await _context.Chats.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
-            var Talks = await _context.Talks.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
-            var PracticalSessions = await _context.PracticalSessions.Where(x => x.EventTags.Any(et => et.TagId == tag.Id)).ToListAsync();
-
-            var ChatAttendants = await _context.Roles.Where(x => Chats.Any(c => c.Id == x.EventId)).ToListAsync();
-            var TalkAttendants = await _context.Roles.Where(x => Talks.Any(t => t.Id == x.EventId)).ToListAsync();
-            var PracticalSessionAttendants = await _context.Roles.Where(x => PracticalSessions.Any(ps => ps.Id == x.EventId)).ToListAsync();
-
-            var TotalAttendantsRoles = ChatAttendants.Union(TalkAttendants).Union(PracticalSessionAttendants).Distinct();
-            var TotalAttendantsUsersNum = await _context.Users.Where(u => TotalAttendantsRoles.Any(r => r.UserId == u.Id)).CountAsync();
-
-            ViewBag.TotalAttendantsUsersNum = TotalAttendantsUsersNum;
-
-            return View(tag);
+            return View(role);
         }
 
-        // GET: Tag/Create
+        // GET: Role/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Tag/Create
+        // POST: Role/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Tag tag)
+        public async Task<IActionResult> Create([Bind("Id,Name,UserId,EventId")] Role role)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tag);
+                _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tag);
+            return View(role);
         }
 
-        // GET: Tag/Edit/5
+        // GET: Role/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,22 +73,22 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tags.FindAsync(id);
-            if (tag == null)
+            var role = await _context.Roles.FindAsync(id);
+            if (role == null)
             {
                 return NotFound();
             }
-            return View(tag);
+            return View(role);
         }
 
-        // POST: Tag/Edit/5
+        // POST: Role/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Tag tag)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UserId,EventId")] Role role)
         {
-            if (id != tag.Id)
+            if (id != role.Id)
             {
                 return NotFound();
             }
@@ -110,12 +97,12 @@ namespace ConferenceApp.Controllers
             {
                 try
                 {
-                    _context.Update(tag);
+                    _context.Update(role);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TagExists(tag.Id))
+                    if (!RoleExists(role.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +113,10 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tag);
+            return View(role);
         }
 
-        // GET: Tag/Delete/5
+        // GET: Role/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,30 +124,30 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
 
-            var tag = await _context.Tags
+            var role = await _context.Roles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tag == null)
+            if (role == null)
             {
                 return NotFound();
             }
 
-            return View(tag);
+            return View(role);
         }
 
-        // POST: Tag/Delete/5
+        // POST: Role/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tag = await _context.Tags.FindAsync(id);
-            _context.Tags.Remove(tag);
+            var role = await _context.Roles.FindAsync(id);
+            _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TagExists(int id)
+        private bool RoleExists(int id)
         {
-            return _context.Tags.Any(e => e.Id == id);
+            return _context.Roles.Any(e => e.Id == id);
         }
     }
 }

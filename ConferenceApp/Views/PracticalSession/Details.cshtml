@@ -56,7 +56,7 @@
             else
             {
                 <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
-                <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
+                <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
                     <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
                 </a>
             }
@@ -107,14 +107,14 @@
             <dd class = "col-sm-8">
                 @ViewBag.Exhibitor
             </dd>
-            <dt class = "col-sm-4">    
+            <dt class = "col-sm-4">
                 Material Complementario
             </dt>
-            <dd class = "col-sm-8">    
+            <dd class = "col-sm-8">
                 @ViewBag.fileDescription
             </dd>
-            <dt class = "col-sm-4">    
-                
+            <dt class = "col-sm-4">
+
             </dt>
             @if (Model.FileId > 0)
             {
@@ -131,7 +131,7 @@
                     <button type="button" class="btn btn-primary" style="width: 100%;">Subir material complementario</button>
                 </a>
             }
-            
+
         </dl>
     </div>
     <div class="col-sm-4">
@@ -143,6 +143,14 @@
 <div class="row">
     <div class="col-sm-8">
         <h5>Asistentes</h5>
+        <dl class="row">
+            <dt class = "col-sm-4">
+                Cantidad
+            </dt>
+            <dd class = "col-sm-8">
+                @ViewBag.EventAssistance
+            </dd>
+        </dl>
     </div>
     <div class="col-sm-4"></div>
 </div>

@@ -75,6 +75,7 @@ namespace ConferenceApp.Controllers
 
             var assistantRoles = await _context.Roles.Where(x => x.EventId == @chat.Id).ToListAsync();
             var assistants = new List<object>();
+
             // foreach (var member in assistantRoles)
             // {
             //     var a = await _context.Users.FindAsync(member.UserId);
@@ -83,6 +84,10 @@ namespace ConferenceApp.Controllers
             var moderator = await _context.Users.FindAsync(@chat.Moderator);
             
             ViewBag.Moderator = moderator;
+
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
+
+
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
             ViewBag.location = centre.Location;
@@ -90,6 +95,7 @@ namespace ConferenceApp.Controllers
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
+            ViewBag.EventAssistance = EventAssistance;
 
             return View(chat);
         }
