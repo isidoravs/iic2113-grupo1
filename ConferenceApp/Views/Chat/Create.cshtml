@@ -29,8 +29,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Moderator" class="control-label">Moderador</label>
-                <input asp-for="Moderator" class="form-control" />
-                <span asp-validation-for="Moderator" class="text-danger"></span>
+                <select asp-for="Moderator" class="form-control" asp-items="ViewBag.Moderators"></select>
             </div>
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label">Inicio</label>
