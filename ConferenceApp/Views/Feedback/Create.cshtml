@@ -24,6 +24,7 @@
                 <textarea asp-for="Message" class="form-control"></textarea>
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="UserId" value="@ViewBag.Author" />
             @if (@ViewBag.Event == null)
             {
                 <div class="form-group">

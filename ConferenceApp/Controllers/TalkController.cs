@@ -81,7 +81,7 @@ namespace ConferenceApp.Controllers
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
-            
+
             var fileDescription = "";
             if (talk.FileId > 0)
             {
@@ -118,6 +118,8 @@ namespace ConferenceApp.Controllers
                     FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
                 }
             }
+
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -289,7 +291,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -327,7 +329,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};

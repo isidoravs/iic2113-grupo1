@@ -19,13 +19,14 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" value="@ViewBag.Author" />
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Message" class="control-label">Comentarios generales</label>
                 <input asp-for="Message" class="form-control" />
                 <span asp-validation-for="Message" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="EventId" value=@ViewBag.Event.Id />
+            <input type="hidden" asp-for="EventId" value="@ViewBag.Event.Id" />
             <div class="form-group">
                 <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>

@@ -45,12 +45,12 @@ namespace ConferenceApp.Controllers
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
-            
+
             var room = await _context.Rooms.FindAsync(@foodService.RoomId);
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@foodService.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-            
+
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -66,7 +66,7 @@ namespace ConferenceApp.Controllers
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
-            
+
             var menus = await _context.MenuOptions.Where(x => x.FoodServiceId == @foodService.Id).ToListAsync();
 
             var EventAssistance = await _context.Roles.Where(x => x.EventId == foodService.Id && x.Name == "attendant").CountAsync();
@@ -91,6 +91,8 @@ namespace ConferenceApp.Controllers
                     FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
                 }
             }
+
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
 
             ViewBag.menus = menus;
             ViewBag.roomName = room.Name;
@@ -149,7 +151,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -187,7 +189,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
