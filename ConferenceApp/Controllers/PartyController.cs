@@ -77,7 +77,7 @@ namespace ConferenceApp.Controllers
 
             foreach (var Category in FeedbackCategories)
             {
-                if (Category.Name != "Expositor")
+                if (Category.Name != "Expositor(es)")
                 {
                     FeedbackCategoryName.Add(Category.Name);
                     var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
