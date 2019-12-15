@@ -84,9 +84,6 @@ namespace ConferenceApp.Controllers
 
             var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
             var moderator = await _context.Users.FindAsync(@chat.Moderator);
-
-            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id).CountAsync();
-            
             var panelistList = await _context.Roles.Where(x => (x.EventId == chat.Id && x.Name == "panelist")).ToListAsync();
             var panelists = new List<string>();
             foreach (var member in panelistList)

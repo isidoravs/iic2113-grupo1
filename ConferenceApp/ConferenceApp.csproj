@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <Content Remove="Notifications\**" />
+      <Content Remove="Views\Role\Create.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
