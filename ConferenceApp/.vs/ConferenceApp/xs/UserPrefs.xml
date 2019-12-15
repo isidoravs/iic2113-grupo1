@@ -1,20 +1,20 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ConferenceController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="87" Column="1" />
-      <File FileName="Controllers/FoodServiceController.cs" Line="82" Column="50" />
-      <File FileName="Controllers/PartyController.cs" Line="80" Column="50" />
-      <File FileName="Controllers/PracticalSessionController.cs" Line="1" Column="1" />
-      <File FileName="Controllers/TalkController.cs" Line="1" Column="1" />
+      <File FileName="Controllers/ChatController.cs" Line="448" Column="1" />
+      <File FileName="Controllers/FoodServiceController.cs" Line="359" Column="1" />
+      <File FileName="Controllers/PartyController.cs" Line="342" Column="1" />
+      <File FileName="Controllers/PracticalSessionController.cs" Line="454" Column="1" />
+      <File FileName="Controllers/TalkController.cs" Line="438" Column="1" />
       <File FileName="Views/_ViewStart.cshtml" Line="1" Column="1" />
       <File FileName="Views/_ViewImports.cshtml" Line="1" Column="1" />
       <File FileName="Startup.cs" Line="1" Column="1" />
       <File FileName="Program.cs" Line="1" Column="1" />
       <File FileName="appsettings.json" Line="11" Column="22" />
-      <File FileName="app.db" />
       <File FileName=".gitignore" Line="1" Column="1" />
       <File FileName="appsettings.Development.json" Line="1" Column="1" />
-      <File FileName="Controllers/ConferenceController.cs" Line="1" Column="1" />
+      <File FileName="Controllers/ConferenceController.cs" Line="41" Column="14" />
+      <File FileName="app.db" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

@@ -23,7 +23,7 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId && x.Name == "attendant")).ToListAsync();
             var eventsToList = new List<Event>() {};
             foreach (var role in assistingToEvents)
             {

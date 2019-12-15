@@ -41,7 +41,7 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == foodService.Id)).ToListAsync();
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == foodService.Id && x.Name == "attendant")).ToListAsync();
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
@@ -59,7 +59,7 @@ namespace ConferenceApp.Controllers
                 sponsors.Add(s.Name);
             }
 
-            var assistantRoles = await _context.Roles.Where(x => x.EventId == @foodService.Id).ToListAsync();
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @foodService.Id && x.Name == "attendant").ToListAsync();
             var assistants = new List<object>();
             // foreach (var member in assistantRoles)
             // {
@@ -142,7 +142,7 @@ namespace ConferenceApp.Controllers
         {
 
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId && x.Name == "attendant")).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
 
@@ -165,7 +165,7 @@ namespace ConferenceApp.Controllers
             }
             else
             {
-                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId && x.Name == "attendant")).ToListAsync();
                 foreach (var aRole in assistingToEvents)
                 {
                     var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
