@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -46,6 +47,8 @@ namespace ConferenceApp.Controllers
         // GET: Conference/Create
         public IActionResult Create()
         {
+            var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewBag.currentUserId = currentUserId;
             return View();
         }
 
@@ -54,12 +57,15 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Conference conference)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,OrganizerId")] Conference conference)
         {
             if (ModelState.IsValid)
             {
+                var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                conference.OrganizerId = currentUserId;
                 _context.Add(conference);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(conference);

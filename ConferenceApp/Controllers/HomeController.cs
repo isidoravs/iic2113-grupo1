@@ -30,8 +30,18 @@ namespace ConferenceApp.Controllers
                 var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == role.EventId);
                 eventsToList.Add(@event);
             }
+
+            var admin = false;
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                admin = true;
+            }
+            ViewBag.admin = admin;
             
             ViewBag.eventsToList = eventsToList;
+            
+            
             
             return View();
         }

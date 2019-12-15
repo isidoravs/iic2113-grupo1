@@ -118,7 +118,22 @@ namespace ConferenceApp.Controllers
                     FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
                 }
             }
+            ViewBag.permision = false;
 
+            var conferenceVersion = await _context.ConferenceVersions.FindAsync(@talk.ConferenceVersionId);
+            var bigConference = await _context.Conferences.FindAsync(conferenceVersion.ConferenceId);
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                ViewBag.permision = true;
+            }
+
+            if (bigConference.OrganizerId == currentUserId)
+            {
+                ViewBag.permision = true;
+            }
+            var organizer = await _context.Users.FindAsync(bigConference.OrganizerId);
+            ViewBag.organizer = organizer;
             ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
 
             ViewBag.roomName = room.Name;

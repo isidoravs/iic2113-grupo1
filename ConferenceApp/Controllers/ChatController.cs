@@ -119,6 +119,24 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
+            
+            ViewBag.permision = false;
+
+            var conferenceVersion = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
+            var bigConference = await _context.Conferences.FindAsync(conferenceVersion.ConferenceId);
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                ViewBag.permision = true;
+            }
+
+            if (bigConference.OrganizerId == currentUserId)
+            {
+                ViewBag.permision = true;
+            }
+            var organizer = await _context.Users.FindAsync(bigConference.OrganizerId);
+            ViewBag.organizer = organizer;
+            
 
             ViewBag.Moderator = moderator;
             ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
@@ -163,6 +181,7 @@ namespace ConferenceApp.Controllers
                 userList.Add(user);
             }
 
+            
             ViewBag.Moderators = new SelectList(userList , "Id", "Email");
 
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");

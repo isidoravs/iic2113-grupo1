@@ -12,7 +12,7 @@
 }
 
 <div class="row">
-    <div class="col-sm-3">Organiza: Juanita Pérez</div>
+    <div class="col-sm-3">Organiza: @ViewBag.orginizer</div>
     <div class="col-sm-5">
         Patrocina:
         @foreach (var item in ViewBag.sponsors)
@@ -21,9 +21,12 @@
         }
     </div>
     <div class="col-sm-4" style="text-align: right;">
-        <a asp-controller="Chat" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
-        <a asp-controller="Sponsorship" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.version.Id" asp-route-eventId="@Model.Id">Agregar patrocinador</a> |
-        <a asp-controller="Chat" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+        @if(ViewBag.permision == true)
+        {
+            <a asp-controller="Chat" asp-action="Edit" asp-route-id="@Model.Id">Editar | </a>
+            <a asp-controller="Sponsorship" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.version.Id" asp-route-eventId="@Model.Id">Agregar patrocinador | </a> 
+            <a asp-controller="Chat" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+        }
     </div>
 </div>
 <hr/>
@@ -119,7 +122,10 @@
                 }
             </dd>
             <dd class="col-sm-4">
-                <a asp-controller="Role" asp-action="Create" asp-route-eventId="@Model.Id">Agregar</a>
+                @if (ViewBag.permision == true)
+                {
+                    <a asp-controller="Role" asp-action="Create" asp-route-eventId="@Model.Id">Agregar</a>
+                }
             </dd>
             <dt class = "col-sm-4">
                 Modera
