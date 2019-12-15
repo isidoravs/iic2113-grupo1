@@ -16,7 +16,7 @@ namespace ConferenceApp.Models
         [Required] 
         public string Message { get; set; }
         
-        public string SenderId { get; set; }
+        public string SenderId { get; set; }  // Al final voy a guardar el sender full name aqui jeje
 
         public string ReceiverId { get; set; }
         

@@ -30,14 +30,9 @@ namespace ConferenceApp.Controllers
 
         public async Task<IActionResult> UserNotifications(string userId)
         {
-            Console.WriteLine($"USER ID: {userId}");
             var userNotifications = await _context.Notifications.Where(
                 notification => notification.ReceiverId == userId).ToListAsync();
-
-            foreach (var notification in userNotifications)
-            {
-                Console.WriteLine($"Notification.Event.Name = {notification.EventName}");
-            }
+            
             ViewBag.UserNotifications = userNotifications;
 
             return View();
@@ -64,12 +59,10 @@ namespace ConferenceApp.Controllers
         // GET: Notification/Create
         public IActionResult Create(int eventId, int conferenceId)
         {
-            var senderId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var senderUserEmail = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             var receiverOptions = new List<string>() {"Asistentes", "Expositores", "Asistentes y Expositores"};
-
-            Console.WriteLine($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA {eventId}");
-
-            ViewBag.SenderId = senderId;
+            
+            ViewBag.SenderUserEmail = senderUserEmail;
             ViewBag.ReceiverOptions = new SelectList(receiverOptions);
             ViewBag.EventId = eventId;
             ViewBag.ConferenceId = conferenceId;
@@ -81,7 +74,7 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string message, string subject, string senderId, string receivers, int eventId, int conferenceId)
+        public async Task<IActionResult> Create(string message, string subject, string senderUserEmail, string receivers, int eventId, int conferenceId)
         {
             // notificacion para todos asistentes y/o expositores de un EVENTO
             if (eventId != -1)
@@ -92,7 +85,7 @@ namespace ConferenceApp.Controllers
                     var attendants = await _context.Roles.Where(role => role.EventId == eventId && role.Name == "attendant").ToListAsync();
                     foreach (var attendant in attendants)
                     {
-                        var notification = new Notification(subject, message, senderId, attendant.UserId);
+                        var notification = new Notification(subject, message, senderUserEmail, attendant.UserId);
                         notification.EventId = practicalSession.Id;
                         notification.EventName = practicalSession.Name;
                         notification.IsEventNotification = true;
