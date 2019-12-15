@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Conference/Details.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/PracticalSessionController.cs">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="121" Column="14" />
-      <File FileName="Controllers/ConferenceController.cs" Line="55" Column="37" />
-      <File FileName="Views/Conference/Details.cshtml" Line="51" Column="36" />
-      <File FileName="docs/cheatsheet.md" Line="9" Column="26" />
-      <File FileName="Views/Home/Index.cshtml" Line="61" Column="19" />
+      <File FileName="Controllers/ChatController.cs" Line="109" Column="40" />
+      <File FileName="Controllers/FoodServiceController.cs" Line="87" Column="65" />
+      <File FileName="Controllers/PartyController.cs" Line="73" Column="57" />
+      <File FileName="Controllers/PracticalSessionController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,15 +12,15 @@
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
               <Node name="Areas" expanded="True" />
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="PracticalSessionController.cs" selected="True" />
+              </Node>
               <Node name="Data" expanded="True" />
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Chat" expanded="True" />
-                <Node name="Conference" expanded="True">
-                  <Node name="Details.cshtml" selected="True" />
-                </Node>
+                <Node name="Conference" expanded="True" />
                 <Node name="Home" expanded="True" />
               </Node>
               <Node name="appsettings.json" expanded="True" />
