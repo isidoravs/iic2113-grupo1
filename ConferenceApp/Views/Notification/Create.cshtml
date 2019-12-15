@@ -17,20 +17,17 @@
                 <select name="receivers" class ="form-control" asp-items="ViewBag.ReceiverOptions"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Subject" class="control-label"></label>
-                <input asp-for="Subject" class="form-control" />
-                <span asp-validation-for="Subject" class="text-danger"></span>
+                <label name="subject" class="control-label"></label>
+                <input name="subject" class="form-control" />
             </div>
             <div class="form-group">
-                <label asp-for="Message" class="control-label"></label>
-                <input asp-for="Message" class="form-control" />
-                <span asp-validation-for="Message" class="text-danger"></span>
+                <label name="message" class="control-label"></label>
+                <input name="message" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="hidden" asp-for="IsEventNotification" value=@ViewBag.IsEventNotification/>
-                <input type="hidden" asp-for="Seen" value="false"/>
-                <input type="hidden" asp-for="Event" value=@ViewBag.Event/>
-                <input type="hidden" asp-for="Conference" value=@ViewBag.Conference/>
+                <input type="hidden" name="senderId" value="@ViewBag.SenderId"/>
+                <input type="hidden" name="eventId" value="@ViewBag.EventId"/>
+                <input type="hidden" name="conferenceId" value="@ViewBag.ConferenceId"s/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

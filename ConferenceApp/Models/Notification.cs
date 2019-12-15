@@ -15,6 +15,8 @@ namespace ConferenceApp.Models
 
         [Required] 
         public string Message { get; set; }
+        
+        public string SenderId { get; set; }
 
         public string ReceiverId { get; set; }
         
@@ -23,8 +25,23 @@ namespace ConferenceApp.Models
         [Required]
         public bool IsEventNotification { get; set; }
 
-        public Event Event { get; set; }
+        public string EventName { get; set; }
         
-        public Conference Conference { get; set; }
+        public int EventId { get; set; }
+        
+        public string ConferenceName { get; set; }
+        
+        public int ConferenceId { get; set; }
+
+        public Notification(string subject, string message, string senderId, string receiverId)
+        {
+            Subject = subject;
+            Message = message;
+            ReceiverId = receiverId;
+            SenderId = senderId;
+            
+            // eliminar esto
+            IsEventNotification = false;
+        }
     }
 }

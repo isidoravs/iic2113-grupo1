@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,9 +30,14 @@ namespace ConferenceApp.Controllers
 
         public async Task<IActionResult> UserNotifications(string userId)
         {
+            Console.WriteLine($"USER ID: {userId}");
             var userNotifications = await _context.Notifications.Where(
                 notification => notification.ReceiverId == userId).ToListAsync();
 
+            foreach (var notification in userNotifications)
+            {
+                Console.WriteLine($"Notification.Event.Name = {notification.EventName}");
+            }
             ViewBag.UserNotifications = userNotifications;
 
             return View();
@@ -56,21 +62,17 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Notification/Create
-        public IActionResult Create(bool isEventNotification, Event @event, Conference conference)
+        public IActionResult Create(int eventId, int conferenceId)
         {
-            if (isEventNotification)
-            {
-                Console.WriteLine("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-            }
-            else
-            {
-                Console.WriteLine("faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalse");
-            }
+            var senderId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var receiverOptions = new List<string>() {"Asistentes", "Expositores", "Asistentes y Expositores"};
+
+            Console.WriteLine($"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA {eventId}");
+
+            ViewBag.SenderId = senderId;
             ViewBag.ReceiverOptions = new SelectList(receiverOptions);
-            ViewBag.IsEventNotification = isEventNotification;
-            ViewBag.Event = @event;
-            ViewBag.Conference = conference;
+            ViewBag.EventId = eventId;
+            ViewBag.ConferenceId = conferenceId;
             return View();
         }
 
@@ -79,25 +81,33 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Subject,Message,Seen,IsEventNotification")] Notification notification, string receivers)
+        public async Task<IActionResult> Create(string message, string subject, string senderId, string receivers, int eventId, int conferenceId)
         {
-            if (ModelState.IsValid)
+            // notificacion para todos asistentes y/o expositores de un EVENTO
+            if (eventId != -1)
             {
-                Console.WriteLine("entreeeeeeeeeeeeeeeeeeeee");
-                _context.Add(notification);
-                await _context.SaveChangesAsync();
-                if (notification.IsEventNotification)
+                var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(e => e.Id == eventId);
+                if (receivers.IndexOf("Asistentes") >= 0)
                 {
-                    // return RedirectToAction("actionName", "controllerName", new { area = "Admin" });
-                    return RedirectToAction(nameof(Index));
+                    var attendants = await _context.Roles.Where(role => role.EventId == eventId && role.Name == "attendant").ToListAsync();
+                    foreach (var attendant in attendants)
+                    {
+                        var notification = new Notification(subject, message, senderId, attendant.UserId);
+                        notification.EventId = practicalSession.Id;
+                        notification.EventName = practicalSession.Name;
+                        notification.IsEventNotification = true;
+                        _context.Add(notification);
+                        await _context.SaveChangesAsync();
+                    }
                 }
-                else
-                {
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction(nameof(Index));
+                //return View(practicalSession);
             }
-            Console.WriteLine("NOOOOOOOOOOOOOOOOOOOOO");
-            return View(notification);
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            //return RedirectToAction(nameof(Index));
         }
 
         // GET: Notification/Edit/5
