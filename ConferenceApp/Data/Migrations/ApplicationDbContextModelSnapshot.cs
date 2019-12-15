@@ -178,14 +178,10 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("EventId");
-
                     b.Property<string>("Message")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -208,9 +204,9 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FeedbackCategoryId");
+                    b.Property<int?>("FeedbackCategoryId");
 
-                    b.Property<int>("FeedbackId");
+                    b.Property<int?>("FeedbackId");
 
                     b.Property<int>("Grade");
 
@@ -265,27 +261,10 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("ConferenceId");
-
-                    b.Property<int?>("EventId");
-
-                    b.Property<bool>("IsEventNotification");
-
                     b.Property<string>("Message")
                         .IsRequired();
 
-                    b.Property<string>("ReceiverId")
-                        .IsRequired();
-
-                    b.Property<bool>("Seen");
-
-                    b.Property<string>("Subject");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ConferenceId");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Notifications");
                 });
@@ -667,25 +646,15 @@ namespace ConferenceApp.Data.Migrations
                         .HasForeignKey("TalkId");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Event")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
                 {
                     b.HasOne("ConferenceApp.Models.FeedbackCategory")
                         .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FeedbackCategoryId");
 
                     b.HasOne("ConferenceApp.Models.Feedback")
                         .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("FeedbackId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
@@ -694,17 +663,6 @@ namespace ConferenceApp.Data.Migrations
                         .WithMany("MenuOptions")
                         .HasForeignKey("FoodServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.Conference", "Conference")
-                        .WithMany()
-                        .HasForeignKey("ConferenceId");
-
-                    b.HasOne("ConferenceApp.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Role", b =>

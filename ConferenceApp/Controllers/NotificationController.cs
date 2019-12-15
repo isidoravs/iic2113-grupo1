@@ -25,30 +25,13 @@ namespace ConferenceApp.Controllers
             return View(await _context.Notifications.ToListAsync());
         }
         
-        // GET: Notification/User
+        // GET: Notification/UserNotifications
 
         public async Task<IActionResult> UserNotifications(string userId)
         {
             var userNotifications = await _context.Notifications.Where(
                 notification => notification.ReceiverId == userId).ToListAsync();
 
-            /*var events = new List<Event>();
-            var conferences = new List<Conference>();
-            foreach (var notification in userNotifications)
-            {
-                if (notification.EventId != -1)
-                {
-                    var @event = await _context.Events.FirstOrDefaultAsync(e => e.Id == notification.EventId);
-                    events.Add(@event);
-                }
-                else
-                {
-                    var conference =
-                        await _context.Conferences.FirstOrDefaultAsync(c => c.Id == notification.ConferenceId);
-                    conferences.Add(conference);
-                }
-            }*/
-            
             ViewBag.UserNotifications = userNotifications;
 
             return View();
@@ -73,8 +56,21 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Notification/Create
-        public IActionResult Create()
+        public IActionResult Create(bool isEventNotification, Event @event, Conference conference)
         {
+            if (isEventNotification)
+            {
+                Console.WriteLine("trueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            }
+            else
+            {
+                Console.WriteLine("faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalse");
+            }
+            var receiverOptions = new List<string>() {"Asistentes", "Expositores", "Asistentes y Expositores"};
+            ViewBag.ReceiverOptions = new SelectList(receiverOptions);
+            ViewBag.IsEventNotification = isEventNotification;
+            ViewBag.Event = @event;
+            ViewBag.Conference = conference;
             return View();
         }
 
@@ -83,14 +79,24 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Message")] Notification notification)
+        public async Task<IActionResult> Create([Bind("Id,Subject,Message,Seen,IsEventNotification")] Notification notification, string receivers)
         {
             if (ModelState.IsValid)
             {
+                Console.WriteLine("entreeeeeeeeeeeeeeeeeeeee");
                 _context.Add(notification);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (notification.IsEventNotification)
+                {
+                    // return RedirectToAction("actionName", "controllerName", new { area = "Admin" });
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
+            Console.WriteLine("NOOOOOOOOOOOOOOOOOOOOO");
             return View(notification);
         }
 

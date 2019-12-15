@@ -182,14 +182,17 @@ namespace ConferenceApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var eventTags = new List<EventTag>();
-                        for (var i = 0; i < talk.AvailableTags.Count; i++)
+                        if (talk.AvailableTags != null)
                         {
-                            if (talk.AvailableTags[i].IsChecked)
+                            for (var i = 0; i < talk.AvailableTags.Count; i++)
                             {
-                                var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == talk.AvailableTags[i].TagId);
-                                var eventTag = new EventTag() {Event = talk, EventId = talk.Id, Tag = tag, TagId = tag.Id};
-                                _context.Add(eventTag);
-                                eventTags.Add(eventTag);
+                                if (talk.AvailableTags[i].IsChecked)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == talk.AvailableTags[i].TagId);
+                                    var eventTag = new EventTag() {Event = talk, EventId = talk.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(eventTag);
+                                    eventTags.Add(eventTag);
+                                }
                             }
                         }
                         talk.EventTags = eventTags;
@@ -315,26 +318,29 @@ namespace ConferenceApp.Controllers
                 try
                 {
                     var eventTags = new List<EventTag>();
-                    for (var i = 0; i < talk.AvailableTags.Count; i++)
+                    if (talk.AvailableTags != null)
                     {
-                        var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == talk.AvailableTags[i].TagId && x.EventId == talk.Id);
-                        if (talk.AvailableTags[i].IsChecked)
+                        for (var i = 0; i < talk.AvailableTags.Count; i++)
                         {
-                            // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
-                            if (existingEventTag == null)
+                            var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == talk.AvailableTags[i].TagId && x.EventId == talk.Id);
+                            if (talk.AvailableTags[i].IsChecked)
                             {
-                                var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == talk.AvailableTags[i].TagId);
-                                var newEventTag = new EventTag() {Event = talk, EventId = talk.Id, Tag = tag, TagId = tag.Id};
-                                _context.Add(newEventTag);
-                                eventTags.Add(newEventTag);
+                                // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
+                                if (existingEventTag == null)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == talk.AvailableTags[i].TagId);
+                                    var newEventTag = new EventTag() {Event = talk, EventId = talk.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(newEventTag);
+                                    eventTags.Add(newEventTag);
+                                }
                             }
-                        }
-                        else
-                        {
-                            // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
-                            if (existingEventTag != null)
+                            else
                             {
-                                _context.EventTags.Remove(existingEventTag);
+                                // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
+                                if (existingEventTag != null)
+                                {
+                                    _context.EventTags.Remove(existingEventTag);
+                                }
                             }
                         }
                     }
