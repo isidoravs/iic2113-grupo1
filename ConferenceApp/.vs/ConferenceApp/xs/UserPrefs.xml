@@ -1,20 +1,11 @@
 ﻿<Properties StartupConfiguration="{2B0A68EB-F42D-44BF-86E1-C24F73267F63}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/ConferenceController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Conference/Details.cshtml">
     <Files>
-      <File FileName="Controllers/ChatController.cs" Line="448" Column="1" />
-      <File FileName="Controllers/FoodServiceController.cs" Line="359" Column="1" />
-      <File FileName="Controllers/PartyController.cs" Line="342" Column="1" />
-      <File FileName="Controllers/PracticalSessionController.cs" Line="454" Column="1" />
-      <File FileName="Controllers/TalkController.cs" Line="438" Column="1" />
-      <File FileName="Views/_ViewStart.cshtml" Line="1" Column="1" />
-      <File FileName="Views/_ViewImports.cshtml" Line="1" Column="1" />
-      <File FileName="Startup.cs" Line="1" Column="1" />
-      <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="appsettings.json" Line="11" Column="22" />
-      <File FileName=".gitignore" Line="1" Column="1" />
-      <File FileName="appsettings.Development.json" Line="1" Column="1" />
-      <File FileName="Controllers/ConferenceController.cs" Line="41" Column="14" />
-      <File FileName="app.db" />
+      <File FileName="Controllers/ChatController.cs" Line="121" Column="14" />
+      <File FileName="Controllers/ConferenceController.cs" Line="55" Column="37" />
+      <File FileName="Views/Conference/Details.cshtml" Line="51" Column="36" />
+      <File FileName="docs/cheatsheet.md" Line="9" Column="26" />
+      <File FileName="Views/Home/Index.cshtml" Line="61" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,12 +13,17 @@
           <Node name="ConferenceApp" expanded="True">
             <Node name="ConferenceApp" expanded="True">
               <Node name="Areas" expanded="True" />
-              <Node name="Controllers" expanded="True">
-                <Node name="ConferenceController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
               <Node name="docs" expanded="True" />
               <Node name="Models" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Chat" expanded="True" />
+                <Node name="Conference" expanded="True">
+                  <Node name="Details.cshtml" selected="True" />
+                </Node>
+                <Node name="Home" expanded="True" />
+              </Node>
               <Node name="appsettings.json" expanded="True" />
             </Node>
           </Node>
