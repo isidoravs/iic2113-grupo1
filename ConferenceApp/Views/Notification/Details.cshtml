@@ -16,17 +16,20 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SenderId)
         </dd>
-        <dt class = "col-sm-2">
-            Para asistentes de:
-        </dt>
         @if (Model.IsEventNotification)
         {
+            <dt class = "col-sm-2">
+                Para evento:
+            </dt>
             <dd class = "col-sm-10">
                 @Html.DisplayFor(model => model.EventName)
             </dd>
         }
         else
         {
+            <dt class = "col-sm-2">
+                Para conferencia:
+            </dt>
             <dd class = "col-sm-10">
                 @Html.DisplayFor(model => model.ConferenceName)
             </dd>
