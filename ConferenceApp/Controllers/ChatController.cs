@@ -152,6 +152,13 @@ namespace ConferenceApp.Controllers
             ViewBag.FeedbackCategoryName = FeedbackCategoryName;
             ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
 
+            var isOrganizer = currentUserId == conference.OrganizerId;
+            ViewBag.isOrganizer = isOrganizer;
+
+            var admin = await _context.Admins.FirstOrDefaultAsync(x => x.UserId == currentUserId);
+            var isAdmin = admin != null;
+            ViewBag.isAdmin = isAdmin;
+
             return View(chat);
         }
 

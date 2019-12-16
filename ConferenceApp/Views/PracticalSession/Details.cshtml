@@ -1,3 +1,5 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Mvc.ModelBinding.Validation
 @model ConferenceApp.Models.PracticalSession
 
@@ -91,7 +93,7 @@
             <br>
             <br>
             <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceVersionId="@Model.ConferenceVersionId" asp-route-conferenceName="@ViewBag.conference.Name" asp-route-eventName="
-@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" style="text-decoration: none; color: white;">
+@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" asp-route-eventType="Practical Session" style="text-decoration: none; color: white;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Notificacion</button>
             </a>
         }

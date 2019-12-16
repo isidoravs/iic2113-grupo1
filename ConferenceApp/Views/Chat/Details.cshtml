@@ -12,7 +12,7 @@
 }
 
 <div class="row">
-    <div class="col-sm-3">Organiza: @ViewBag.orginizer</div>
+    <div class="col-sm-3">Organiza: @ViewBag.organizer</div>
     <div class="col-sm-5">
         Patrocina:
         @foreach (var item in ViewBag.sponsors)
@@ -87,10 +87,13 @@
             }
             <br>
             <br>
-            <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceVersionId="@Model.ConferenceVersionId" asp-route-conferenceName="@ViewBag.conference.Name" asp-route-eventName="
-@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" style="text-decoration: none; color: white;">
-                <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Notificacion</button>
-            </a>
+            if (ViewBag.isOrganizer || ViewBag.isAdmin)
+            {
+                <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceVersionId="@Model.ConferenceVersionId" asp-route-conferenceName="@ViewBag.conference.Name" asp-route-eventName="
+@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" asp-route-eventType="Chat" style="text-decoration: none; color: white;">
+                    <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Notificacion</button>
+                </a>
+            }
         }
     </div>
 </div>
