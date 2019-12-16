@@ -3,15 +3,17 @@ using System;
 using ConferenceApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace ConferenceApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191215004817_AddAttrToNotification")]
+    partial class AddAttrToNotification
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,8 +63,6 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<string>("OrganizerId");
 
                     b.HasKey("Id");
 
@@ -185,8 +185,6 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("Message")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
@@ -269,13 +267,9 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("ConferenceId");
+                    b.Property<int?>("ConferenceId");
 
-                    b.Property<string>("ConferenceName");
-
-                    b.Property<int>("EventId");
-
-                    b.Property<string>("EventName");
+                    b.Property<int?>("EventId");
 
                     b.Property<bool>("IsEventNotification");
 
@@ -286,11 +280,13 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<bool>("Seen");
 
-                    b.Property<string>("SenderId");
-
                     b.Property<string>("Subject");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConferenceId");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Notifications");
                 });
@@ -699,6 +695,17 @@ namespace ConferenceApp.Data.Migrations
                         .WithMany("MenuOptions")
                         .HasForeignKey("FoodServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.Conference", "Conference")
+                        .WithMany()
+                        .HasForeignKey("ConferenceId");
+
+                    b.HasOne("ConferenceApp.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Role", b =>

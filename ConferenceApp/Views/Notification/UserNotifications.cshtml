@@ -1,0 +1,45 @@
+@using SQLitePCL
+@model IEnumerable<ConferenceApp.Models.Notification>
+
+<h1>Mis Notificationes</h1>
+
+<div class="container">
+
+    <div class="tableFixHead">
+
+        <table class="table table-fixed table-hover">
+            <thead>
+            <tr>
+                <th scope="col">De </th>
+                <th scope="col">Para asistentes de </th>
+                <th scope="col">Asunto</th>
+                <th scope="col">Mensaje</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var notification in ViewBag.UserNotifications)
+            {
+                Console.WriteLine($"Notification.Message: {notification.EventName}");
+                if (notification.IsEventNotification)
+                {
+                    <tr>
+                        <td>@notification.SenderId</td>
+                        <th scope="row"><a asp-controller="Event" asp-action="Details" asp-route-id="@notification.EventId">@notification.EventName</a></th>
+                        <td>@notification.Subject</td>
+                        <td><a asp-controller="Notification" asp-action="Details" asp-route-id="@notification.Id">Ver</a></td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>@notification.SenderId</td>
+                        <th scope="row"><a asp-controller="Conference" asp-action="Details" asp-route-id="@notification.ConferenceId">@notification.ConferenceName</a></th>
+                        <td>@notification.Subject</td>
+                        <td><a asp-controller="Notification" asp-action="Details" asp-route-id="@notification.Id">Ver</a></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

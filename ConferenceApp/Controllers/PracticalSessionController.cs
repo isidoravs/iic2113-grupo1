@@ -250,14 +250,17 @@ namespace ConferenceApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var eventTags = new List<EventTag>();
-                        for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
+                        if (practicalSession.AvailableTags != null)
                         {
-                            if (practicalSession.AvailableTags[i].IsChecked)
+                            for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
                             {
-                                var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == practicalSession.AvailableTags[i].TagId);
-                                var eventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
-                                _context.Add(eventTag);
-                                eventTags.Add(eventTag);
+                                if (practicalSession.AvailableTags[i].IsChecked)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == practicalSession.AvailableTags[i].TagId);
+                                    var eventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(eventTag);
+                                    eventTags.Add(eventTag);
+                                }
                             }
                         }
                         practicalSession.EventTags = eventTags;
@@ -389,28 +392,31 @@ namespace ConferenceApp.Controllers
                 try
                 {
                     var eventTags = new List<EventTag>();
-                    for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
+                    if (practicalSession.AvailableTags != null)
                     {
-                        var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == practicalSession.AvailableTags[i].TagId && x.EventId == practicalSession.Id);
-                        if (practicalSession.AvailableTags[i].IsChecked)
+                        for (var i = 0; i < practicalSession.AvailableTags.Count; i++)
                         {
-                            // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
-                            if (existingEventTag == null)
+                            var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == practicalSession.AvailableTags[i].TagId && x.EventId == practicalSession.Id);
+                            if (practicalSession.AvailableTags[i].IsChecked)
                             {
-                                var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == practicalSession.AvailableTags[i].TagId);
-                                var newEventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
-                                _context.Add(newEventTag);
-                                eventTags.Add(newEventTag);
+                                // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
+                                if (existingEventTag == null)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == practicalSession.AvailableTags[i].TagId);
+                                    var newEventTag = new EventTag() {Event = practicalSession, EventId = practicalSession.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(newEventTag);
+                                    eventTags.Add(newEventTag);
+                                }
                             }
-                        }
-                        else
-                        {
-                            // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
-                            if (existingEventTag != null)
+                            else
                             {
-                                _context.EventTags.Remove(existingEventTag);
+                                // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
+                                if (existingEventTag != null)
+                                {
+                                    _context.EventTags.Remove(existingEventTag);
+                                }
                             }
-                        }
+                        } 
                     }
                     practicalSession.EventTags = eventTags;  // actualizamos los eventTags del chat
                     _context.Update(practicalSession);
