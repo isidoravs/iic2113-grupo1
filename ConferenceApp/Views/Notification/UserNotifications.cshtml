@@ -32,8 +32,8 @@
                 else
                 {
                     <tr>
-                        <th scope="row"><a asp-controller="Conference" asp-action="Details" asp-route-id="@notification.Conference.Id">@notification.Conference.Name</a></th>
-                        <td>@notification.Date</td>
+                        <td>@notification.SenderId</td>
+                        <th scope="row"><a asp-controller="Conference" asp-action="Details" asp-route-id="@notification.ConferenceId">@notification.ConferenceName</a></th>
                         <td>@notification.Subject</td>
                         <td><a asp-controller="Notification" asp-action="Details" asp-route-id="@notification.Id">Ver</a></td>
                     </tr>

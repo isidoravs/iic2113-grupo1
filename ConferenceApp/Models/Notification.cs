@@ -33,15 +33,13 @@ namespace ConferenceApp.Models
         
         public int ConferenceId { get; set; }
 
-        public Notification(string subject, string message, string senderId, string receiverId)
+        public Notification(string subject, string message, string receiverId, string senderId, bool isEventNotification)
         {
             Subject = subject;
             Message = message;
             ReceiverId = receiverId;
             SenderId = senderId;
-            
-            // eliminar esto
-            IsEventNotification = false;
+            IsEventNotification = isEventNotification;
         }
     }
 }

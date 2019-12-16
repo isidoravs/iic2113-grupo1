@@ -86,10 +86,8 @@ namespace ConferenceApp.Controllers
             {
                 if (receivers == "Asistentes")
                 {
-                    await SendNotificationToEventAttendants(eventId, subject, message, senderUserEmail);
+                    await SendNotificationToEventAttendants(eventId, subject, message, senderUserEmail, true);
                 }
-                return RedirectToAction(nameof(Index));
-                //return View(practicalSession);
             }
             // notificacion para todos asistentes y/o expositores de la VERSION DE CONFERENCIA
             else
@@ -100,19 +98,25 @@ namespace ConferenceApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Event", new { id = eventId });
         }
 
-        public async Task SendNotificationToEventAttendants(int eventId, string subject, string message, string senderUserEmail)
+        public async Task SendNotificationToEventAttendants(int eventId, string subject, string message, string senderUserEmail, bool isEventNotification)
         {
-            var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(e => e.Id == eventId);
+            var @event = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+            var conferenceVersion =
+                await _context.ConferenceVersions.FirstOrDefaultAsync(x => x.Id == @event.ConferenceVersionId);
+            var conference = await _context.Conferences.FirstOrDefaultAsync(x => x.Id == conferenceVersion.ConferenceId);
+            var conferenceVersionFullName = $"{conference.Name} versión {conferenceVersion.Number.ToString()}";
+            
             var attendants = await _context.Roles.Where(role => role.EventId == eventId && role.Name == "attendant").ToListAsync();
             foreach (var attendant in attendants)
             {
-                var notification = new Notification(subject, message, senderUserEmail, attendant.UserId);
-                notification.EventId = practicalSession.Id;
-                notification.EventName = practicalSession.Name;
-                notification.IsEventNotification = true;
+                var notification = new Notification(subject, message, attendant.UserId, senderUserEmail, isEventNotification);
+                notification.EventId = @event.Id;
+                notification.EventName = @event.Name;
+                notification.ConferenceId = conferenceVersion.Id;
+                notification.ConferenceName = conferenceVersionFullName;
                 _context.Add(notification);
                 await _context.SaveChangesAsync();
             }
@@ -124,7 +128,7 @@ namespace ConferenceApp.Controllers
                 await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersionId).ToListAsync();
             foreach (var @event in converenceVersionEvents)
             {
-                await SendNotificationToEventAttendants(@event.Id, subject, message, senderUserEmail);
+                await SendNotificationToEventAttendants(@event.Id, subject, message, senderUserEmail, false);
             }
         }
 
