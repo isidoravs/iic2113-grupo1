@@ -1,3 +1,4 @@
+@using Microsoft.AspNetCore.Mvc.ModelBinding.Validation
 @model ConferenceApp.Models.PracticalSession
 
 @{
@@ -49,7 +50,6 @@
     <div class="col-sm-4">
         @if (DateTime.Now > Model.EndDate)
         {
-            Console.WriteLine($"dateeeeeeeeeeeeeeeeeeeeeeeeeee {DateTime.Now}");
             if (ViewBag.assisting == 0)
             {
                 <i>Este evento ya finalizó.</i>
@@ -76,8 +76,8 @@
                     <button type="button" class="btn btn-primary" style="width: 100%;">Dejar de asistir</button>
                 </a>
             }
-            var invalid = -1;
-            <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceId="@invalid" style="text-decoration: none; color: white;">
+            <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceVersionId="@Model.ConferenceVersionId" asp-route-conferenceName="@ViewBag.conference.Name" asp-route-eventName="
+@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" style="text-decoration: none; color: white;">
                 <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Notificacion</button>
             </a>
         }

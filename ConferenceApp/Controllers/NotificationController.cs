@@ -57,15 +57,20 @@ namespace ConferenceApp.Controllers
         }
 
         // GET: Notification/Create
-        public IActionResult Create(int eventId, int conferenceId)
+        public IActionResult Create(int eventId, int conferenceVersionId, string eventName, string conferenceName, int conferenceVersionNumber)
         {
+            var conferenceVersionFullName = $"Conferencia {conferenceName} versión {conferenceVersionNumber.ToString()}";
+            var eventFullName = $"Evento {eventName}";
+            var eventOrConference = new List<string>() {eventFullName, conferenceVersionFullName};
+            
             var senderUserEmail = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             var receiverOptions = new List<string>() {"Asistentes", "Expositores", "Asistentes y Expositores"};
-            
+
+            ViewBag.EventOrConference = new SelectList(eventOrConference);
             ViewBag.SenderUserEmail = senderUserEmail;
             ViewBag.ReceiverOptions = new SelectList(receiverOptions);
             ViewBag.EventId = eventId;
-            ViewBag.ConferenceId = conferenceId;
+            ViewBag.ConferenceVersionId = conferenceVersionId;
             return View();
         }
 
@@ -74,33 +79,53 @@ namespace ConferenceApp.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string message, string subject, string senderUserEmail, string receivers, int eventId, int conferenceId)
+        public async Task<IActionResult> Create(string message, string subject, string senderUserEmail, string receivers, string eventOrConference, int eventId, int conferenceVersionId)
         {
             // notificacion para todos asistentes y/o expositores de un EVENTO
-            if (eventId != -1)
+            if (eventOrConference.IndexOf("Evento") >= 0)
             {
-                var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(e => e.Id == eventId);
-                if (receivers.IndexOf("Asistentes") >= 0)
+                if (receivers == "Asistentes")
                 {
-                    var attendants = await _context.Roles.Where(role => role.EventId == eventId && role.Name == "attendant").ToListAsync();
-                    foreach (var attendant in attendants)
-                    {
-                        var notification = new Notification(subject, message, senderUserEmail, attendant.UserId);
-                        notification.EventId = practicalSession.Id;
-                        notification.EventName = practicalSession.Name;
-                        notification.IsEventNotification = true;
-                        _context.Add(notification);
-                        await _context.SaveChangesAsync();
-                    }
+                    await SendNotificationToEventAttendants(eventId, subject, message, senderUserEmail);
                 }
                 return RedirectToAction(nameof(Index));
                 //return View(practicalSession);
             }
+            // notificacion para todos asistentes y/o expositores de la VERSION DE CONFERENCIA
             else
             {
+                if (receivers == "Asistentes")
+                {
+                    await SendNotificationToConferenceVersionAttendants(conferenceVersionId, subject, message, senderUserEmail);
+                }
                 return RedirectToAction(nameof(Index));
             }
             //return RedirectToAction(nameof(Index));
+        }
+
+        public async Task SendNotificationToEventAttendants(int eventId, string subject, string message, string senderUserEmail)
+        {
+            var practicalSession = await _context.PracticalSessions.FirstOrDefaultAsync(e => e.Id == eventId);
+            var attendants = await _context.Roles.Where(role => role.EventId == eventId && role.Name == "attendant").ToListAsync();
+            foreach (var attendant in attendants)
+            {
+                var notification = new Notification(subject, message, senderUserEmail, attendant.UserId);
+                notification.EventId = practicalSession.Id;
+                notification.EventName = practicalSession.Name;
+                notification.IsEventNotification = true;
+                _context.Add(notification);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task SendNotificationToConferenceVersionAttendants(int conferenceVersionId, string subject, string message, string senderUserEmail)
+        {
+            var converenceVersionEvents =
+                await _context.Events.Where(x => x.ConferenceVersionId == conferenceVersionId).ToListAsync();
+            foreach (var @event in converenceVersionEvents)
+            {
+                await SendNotificationToEventAttendants(@event.Id, subject, message, senderUserEmail);
+            }
         }
 
         // GET: Notification/Edit/5
