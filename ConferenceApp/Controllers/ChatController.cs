@@ -139,7 +139,7 @@ namespace ConferenceApp.Controllers
             
 
             ViewBag.Moderator = moderator;
-            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId && f.EventId == @chat.Id);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;

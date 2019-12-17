@@ -112,7 +112,7 @@ namespace ConferenceApp.Controllers
             var organizer = await _context.Users.FindAsync(bigConference.OrganizerId);
             ViewBag.organizer = organizer;
 
-            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId && f.EventId == @foodService.Id);
 
             ViewBag.menus = menus;
             ViewBag.roomName = room.Name;

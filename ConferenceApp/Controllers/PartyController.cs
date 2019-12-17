@@ -110,7 +110,7 @@ namespace ConferenceApp.Controllers
             ViewBag.organizer = organizer;
 
 
-            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId);
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId && f.EventId == @party.Id);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
