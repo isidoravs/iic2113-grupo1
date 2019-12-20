@@ -76,7 +76,8 @@ namespace ConferenceApp.Controllers
 
                     if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
                     {
-                        FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                        var avg = FeedbacksScopesOfEventAndCategory.Average(f => f.Grade);
+                        FeedbackAveragePerCategory.Add(TruncateFunction(avg, 2).ToString());
                     }
                     else
                     {
@@ -204,6 +205,13 @@ namespace ConferenceApp.Controllers
         private bool ConferenceExists(int id)
         {
             return _context.Conferences.Any(e => e.Id == id);
+        }
+        
+        public double TruncateFunction(double number, int digits)
+        {
+            var stepper = (double)(Math.Pow(10.0, (double)digits));
+            var temp = (int)(stepper * number);
+            return (double)temp / stepper;
         }
     }
 }
