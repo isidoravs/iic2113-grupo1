@@ -59,31 +59,62 @@
             </dl>
         }
     </div>
-    <h4>Estadistica Categorías</h4>
-        <div class="tableFixHead">
+    <h4>Estadísticas por Categoría</h4>
+    <div class="tableFixHead">
 
-            <table class="table table-fixed table-hover">
-                <thead>
-                <tr>
-                    <th scope="col"> </th>
-                    @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
-                    {
-                        <th scope="col">Versión @ViewBag.ConferenceVersionsName[i]</th>
-                    }
-                </tr>
-                </thead>
-                <tbody>
+        <table class="table table-fixed table-hover">
+            <thead>
+            <tr>
+                <th scope="col"> </th>
+                @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
+                {
+                    <th scope="col">Versión @ViewBag.ConferenceVersionsName[i]</th>
+                }
+            </tr>
+            </thead>
+            <tbody>
+                @for (var j = 0; j < ViewBag.FeedbackCategoryName.Count; j++)
+                {
+                    <tr>
+                        <th scope="row">@ViewBag.FeedbackCategoryName[j]</th>
+                        @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
+                        {
+                            <td>@ViewBag.CategoryAverageLists[i][j]</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Estadísticas por Tag</h4>
+        @for (var k = 0; k < ViewBag.TagNames.Count; k++)
+        {
+            <h5>@ViewBag.TagNames[k]</h5>
+            <div class="tableFixHead">
+                <table class="table table-fixed table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col"> </th>
+                        @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
+                        {
+                            <th scope="col">Versión @ViewBag.ConferenceVersionsName[i]</th>
+                        }
+                    </tr>
+                    </thead>
+                    <tbody>
                     @for (var j = 0; j < ViewBag.FeedbackCategoryName.Count; j++)
                     {
                         <tr>
                             <th scope="row">@ViewBag.FeedbackCategoryName[j]</th>
                             @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
                             {
-                                <td>@ViewBag.CategoryAverageLists[i][j]</td>
+                                <td>@ViewBag.TagsCategoryAverageLists[k][i][j]</td>
                             }
                         </tr>
                     }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        }
 </div>
