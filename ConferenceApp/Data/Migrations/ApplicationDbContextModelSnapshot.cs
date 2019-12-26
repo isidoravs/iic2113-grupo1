@@ -19,6 +19,18 @@ namespace ConferenceApp.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            modelBuilder.Entity("ConferenceApp.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.CheckBoxItem", b =>
                 {
                     b.Property<int>("Id")
@@ -49,6 +61,8 @@ namespace ConferenceApp.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<string>("OrganizerId");
 
                     b.HasKey("Id");
 
@@ -166,10 +180,16 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("EventId");
+
                     b.Property<string>("Message")
                         .IsRequired();
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -192,9 +212,9 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("FeedbackCategoryId");
+                    b.Property<int>("FeedbackCategoryId");
 
-                    b.Property<int?>("FeedbackId");
+                    b.Property<int>("FeedbackId");
 
                     b.Property<int>("Grade");
 
@@ -249,14 +269,28 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("ConferenceId");
+
+                    b.Property<string>("ConferenceName");
+
+                    b.Property<int>("EventId");
+
+                    b.Property<string>("EventName");
+
+                    b.Property<bool>("IsEventNotification");
+
                     b.Property<string>("Message")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("ReceiverId");
+
+                    b.Property<bool>("Seen");
+
+                    b.Property<string>("SenderId");
+
+                    b.Property<string>("Subject");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
                 });
@@ -275,8 +309,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Roles");
                 });
@@ -417,11 +449,7 @@ namespace ConferenceApp.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
@@ -459,8 +487,6 @@ namespace ConferenceApp.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -593,30 +619,6 @@ namespace ConferenceApp.Data.Migrations
                     b.HasDiscriminator().HasValue("Talk");
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.User", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Age")
-                        .IsRequired();
-
-                    b.Property<string>("Biography");
-
-                    b.Property<string>("ContactInfo");
-
-                    b.Property<string>("Cv");
-
-                    b.Property<bool>("IsAdmin");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired();
-
-                    b.HasDiscriminator().HasValue("User");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.CheckBoxItem", b =>
                 {
                     b.HasOne("ConferenceApp.Models.Event")
@@ -670,15 +672,25 @@ namespace ConferenceApp.Data.Migrations
                         .HasForeignKey("TalkId");
                 });
 
+            modelBuilder.Entity("ConferenceApp.Models.Feedback", b =>
+                {
+                    b.HasOne("ConferenceApp.Models.Event")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ConferenceApp.Models.FeedbackScope", b =>
                 {
                     b.HasOne("ConferenceApp.Models.FeedbackCategory")
                         .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackCategoryId");
+                        .HasForeignKey("FeedbackCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ConferenceApp.Models.Feedback")
                         .WithMany("FeedbackScopes")
-                        .HasForeignKey("FeedbackId");
+                        .HasForeignKey("FeedbackId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.MenuOption", b =>
@@ -689,23 +701,12 @@ namespace ConferenceApp.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("ConferenceApp.Models.Notification", b =>
-                {
-                    b.HasOne("ConferenceApp.Models.User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("ConferenceApp.Models.Role", b =>
                 {
                     b.HasOne("ConferenceApp.Models.Event")
                         .WithMany("Roles")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ConferenceApp.Models.User")
-                        .WithMany("Roles")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("ConferenceApp.Models.Room", b =>

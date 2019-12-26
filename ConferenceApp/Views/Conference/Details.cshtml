@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "Conferencia";
 }
+<style>
+    .tableFixHead          { overflow-y: auto; height: 200px; }
+    .tableFixHead thead th { position: sticky; top: 0; }
+
+    /* Just common table stuff. Really. */
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee;}
+</style>
 
 <h1>Conferencia</h1>
 
@@ -36,6 +45,45 @@
 <hr />
 <div>
     <h4>Estadísticas Acumuladas de la conferencia</h4><br/>
-    <h6>Estadistica 1</h6><br/>
-    <h6>Estadistica 2</h6>
+    <div>
+        <h4>Asistentes</h4><br/>
+        @for (var i = 0; i < ViewBag.Assitance.Count; i++)
+        {
+            <dl class="row">
+                <dt class = "col-sm-4">
+                    Versión @ViewBag.ConferenceVersionsName[i]:
+                </dt>
+                <dd class = "col-sm-8">
+                    @ViewBag.Assitance[i]
+                </dd>
+            </dl>
+        }
+    </div>
+    <h4>Estadistica Categorías</h4>
+        <div class="tableFixHead">
+
+            <table class="table table-fixed table-hover">
+                <thead>
+                <tr>
+                    <th scope="col"> </th>
+                    @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
+                    {
+                        <th scope="col">Versión @ViewBag.ConferenceVersionsName[i]</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                    @for (var j = 0; j < ViewBag.FeedbackCategoryName.Count; j++)
+                    {
+                        <tr>
+                            <th scope="row">@ViewBag.FeedbackCategoryName[j]</th>
+                            @for (var i = 0; i < ViewBag.ConferenceVersionsName.Count; i++)
+                            {
+                                <td>@ViewBag.CategoryAverageLists[i][j]</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 </div>

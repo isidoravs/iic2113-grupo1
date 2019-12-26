@@ -28,7 +28,8 @@ var types = AppDomain.CurrentDomain.GetAssemblies()
 ```
 
 CONECTARSE A DB LOCAL
-```
+
+```sql
 psql -U conferenceapp -h 127.0.0.1 -d ConferenceApp
 password: 12345678
 ```

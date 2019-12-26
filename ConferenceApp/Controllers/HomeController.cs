@@ -23,7 +23,7 @@ namespace ConferenceApp.Controllers
         public async Task<IActionResult> Index()
         {
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+            var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId && x.Name == "attendant")).ToListAsync();
             var eventsToList = new List<Event>() {};
             foreach (var role in assistingToEvents)
             {
@@ -31,7 +31,17 @@ namespace ConferenceApp.Controllers
                 eventsToList.Add(@event);
             }
 
+            var admin = false;
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                admin = true;
+            }
+            ViewBag.admin = admin;
+            
             ViewBag.eventsToList = eventsToList;
+            
+            
             
             return View();
         }

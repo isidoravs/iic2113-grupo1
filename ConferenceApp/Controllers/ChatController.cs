@@ -41,7 +41,7 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == chat.Id)).ToListAsync();
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == chat.Id && x.Name == "attendant")).ToListAsync();
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
@@ -64,7 +64,7 @@ namespace ConferenceApp.Controllers
             var centre = await _context.EventCentres.FindAsync(room.EventCentreId);
             var version = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
             var conference = await _context.Conferences.FindAsync(version.ConferenceId);
-
+            
             var sponsorships = await _context.Sponsorships.Where(x => x.ConferenceVersionId == version.Id).ToListAsync();
             var sponsors = new List<object>();
             foreach (var member in sponsorships)
@@ -73,13 +73,73 @@ namespace ConferenceApp.Controllers
                 sponsors.Add(s.Name);
             }
 
-            var assistantRoles = await _context.Roles.Where(x => x.EventId == @chat.Id).ToListAsync();
+            var assistantRoles = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").ToListAsync();
             var assistants = new List<object>();
+
             // foreach (var member in assistantRoles)
             // {
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
+
+            var EventAssistance = await _context.Roles.Where(x => x.EventId == @chat.Id && x.Name == "attendant").CountAsync();
+            var moderator = await _context.Users.FindAsync(@chat.Moderator);
+
+            var panelistList = await _context.Roles.Where(x => (x.EventId == chat.Id && x.Name == "panelist")).ToListAsync();
+            var panelists = new List<string>();
+            foreach (var member in panelistList)
+            {
+                var u = await _context.Users.FindAsync(member.UserId);
+                panelists.Add(u.Email);
+            }
+            
+            ViewBag.panelists = panelists;
+
+
+            var FeedbackCategories = await _context.FeedbackCategories.ToListAsync();
+            var Feedbacks = await _context.Feedbacks.Where(x => x.EventId == chat.Id).ToListAsync();
+
+            var FeedbackAveragePerCategory = new List<object>();
+            var FeedbackCategoryName = new List<object>();
+
+            foreach (var Category in FeedbackCategories)
+            {
+                if (Category.Name != "Expositor(es)")
+                {
+                    FeedbackCategoryName.Add(Category.Name);
+                    var FeedbacksScopesOfEventAndCategory = await _context.FeedbackScopes.Where(fs => Feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == Category.Id)).ToListAsync();
+
+                    if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
+                    {
+                        FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                    }
+                    else
+                    {
+                        FeedbackAveragePerCategory.Add("No hay evaluaciones todavía");
+                    }
+                }
+            }
+            
+            ViewBag.permision = false;
+
+            var conferenceVersion = await _context.ConferenceVersions.FindAsync(@chat.ConferenceVersionId);
+            var bigConference = await _context.Conferences.FindAsync(conferenceVersion.ConferenceId);
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                ViewBag.permision = true;
+            }
+
+            if (bigConference.OrganizerId == currentUserId)
+            {
+                ViewBag.permision = true;
+            }
+            var organizer = await _context.Users.FindAsync(bigConference.OrganizerId);
+            ViewBag.organizer = organizer;
+            
+
+            ViewBag.Moderator = moderator;
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId && f.EventId == @chat.Id);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -88,6 +148,16 @@ namespace ConferenceApp.Controllers
             ViewBag.conference = conference;
             ViewBag.assistants = assistants;
             ViewBag.sponsors = sponsors;
+            ViewBag.EventAssistance = EventAssistance;
+            ViewBag.FeedbackCategoryName = FeedbackCategoryName;
+            ViewBag.FeedbackAveragePerCategory = FeedbackAveragePerCategory;
+
+            var isOrganizer = currentUserId == conference.OrganizerId;
+            ViewBag.isOrganizer = isOrganizer;
+
+            var admin = await _context.Admins.FirstOrDefaultAsync(x => x.UserId == currentUserId);
+            var isAdmin = admin != null;
+            ViewBag.isAdmin = isAdmin;
 
             return View(chat);
         }
@@ -111,6 +181,16 @@ namespace ConferenceApp.Controllers
             var tags = await _context.Tags.ToListAsync();
             var availableTags = tags.Select(tag => new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = false}).ToList();
 
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+
+            
+            ViewBag.Moderators = new SelectList(userList , "Id", "Email");
+
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["Rooms"] = new SelectList(rooms, "Id", "Name");
             this.ViewData["AvailableTags"] = new List<CheckBoxItem>(availableTags);
@@ -121,7 +201,7 @@ namespace ConferenceApp.Controllers
         {
 
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId && x.Name == "attendant")).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
 
@@ -133,7 +213,7 @@ namespace ConferenceApp.Controllers
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var @thisEvent = await _context.Events.FirstOrDefaultAsync(m => m.Id == eventId);
             var isOccupied = 0;
-            
+
             var room = await _context.Rooms.FirstOrDefaultAsync(m => m.Id == @thisEvent.RoomId);
             var capacityUsed = await _context.Roles.Where(x => (x.EventId == eventId && x.Name == "attendant")).ToListAsync();
 
@@ -144,7 +224,7 @@ namespace ConferenceApp.Controllers
             }
             else
             {
-                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId && x.Name == "attendant")).ToListAsync();
                 foreach (var aRole in assistingToEvents)
                 {
                     var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);
@@ -171,7 +251,7 @@ namespace ConferenceApp.Controllers
                     }
                 }
             }
-            
+
             if (isOccupied == 0)
             {
                 var role = new Role() {UserId = currentUserId, EventId = eventId};
@@ -231,17 +311,20 @@ namespace ConferenceApp.Controllers
                     if (ModelState.IsValid)
                     {
                         var eventTags = new List<EventTag>();
-                    for (var i = 0; i < chat.AvailableTags.Count; i++)
-                    {
-                        if (chat.AvailableTags[i].IsChecked)
+                        if (chat.AvailableTags != null)
                         {
-                            var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == chat.AvailableTags[i].TagId);
-                            var eventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
-                            _context.Add(eventTag);
-                            eventTags.Add(eventTag);
+                            for (var i = 0; i < chat.AvailableTags.Count; i++)
+                            {
+                                if (chat.AvailableTags[i].IsChecked)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(m => m.Id == chat.AvailableTags[i].TagId);
+                                    var eventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(eventTag);
+                                    eventTags.Add(eventTag);
+                                }
+                            }
                         }
-                    }
-                    chat.EventTags = eventTags;
+                        chat.EventTags = eventTags;
                         _context.Add(chat);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Details), new { id = chat.Id.ToString() });
@@ -282,6 +365,14 @@ namespace ConferenceApp.Controllers
                 var checkBox = new CheckBoxItem() {TagId = tag.Id, Title = tag.Name, IsChecked = eventTag != null};
                 availableTags.Add(checkBox);
             }
+            var users = await _context.Users.ToListAsync();
+            var userList = new List<object>();
+            foreach (var user in users)
+            {
+                userList.Add(user);
+            }
+
+            ViewBag.Moderators = new SelectList(userList , "Id", "Email");
             this.ViewData["AvailableTags"] = availableTags;
 
             return View(chat);
@@ -304,26 +395,29 @@ namespace ConferenceApp.Controllers
                 try
                 {
                     var eventTags = new List<EventTag>();
-                    for (var i = 0; i < chat.AvailableTags.Count; i++)
+                    if (chat.AvailableTags != null)
                     {
-                        var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == chat.AvailableTags[i].TagId && x.EventId == chat.Id);
-                        if (chat.AvailableTags[i].IsChecked)
+                        for (var i = 0; i < chat.AvailableTags.Count; i++)
                         {
-                            // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
-                            if (existingEventTag == null)
+                            var existingEventTag = await _context.EventTags.FirstOrDefaultAsync(x => x.TagId == chat.AvailableTags[i].TagId && x.EventId == chat.Id);
+                            if (chat.AvailableTags[i].IsChecked)
                             {
-                                var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == chat.AvailableTags[i].TagId);
-                                var newEventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
-                                _context.Add(newEventTag);
-                                eventTags.Add(newEventTag);
+                                // si el tag está checkeado y ya exitía este eventTag, no hacer nada, sino crearlo
+                                if (existingEventTag == null)
+                                {
+                                    var tag = await _context.Tags.FirstOrDefaultAsync(x => x.Id == chat.AvailableTags[i].TagId);
+                                    var newEventTag = new EventTag() {Event = chat, EventId = chat.Id, Tag = tag, TagId = tag.Id};
+                                    _context.Add(newEventTag);
+                                    eventTags.Add(newEventTag);
+                                }
                             }
-                        }
-                        else
-                        {
-                            // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
-                            if (existingEventTag != null)
+                            else
                             {
-                                _context.EventTags.Remove(existingEventTag);
+                                // si no está checkeado y ya exitía este eventTag, eliminarlo, sino no hacer nada
+                                if (existingEventTag != null)
+                                {
+                                    _context.EventTags.Remove(existingEventTag);
+                                }
                             }
                         }
                     }

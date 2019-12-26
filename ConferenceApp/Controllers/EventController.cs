@@ -42,7 +42,7 @@ namespace ConferenceApp.Controllers
                 return NotFound();
             }
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == @event.Id)).ToListAsync();
+            var isAssistant = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == @event.Id && x.Name == "attendant")).ToListAsync();
 
             int assisting = isAssistant.Count;
             ViewBag.assisting = assisting;
@@ -60,13 +60,31 @@ namespace ConferenceApp.Controllers
                 sponsors.Add(s.Name);
             }
 
-            var assistantRoles = await _context.Roles.Where(x => x.EventId == @event.Id).ToListAsync();
+            var assistantRoles = await _context.Roles.Where(x => (x.EventId == @event.Id && x.Name == "attendant")).ToListAsync();
             var assistants = new List<object>();
             // foreach (var member in assistantRoles)
             // {
             //     var a = await _context.Users.FindAsync(member.UserId);
             //     assistants.Add(a.Email);
             // }
+
+            ViewBag.permision = false;
+
+            var conferenceVersion = await _context.ConferenceVersions.FindAsync(@event.ConferenceVersionId);
+            var bigConference = await _context.Conferences.FindAsync(conferenceVersion.ConferenceId);
+            var adminList = await _context.Admins.Where(x => x.UserId == currentUserId).ToListAsync();
+            if (adminList.Count > 0)
+            {
+                ViewBag.permision = true;
+            }
+
+            if (bigConference.OrganizerId == currentUserId)
+            {
+                ViewBag.permision = true;
+            }
+            var organizer = await _context.Users.FindAsync(bigConference.OrganizerId);
+            ViewBag.organizer = organizer;
+            ViewBag.feedback = await _context.Feedbacks.FirstOrDefaultAsync(f => f.UserId == currentUserId && f.EventId == @event.Id);
 
             ViewBag.roomName = room.Name;
             ViewBag.centreName = centre.Name;
@@ -92,6 +110,7 @@ namespace ConferenceApp.Controllers
                     Id = member.Id,
                     Name = (await _context.Conferences.FindAsync(member.ConferenceId)).Name + " (versión " + member.Number + ")"
                 } );
+            
             this.ViewData["ConferenceVersions"] = new SelectList(versions, "Id", "Name");
             this.ViewData["ConferenceVersionId"] = conferenceVersionId;
             return View();
@@ -145,7 +164,7 @@ namespace ConferenceApp.Controllers
         {
 
             var currentUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId)).ToListAsync();
+            var assistants = await _context.Roles.Where(x => (x.UserId == currentUserId && x.EventId == eventId && x.Name == "attendant")).ToListAsync();
             _context.Roles.RemoveRange(assistants);
             await _context.SaveChangesAsync();
 
@@ -169,7 +188,7 @@ namespace ConferenceApp.Controllers
             }
             else
             {
-                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId)).ToListAsync();
+                var assistingToEvents = await _context.Roles.Where(x => (x.UserId == currentUserId && x.Name == "attendant")).ToListAsync();
                 foreach (var aRole in assistingToEvents)
                 {
                     var @event = await _context.Events.FirstOrDefaultAsync(m => m.Id == aRole.EventId);

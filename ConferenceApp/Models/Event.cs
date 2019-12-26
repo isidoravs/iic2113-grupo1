@@ -24,6 +24,8 @@ namespace ConferenceApp.Models
 
         public ICollection<Role> Roles { get; set; }
         
+        public ICollection<Feedback> Feedbacks { get; set; }
+        
         public List<CheckBoxItem> AvailableTags { get; set; }
         
         public int FileId { get; set; }

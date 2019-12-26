@@ -1,3 +1,6 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.ModelBinding.Validation
 @model ConferenceApp.Models.PracticalSession
 
 @{
@@ -12,7 +15,7 @@
 }
 
 <div class="row">
-    <div class="col-sm-3">Organiza: Juanita Pérez</div>
+    <div class="col-sm-3">Organiza: @ViewBag.organizer</div>
     <div class="col-sm-5">
         Patrocina:
         @foreach (var item in ViewBag.sponsors)
@@ -20,11 +23,16 @@
             <span>@item | </span>
         }
     </div>
+@if (ViewBag.permision == true)
+{
+
     <div class="col-sm-4" style="text-align: right;">
         <a asp-controller="PracticalSession" asp-action="Edit" asp-route-id="@Model.Id">Editar</a> |
         <a asp-controller="Sponsorship" asp-action="Create" asp-route-conferenceVersionId="@ViewBag.version.Id" asp-route-eventId="@Model.Id">Agregar patrocinador</a> |
         <a asp-controller="PracticalSession" asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
     </div>
+}
+
 </div>
 <hr/>
 <div class="row">
@@ -55,10 +63,17 @@
             }
             else
             {
-                <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo</i>
-                <a asp-controller="Feedback" asp-action="Create" style="text-decoration: none; color: white;">
-                    <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
-                </a>
+                if (ViewBag.feedback == null)
+                {
+                    <i>Este evento ya finalizó. Dado que asististe, puedes evaluarlo.</i>
+                    <a asp-controller="Feedback" asp-action="Create" asp-route-eventId="@Model.Id" style="text-decoration: none; color: white;">
+                        <button type="button" class="btn btn-primary" style="width: 100%;">Evaluar</button>
+                    </a>
+                }
+                else
+                {
+                    <i>Este evento ya finalizó y mandaste tu <a asp-controller="Feedback" asp-action="Details" asp-route-id="@ViewBag.feedback.Id">evaluación</a>.</i>
+                }
             }
         }
         else
@@ -75,6 +90,12 @@
                     <button type="button" class="btn btn-primary" style="width: 100%;">Dejar de asistir</button>
                 </a>
             }
+            <br>
+            <br>
+            <a asp-controller="Notification" asp-action="Create" asp-route-eventId="@Model.Id" asp-route-conferenceVersionId="@Model.ConferenceVersionId" asp-route-conferenceName="@ViewBag.conference.Name" asp-route-eventName="
+@Model.Name" asp-route-conferenceVersionNumber="@ViewBag.version.Number" asp-route-eventType="Practical Session" style="text-decoration: none; color: white;">
+                <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Notificacion</button>
+            </a>
         }
     </div>
 </div>
@@ -105,16 +126,16 @@
                 Expositor
             </dt>
             <dd class = "col-sm-8">
-                @Html.DisplayFor(model => model.Exhibitor)
+                @ViewBag.Exhibitor
             </dd>
-            <dt class = "col-sm-4">    
+            <dt class = "col-sm-4">
                 Material Complementario
             </dt>
-            <dd class = "col-sm-8">    
+            <dd class = "col-sm-8">
                 @ViewBag.fileDescription
             </dd>
-            <dt class = "col-sm-4">    
-                
+            <dt class = "col-sm-4">
+
             </dt>
             @if (Model.FileId > 0)
             {
@@ -131,7 +152,7 @@
                     <button type="button" class="btn btn-primary" style="width: 100%;">Subir material complementario</button>
                 </a>
             }
-            
+
         </dl>
     </div>
     <div class="col-sm-4">
@@ -143,6 +164,14 @@
 <div class="row">
     <div class="col-sm-8">
         <h5>Asistentes</h5>
+        <dl class="row">
+            <dt class = "col-sm-4">
+                Cantidad
+            </dt>
+            <dd class = "col-sm-8">
+                @ViewBag.EventAssistance
+            </dd>
+        </dl>
     </div>
     <div class="col-sm-4"></div>
 </div>
@@ -150,7 +179,17 @@
 <div class="row">
     <div class="col-sm-8">
         <h5>Estadísticas</h5>
+        @for (var i = 0; i < ViewBag.FeedbackCategoryName.Count; i++)
+        {
+            <dl class="row">
+                <dt class = "col-sm-4">
+                    @ViewBag.FeedbackCategoryName[i]
+                </dt>
+                <dd class = "col-sm-8">
+                    @ViewBag.FeedbackAveragePerCategory[i]
+                </dd>
+            </dl>
+        }
     </div>
     <div class="col-sm-4"></div>
 </div>
-
