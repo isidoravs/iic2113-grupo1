@@ -76,7 +76,8 @@ namespace ConferenceApp.Controllers
 
                     if (FeedbacksScopesOfEventAndCategory.Count() >= 1)
                     {
-                        FeedbackAveragePerCategory.Add(FeedbacksScopesOfEventAndCategory.Average(f => f.Grade).ToString());
+                        var avg = FeedbacksScopesOfEventAndCategory.Average(f => f.Grade);
+                        FeedbackAveragePerCategory.Add(TruncateFunction(avg, 2).ToString());
                     }
                     else
                     {
@@ -91,6 +92,49 @@ namespace ConferenceApp.Controllers
             ViewBag.Assitance = Assistance;
             ViewBag.CategoryAverageLists = CategoryAverageLists;
 
+            var tagsCategoryAverageLists = new List<object>();
+            var tags = await _context.Tags.ToListAsync();
+
+            foreach (var t in tags)
+            {
+                var temp = new List<object>();
+                foreach (var cv in ConferenceVersions)
+                {
+                    var eventTags = await _context.EventTags.ToListAsync();
+                    var events = await _context.Events.Where(x => x.ConferenceVersionId == cv.Id && eventTags.Any(et => et.EventId == x.Id && et.TagId == t.Id)).ToListAsync();
+                    var feedbacks = await _context.Feedbacks.Where(f => events.Any(e => e.Id == f.EventId)).ToListAsync();
+
+                    var averagePerCategoryPerTag = new List<object>();
+
+                    foreach (var category in FeedbackCategories)
+                    {
+                        var scopes = await _context.FeedbackScopes.Where(fs => feedbacks.Any(f => fs.FeedbackId == f.Id && fs.FeedbackCategoryId == category.Id)).ToListAsync();
+
+                        if (scopes.Any())
+                        {
+                            var avg = scopes.Average(f => f.Grade);
+                            averagePerCategoryPerTag.Add(TruncateFunction(avg, 2).ToString());
+                        }
+                        else
+                        {
+                            averagePerCategoryPerTag.Add("No hay");
+                        }
+                    }
+                    temp.Add(averagePerCategoryPerTag);
+                }
+                tagsCategoryAverageLists.Add(temp);
+            }
+
+            ViewBag.TagsCategoryAverageLists = tagsCategoryAverageLists;
+
+            var tagNames = new List<object>();
+            foreach (var t in tags)
+            {
+                tagNames.Add(t.Name);
+            }
+
+            ViewBag.TagNames = tagNames;
+
             return View(conference);
         }
 
@@ -103,7 +147,7 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: Conference/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -138,7 +182,7 @@ namespace ConferenceApp.Controllers
         }
 
         // POST: Conference/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -204,6 +248,13 @@ namespace ConferenceApp.Controllers
         private bool ConferenceExists(int id)
         {
             return _context.Conferences.Any(e => e.Id == id);
+        }
+
+        public double TruncateFunction(double number, int digits)
+        {
+            var stepper = (double)(Math.Pow(10.0, (double)digits));
+            var temp = (int)(stepper * number);
+            return (double)temp / stepper;
         }
     }
 }
